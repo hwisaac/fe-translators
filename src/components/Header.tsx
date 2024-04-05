@@ -3,32 +3,40 @@ import { FaPenNib } from 'react-icons/fa';
 import { useState } from 'react';
 import Image from 'next/image';
 import logo from '../../public/barun-blue-logo.png';
+import Link from 'next/link';
 type Props = {};
 
 const subMenus = {
   intro: [
     {
       text: '설립취지&역사',
+      href: '/introduction/history',
     },
     {
       text: '바른번역이 좋은 이유',
+      href: '/introduction/different',
     },
     {
       text: '바른번역이 원하는 파트너십',
+      href: '/introduction/partnership',
     },
     {
       text: '공지사항',
+      href: '/introduction/notice',
     },
     {
       text: '연락처 및 약도',
+      href: '/introduction/contact',
     },
   ],
   request: [
     {
       text: '의뢰 프로세스',
+      href: '/request/process',
     },
     {
       text: 'Q&A',
+      href: '/request/qna',
     },
   ],
 };
@@ -84,9 +92,11 @@ export default function Header({}: Props) {
         <section className='w-full flex bg-slate-50 text-slate-400 h-[60px] items-center'>
           <ul className='max-w-6xl w-full flex mx-auto space-x-10 justify-center'>
             {subMenu.map((menu) => (
-              <li className='hover:text-blue-400 cursor-pointer'>
-                {menu.text}
-              </li>
+              <Link href={menu.href}>
+                <li className='hover:text-blue-400 cursor-pointer'>
+                  {menu.text}
+                </li>
+              </Link>
             ))}
           </ul>
         </section>

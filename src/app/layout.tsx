@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import DummyHeader from '@/components/DummyHeader';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppRouterCacheProvider>
           <Header />
+          <DummyHeader />
           {children}
 
           <Footer />
