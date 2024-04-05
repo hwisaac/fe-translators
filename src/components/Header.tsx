@@ -14,7 +14,7 @@ const subMenus = {
     },
     {
       text: '바른번역이 좋은 이유',
-      href: '/introduction/different',
+      href: '/introduction/difference',
     },
     {
       text: '바른번역이 원하는 파트너십',
