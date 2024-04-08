@@ -75,7 +75,11 @@ export default function Header({}: Props) {
                 onMouseEnter={() => handleOpenMenu(subMenus.request)}>
                 번역 의뢰
               </li>
-              <li className='hover:text-blue-400 cursor-pointer'>신간 안내</li>
+              <Link href='/new-books'>
+                <li className='hover:text-blue-400 cursor-pointer'>
+                  신간 안내
+                </li>
+              </Link>
               <li className='hover:text-blue-400 cursor-pointer'>
                 번역가 소개
               </li>
