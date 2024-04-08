@@ -59,7 +59,9 @@ export default function Header({}: Props) {
       <section className='w-full bg-white text-slate-900 py-3 border-b'>
         <div className='w-full max-w-6xl flex justify-between mx-auto items-center'>
           <div>
-            <Image alt='barun-translation-logo' src={logo} />
+            <Link href='/'>
+              <Image alt='barun-translation-logo' src={logo} />
+            </Link>
           </div>
           <div className='flex gap-10'>
             <ul className='flex items-center gap-10'>
