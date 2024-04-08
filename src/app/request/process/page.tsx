@@ -164,7 +164,7 @@ export default function page({}: Props) {
         <Tab label='리뷰 의뢰' style={{ fontSize: '1.3rem' }} />
       </Tabs>
       <CustomTabPanel value={value} index={0}>
-        <h2 className='text-3xl text-slate-700 my-10'>번역 의뢰</h2>
+        <h2 className='text-3xl text-slate-500 my-10'>번역 의뢰</h2>
         <ul className='gap-5 flex flex-col'>
           {translationRequests.map((process, index) => (
             <ProcessItem
@@ -176,7 +176,7 @@ export default function page({}: Props) {
         </ul>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <h2 className='text-3xl text-slate-700 my-10'>리뷰 의뢰</h2>
+        <h2 className='text-3xl text-slate-500 my-10'>리뷰 의뢰</h2>
         <ul className='gap-5 flex flex-col'>
           {reviewRequests.map((process, index) => (
             <ProcessItem
@@ -197,8 +197,8 @@ function ProcessItem({ index, desc, title }: any) {
       <div className='flex items-center justify-center text-blue-400 text-4xl font-black p-10 border-r shrink-0 w-[150px]'>
         {String(index).padStart(2, '0')}
       </div>
-      <div className='flex flex-col justify-center px-10 flex-1 py-10'>
-        <h4 className=' font-semibold text-xl mb-3'>{title}</h4>
+      <div className='flex flex-col justify-center px-10 flex-1 py-10 text-slate-700'>
+        <h4 className=' font-semibold text-xl mb-3 text-slate-600'>{title}</h4>
         {desc}
       </div>
     </li>

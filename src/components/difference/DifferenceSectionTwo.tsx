@@ -8,7 +8,7 @@ export default function DifferenceSectionTwo({}: Props) {
       <h2 className='text-3xl font-semibold text-slate-700 mb-10'>
         바른번역이 <span className='text-blue-600'>출판사</span>에게 좋은 이유
       </h2>
-      <div className='grid grid-cols-3 gap-4'>
+      <div className='grid grid-cols-3 gap-4 text-slate-600'>
         <div className='w-full border flex flex-col px-10 py-8 gap-5 bg-white'>
           <span className='font-semibold text-blue-600 text-2xl'>01</span>
           <div className='text-2xl space-y-2'>
