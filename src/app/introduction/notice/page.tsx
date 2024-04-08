@@ -10,6 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import PageLayout from '@/layouts/PageLayout';
 
 function createData(
   id: number,
@@ -40,43 +41,37 @@ type Props = {};
 
 export default function page({}: Props) {
   return (
-    <section className='w-full flex flex-col items-center justify-center'>
-      <div className='flex items-center justify-center'>
-        <Image src={img.bgPatter} alt='bgImage' />
-        <h1 className='absolute text-white text-4xl'>공지사항</h1>
-      </div>
-      <Container>
-        <h2 className='text-3xl text-slate-600 mb-10'>공지사항</h2>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-            <TableHead>
-              <TableRow>
-                <TableCell align='center'>번호</TableCell>
-                <TableCell align='center'>제목</TableCell>
-                <TableCell align='center'>작성자</TableCell>
-                <TableCell align='center'>작성일</TableCell>
+    <PageLayout title='공지사항'>
+      <h2 className='text-3xl text-slate-600 mb-10'>공지사항</h2>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <TableHead>
+            <TableRow>
+              <TableCell align='center'>번호</TableCell>
+              <TableCell align='center'>제목</TableCell>
+              <TableCell align='center'>작성자</TableCell>
+              <TableCell align='center'>작성일</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableCell component='th' scope='row' align='center'>
+                  {row.id}
+                </TableCell>
+                <TableCell align='left'>{row.title}</TableCell>
+                <TableCell align='center'>{row.author}</TableCell>
+                <TableCell align='center'>{row.created_at}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell component='th' scope='row' align='center'>
-                    {row.id}
-                  </TableCell>
-                  <TableCell align='left'>{row.title}</TableCell>
-                  <TableCell align='center'>{row.author}</TableCell>
-                  <TableCell align='center'>{row.created_at}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <div className='w-full flex justify-center my-10'>
-          <Pagination count={3} />
-        </div>
-      </Container>
-    </section>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <div className='w-full flex justify-center my-10'>
+        <Pagination count={3} />
+      </div>
+    </PageLayout>
   );
 }

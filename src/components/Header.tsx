@@ -79,9 +79,11 @@ export default function Header({}: Props) {
               <li className='hover:text-blue-400 cursor-pointer'>
                 번역가 소개
               </li>
-              <li className='hover:text-blue-400 cursor-pointer'>
-                번역가 참여 안내
-              </li>
+              <Link href='/participation-guide'>
+                <li className='hover:text-blue-400 cursor-pointer'>
+                  번역가 참여 안내
+                </li>
+              </Link>
             </ul>
             <button className='border border-white text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3'>
               <FaPenNib />
