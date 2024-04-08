@@ -64,7 +64,7 @@ export default function page({}: Props) {
           onSubmit={(e) => handleSubmit(e)}>
           <TextField
             id='standard-basic'
-            label='Standard'
+            label='검색어'
             variant='standard'
             sx={{ width: '400px' }}
           />

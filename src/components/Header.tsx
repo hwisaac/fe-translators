@@ -80,9 +80,11 @@ export default function Header({}: Props) {
                   신간 안내
                 </li>
               </Link>
-              <li className='hover:text-blue-400 cursor-pointer'>
-                번역가 소개
-              </li>
+              <Link href='/translators'>
+                <li className='hover:text-blue-400 cursor-pointer'>
+                  번역가 소개
+                </li>
+              </Link>
               <Link href='/participation-guide'>
                 <li className='hover:text-blue-400 cursor-pointer'>
                   번역가 참여 안내
