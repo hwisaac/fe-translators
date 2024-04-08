@@ -26,7 +26,7 @@ const subMenus = {
     },
     {
       text: '연락처 및 약도',
-      href: '/introduction/contact',
+      href: '/introduction/location',
     },
   ],
   request: [
@@ -92,7 +92,7 @@ export default function Header({}: Props) {
         <section className='w-full flex bg-slate-50 text-slate-400 h-[60px] items-center'>
           <ul className='max-w-6xl w-full flex mx-auto space-x-10 justify-center'>
             {subMenu.map((menu) => (
-              <Link href={menu.href}>
+              <Link key={menu.href} href={menu.href}>
                 <li className='hover:text-blue-400 cursor-pointer'>
                   {menu.text}
                 </li>

@@ -16,7 +16,7 @@ export default function PartnershipSection({ title, to, lis }: Props) {
         </div>
         <ul className='flex flex-col gap-10 text-lg text-slate-500'>
           {lis.map((item) => (
-            <li>{item}</li>
+            <li key={item}>{item}</li>
           ))}
         </ul>
       </div>
