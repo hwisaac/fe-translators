@@ -182,21 +182,37 @@ const columns: GridColDef[] = [
     width: 90,
   },
   {
-    field: 'birth',
-    headerName: '생년월일',
+    field: 'major',
+    headerName: '분야',
+    sortable: false,
+    width: 160,
+  },
+  {
+    field: 'portfolio',
+    headerName: '주요 역서',
     sortable: false,
     width: 160,
   },
 ];
 
 const rows = [
-  { id: 1, name: 'Snow', email: 'Jon', birth: '19850614', language: '영어' },
+  {
+    id: 1,
+    name: 'Snow',
+    email: 'Jon',
+    birth: '19850614',
+    language: '영어',
+    major: '인문사회',
+    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
+  },
   {
     id: 2,
     name: 'Lannister',
     email: 'Cersei',
     birth: '19850614',
     language: '영어',
+    major: '인문사회',
+    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
   },
   {
     id: 3,
@@ -204,14 +220,27 @@ const rows = [
     email: 'Jaime',
     birth: '19850614',
     language: '영어',
+    major: '인문사회',
+    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
   },
-  { id: 4, name: 'Stark', email: 'Arya', birth: '19850614', language: '영어' },
+  {
+    id: 4,
+    name: 'Stark',
+    email: 'Arya',
+    birth: '19850614',
+    language: '영어',
+    major: '인문사회',
+    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
+  },
   {
     id: 5,
     name: 'Targaryen',
     email: 'Daenerys',
     birth: '19850614',
     language: '영어',
+
+    major: '인문사회',
+    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
   },
   {
     id: 6,
@@ -219,6 +248,9 @@ const rows = [
     email: null,
     birth: '19850614',
     language: '영어',
+
+    major: '인문사회',
+    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
   },
   {
     id: 7,
@@ -226,6 +258,9 @@ const rows = [
     email: 'Ferrara',
     birth: '19850614',
     language: '영어',
+
+    major: '인문사회',
+    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
   },
   {
     id: 8,
@@ -233,6 +268,9 @@ const rows = [
     email: 'Rossini',
     birth: '19850614',
     language: '영어',
+
+    major: '인문사회',
+    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
   },
   {
     id: 9,
@@ -240,6 +278,9 @@ const rows = [
     email: 'Harvey',
     birth: '19850614',
     language: '영어',
+
+    major: '인문사회',
+    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
   },
 ];
 
@@ -255,7 +296,6 @@ function TranslatorTable() {
           },
         }}
         pageSizeOptions={[5, 10]}
-        checkboxSelection
       />
     </div>
   );

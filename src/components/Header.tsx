@@ -91,10 +91,12 @@ export default function Header({}: Props) {
                 </li>
               </Link>
             </ul>
-            <button className='border border-white text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3'>
-              <FaPenNib />
-              번역가방
-            </button>
+            <Link href='/member/login'>
+              <button className='border border-white text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3'>
+                <FaPenNib />
+                번역가방
+              </button>
+            </Link>
           </div>
         </div>
       </section>
