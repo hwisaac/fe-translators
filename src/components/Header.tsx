@@ -41,8 +41,8 @@ const subMenus = {
   ],
 };
 export default function Header({}: Props) {
-  const [openMenu, setOpenMenu] = useState(false);
-  const [subMenu, setSubMenu] = useState<any[]>([]);
+  const [openMenu, setOpenMenu] = useState(true);
+  const [subMenu, setSubMenu] = useState<any[]>(subMenus.intro);
 
   // const toggleMenu = () => {
   //   setOpenMenu((pre) => !pre);
@@ -55,7 +55,8 @@ export default function Header({}: Props) {
   return (
     <div
       className='fixed top-0 w-full z-50'
-      onMouseLeave={() => setOpenMenu(false)}>
+      // onMouseLeave={() => setOpenMenu(false)}
+    >
       <section className='w-full bg-white text-slate-900 py-3 border-b'>
         <div className='w-full max-w-6xl flex justify-between mx-auto items-center'>
           <div>

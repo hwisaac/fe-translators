@@ -4,7 +4,7 @@ type Props = {};
 
 export default function Slider({}: Props) {
   return (
-    <div className=' bg-orange-500/50 '>
+    <div className=' bg-slate-50 '>
       <div className='flex justify-center items-center'>
         <Image alt='배너1' src={banner1} className='w-full' />
         <div className='absolute text-slate-200/90 w-[40%] flex flex-col gap-3 items-center'>
