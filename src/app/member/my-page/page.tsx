@@ -1,5 +1,5 @@
 type Props = {};
 
 export default function page({}: Props) {
-  return <div>page</div>;
+  return <div className='flex flex-col items-center py-10'></div>;
 }

@@ -62,7 +62,6 @@ export default function DirectionsToOurOffice({}: Props) {
       <ul className='flex flex-col w-full bg-slate-100 px-10 py-8 my-20 text-slate-500'>
         <li>- 입구는 건물의 측면(공인중개사 사무소 옆)에 있습니다.</li>
         <li>- 주차 공간이 부족하오니 되도록 대중교통을 이용해주세요.</li>
-        <li>- 평일 오전 9시 ~ 오후 6시 (점심시간 12시~1시)</li>
       </ul>
     </Container>
   );

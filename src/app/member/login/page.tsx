@@ -25,7 +25,7 @@ function LoginForm() {
     e.preventDefault();
     console.log('뭐야');
     // '/member' 페이지로 이동
-    router.push('/member/notice');
+    router.push('/member/my-page');
   };
   return (
     <form

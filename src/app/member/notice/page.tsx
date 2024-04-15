@@ -1,30 +1,12 @@
-import PageLayout from '@/layouts/PageLayout';
-import Link from 'next/link';
-
 type Props = {};
 
 export default function NoticePage({}: Props) {
   return (
-    <PageLayout title='번역가방'>
-      <div className='w-full border-b flex justify-center'>
-        <Link href='/member/order'>
-          <div className='px-10 py-5 text-2xl  text-slate-700 border-b-2 border-b-blue-700/0 cursor-pointer'>
-            수주게시판
-          </div>
-        </Link>
+    <div className='flex flex-col items-center py-10'>
+      <SearchForm />
 
-        <Link href='/member/notice'>
-          <div className='border-l px-10 py-5 text-2xl bg-blue-100 text-blue-700 border-b-2 border-b-blue-700 cursor-pointer'>
-            공지사항
-          </div>
-        </Link>
-      </div>
-      <div className='flex flex-col items-center py-10'>
-        <SearchForm />
-
-        <OrderTable />
-      </div>
-    </PageLayout>
+      <OrderTable />
+    </div>
   );
 }
 
