@@ -6,11 +6,6 @@ import Tab from '@mui/material/Tab';
 import React, { SyntheticEvent, useState } from 'react';
 import Image from 'next/image';
 import img from '@/utils/img';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionTranslatorsQNA from '@/components/participation-guide/AccordionTranslatorsQNA';
 
 type Props = {};

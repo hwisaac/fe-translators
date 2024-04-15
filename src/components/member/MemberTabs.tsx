@@ -16,7 +16,7 @@ export default function MemberTabs({}: Props) {
         router.push('/member/my-page');
         return;
       case 1:
-        router.push('/member/task');
+        router.push('/member/tasks');
         return;
       case 2:
         router.push('/member/notice');
