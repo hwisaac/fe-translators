@@ -21,10 +21,6 @@ const subMenus = {
       href: '/introduction/partnership',
     },
     {
-      text: '공지사항',
-      href: '/introduction/notice',
-    },
-    {
       text: '연락처 및 약도',
       href: '/introduction/location',
     },

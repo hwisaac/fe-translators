@@ -12,6 +12,15 @@ export default function AccordionItem({
   answer,
   question,
 }: any) {
+  const formattedAnswer = answer
+    .split('\n')
+    .map((line: string, index: number) => (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    ));
+
   return (
     <Accordion expanded={expanded === id} onChange={handleChange(id)}>
       <AccordionSummary
@@ -25,7 +34,7 @@ export default function AccordionItem({
         <Typography sx={{ fontSize: '18px' }}>{question}</Typography>
       </AccordionSummary>
       <AccordionDetails sx={{ color: 'text.secondary' }}>
-        {answer}
+        {formattedAnswer}
       </AccordionDetails>
     </Accordion>
   );
