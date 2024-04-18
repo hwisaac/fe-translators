@@ -8,6 +8,8 @@ import DummyHeader from '@/components/DummyHeader';
 import BASE_URL from '@/utils/BASE_URL';
 import Providers from '@/app/providers';
 import RecoilContextProvider from '@/app/recoilContextProvider';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,7 +32,7 @@ export default async function RootLayout({
           <RecoilContextProvider>
             <Providers>{children}</Providers>
           </RecoilContextProvider>
-
+          <ToastContainer />
           <Footer />
         </AppRouterCacheProvider>
       </body>

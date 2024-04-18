@@ -24,7 +24,7 @@ function LoginForm() {
   const router = useRouter();
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('뭐야');
+
     // '/member' 페이지로 이동
     router.push('/member/my-page');
   };
