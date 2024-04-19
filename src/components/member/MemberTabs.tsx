@@ -2,12 +2,28 @@
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import path from 'path';
 type Props = {};
 
+const valueFromPath = (pathname: string): number => {
+  if (pathname.includes('/my-page')) {
+    return 0;
+  }
+  if (pathname.includes('/tasks')) {
+    return 1;
+  }
+  if (pathname.includes('/notice')) {
+    return 2;
+  }
+
+  return 0;
+};
+
 export default function MemberTabs({}: Props) {
-  const [value, setValue] = useState(0);
   const router = useRouter();
+  const pathname = usePathname();
+  const [value, setValue] = useState(valueFromPath(pathname));
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -23,6 +39,10 @@ export default function MemberTabs({}: Props) {
         return;
     }
   };
+  useEffect(() => {
+    setValue(valueFromPath(pathname));
+  }, [pathname]);
+  // URL 변경 시 탭 상태 업데이트
 
   return (
     <div className='w-full border-b flex justify-center relative top-[50px]'>

@@ -88,7 +88,13 @@ export default function MyNotices({}: Props) {
                 <TableCell component='th' scope='row'>
                   {notice.id}
                 </TableCell>
-                <TableCell align='center'>{notice.title}</TableCell>
+                <TableCell align='center'>
+                  <Link
+                    className='link link-neutral hover:font-semibold'
+                    href={`/member/notice/${notice.id}`}>
+                    {notice.title}
+                  </Link>
+                </TableCell>
                 <TableCell align='center'>
                   {formatDate(notice.created_at)}
                 </TableCell>

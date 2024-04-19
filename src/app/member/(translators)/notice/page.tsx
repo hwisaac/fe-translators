@@ -149,7 +149,6 @@ function OrderTable() {
               <button className='btn btn-ghost btn-xs'>details</button>
             </th>
           </tr>
-          {/* row 4 */}
           <tr>
             <th>
               <label>

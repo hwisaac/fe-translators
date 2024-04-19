@@ -1,4 +1,5 @@
-export default function formatDate(isoString: string) {
+export default function formatDate(isoString: string | undefined | null) {
+  if (!isoString) return '';
   const date = new Date(isoString);
   const timeZone = 'Asia/Seoul';
   return new Intl.DateTimeFormat('ko-KR', {
