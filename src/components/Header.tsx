@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import logo from '../../public/barun-blue-logo.png';
 import Link from 'next/link';
+import LogoutBtn from '@/components/LogoutBtn';
 type Props = {};
 
 const subMenus = {
@@ -88,6 +89,7 @@ export default function Header({}: Props) {
                 </li>
               </Link>
             </ul>
+            <LogoutBtn />
             <Link href='/member/login'>
               <button className='border border-white text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3'>
                 <FaPenNib />

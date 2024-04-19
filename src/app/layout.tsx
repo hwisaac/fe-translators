@@ -27,13 +27,15 @@ export default async function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <AppRouterCacheProvider>
-          <Header />
-          <DummyHeader />
           <RecoilContextProvider>
+            <Header />
+            <DummyHeader />
+
             <Providers>{children}</Providers>
+
+            <ToastContainer />
+            <Footer />
           </RecoilContextProvider>
-          <ToastContainer />
-          <Footer />
         </AppRouterCacheProvider>
       </body>
     </html>

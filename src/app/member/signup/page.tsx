@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import axios, { AxiosError } from 'axios';
 type Props = {};
 
 const years = Array.from({ length: 2023 - 1900 + 1 }, (_, i) => 2023 - i);
@@ -28,21 +29,35 @@ export default function page({}: Props) {
     formState: { errors },
   } = useForm<any>();
   const { mutateAsync, isPending } = useMutation({
+    // mutationFn: ({ postUser }: any) =>
+    //   fetch(`${BASE_URL}/users/`, {
+    //     method: 'POST',
+    //     body: JSON.stringify(postUser),
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   }),
     mutationFn: ({ postUser }: any) =>
-      fetch(`${BASE_URL}/users/`, {
-        method: 'POST',
-        body: JSON.stringify(postUser),
+      axios.post(`${BASE_URL}/users/`, postUser, {
         headers: {
           'Content-Type': 'application/json',
         },
-      }).then((res) => res.json()),
+      }),
+    onError: (err: AxiosError) => {
+      toast.error(err.response?.request.responseText);
+    },
+    onSuccess: async (data) => {
+      console.log(data);
+      toast.success('가입에 성공했습니다.');
+      router.push('/member/login');
+    },
   });
   const phone = watch('phone');
   const password = watch('password');
 
   useEffect(() => {
-    if (phone && phone.includes('-')) {
-      setValue('phone', phone.replace(/-/g, ''));
+    if (phone) {
+      setValue('phone', phone.replace(/[^0-9]/g, ''));
     }
   }, [phone]);
 
@@ -54,7 +69,8 @@ export default function page({}: Props) {
     const day = data.day;
 
     const birth_date = `${year}-${month.padStart(2, 0)}-${day.padStart(2, 0)}`;
-    const postUser = { ...data, birth_date };
+    const postUser = { ...data, birth_date, is_active: false };
+    console.log(postUser);
     //   toast.promise(
     //     mutateAsync({postUser}),
     //     {
@@ -63,14 +79,7 @@ export default function page({}: Props) {
     //       error: 'Promise rejected 🤯'
     //     }
     // )
-    mutateAsync({ postUser })
-      .then(() => {
-        router.push('/member/login');
-        toast.success('회원가입 되었습니다.');
-      })
-      .catch((e) => {
-        toast.error(e.message);
-      });
+    mutateAsync({ postUser });
   };
   const handleClick = () => {
     toast.info('wow');
@@ -159,7 +168,7 @@ export default function page({}: Props) {
         <div className='flex items-center'>
           <div className='w-[150px] text-sm'>핸드폰번호</div>
           <input
-            type='text'
+            type='tel'
             {...register('phone', { required: true })}
             placeholder="'-' 제외"
             className='input input-bordered w-full max-w-xs'
@@ -319,7 +328,11 @@ export default function page({}: Props) {
           </div>
         </div>
         <button className='btn btn-neutral btn-wide relative top-5'>
-          회원가입
+          {isPending ? (
+            <span className='loading loading-spinner loading-xs' />
+          ) : (
+            `회원가입`
+          )}
         </button>
       </form>
     </PageLayout>
@@ -341,7 +354,8 @@ const DaumPostcodePopup = ({ setAddress }: any) => {
     };
   }, []);
 
-  const handleOpenPostcode = () => {
+  const handleOpenPostcode = (e: any) => {
+    e.preventDefault();
     // @ts-ignore
     new window.daum.Postcode({
       oncomplete: function (data: any) {
@@ -351,10 +365,10 @@ const DaumPostcodePopup = ({ setAddress }: any) => {
   };
 
   return (
-    <button
-      onClick={handleOpenPostcode}
-      className='bg-slate-50 hover:bg-slate-200 transition-colors border-2 border-slate-500 text-slate-600 rounded-md w-[100px] px-4 py-1'>
+    <div
+      onClick={(e) => handleOpenPostcode(e)}
+      className='bg-slate-50 hover:bg-slate-200 transition-colors border-2 border-slate-500 text-slate-600 rounded-md w-[100px] px-4 py-1 cursor-pointer flex items-center justify-center'>
       주소 검색
-    </button>
+    </div>
   );
 };
