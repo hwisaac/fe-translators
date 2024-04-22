@@ -46,7 +46,7 @@ export default function page({}: Props) {
         .get(`${BASE_URL}/notices/${notice_id}/`)
         .then((res) => res.data as NoticeData),
   });
-  console.log(data);
+
   return (
     <div className='flex flex-col py-10'>
       <div className='flex justify-between items-center border-b border-b-slate-700 px-4 py-2 mb-10'>
@@ -57,16 +57,18 @@ export default function page({}: Props) {
         {formatTextField(data?.notice?.content)}
       </div>
       <div className='flex my-10 border'>
-        <div className='border bg-slate-300 text-2xl flex justify-center items-center h-[100px] w-[120px]'>
-          목록
-        </div>
+        <Link href='/member/notice'>
+          <div className='border bg-slate-300 text-2xl flex justify-center items-center h-[100px] w-[120px]'>
+            목록
+          </div>
+        </Link>
         <div className='flex flex-col h-[100px] w-full'>
           <div className='h-1/2 flex gap-10 items-center px-10'>
             <p className='font-semibold'>이전글</p>
             {data?.previous && (
               <Link
                 href={`/member/notice/${data?.previous?.id}`}
-                className='text-slate-600'>
+                className='text-slate-600 link'>
                 {data?.previous.title}
               </Link>
             )}
@@ -76,7 +78,7 @@ export default function page({}: Props) {
             {data?.next && (
               <Link
                 href={`/member/notice/${data?.next.id}`}
-                className='text-slate-600'>
+                className='text-slate-600 link'>
                 {data?.next.title}
               </Link>
             )}

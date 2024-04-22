@@ -10,5 +10,7 @@ export default function formatDate(isoString: string | undefined | null) {
   })
     .format(date)
     .replace(/\./g, '-')
-    .slice(0, -1);
+    .slice(0, -1)
+    .replaceAll(' ', '');
+
 }

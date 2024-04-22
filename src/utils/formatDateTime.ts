@@ -9,7 +9,9 @@ export default function formatDateTime(isoString: string) {
   })
     .format(date)
     .replace(/\./g, '-')
-    .slice(0, -1);
+    .slice(0, -1)
+    .split(' ')
+    .join('');
 
   const formattedTime = new Intl.DateTimeFormat('ko-KR', {
     hour: '2-digit',
@@ -21,5 +23,5 @@ export default function formatDateTime(isoString: string) {
     .format(date)
     .replace(/\:/g, ':');
 
-  return `${formattedDate} ${formattedTime}`;
+  return `${formattedDate} (${formattedTime})`;
 }

@@ -10,7 +10,9 @@ export default function formatDateTimeWithMilliseconds(isoString: string) {
   })
     .format(date)
     .replace(/\./g, '-')
-    .slice(0, -1);
+    .slice(0, -1)
+    .split(' ')
+    .join('');
 
   const formattedTime = new Intl.DateTimeFormat('ko-KR', {
     hour: '2-digit',
@@ -24,5 +26,5 @@ export default function formatDateTimeWithMilliseconds(isoString: string) {
 
   const milliseconds = date.getMilliseconds().toString().padStart(3, '0');
 
-  return `${formattedDate} ${formattedTime}.${milliseconds}`;
+  return `${formattedDate} (${formattedTime}.${milliseconds})`;
 }

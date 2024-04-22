@@ -71,7 +71,7 @@ async function NoticeTable({ page }: { page: number | string }) {
   }).then((data) => data.json());
 
   return (
-    <section className='py-10 flex flex-col w-full'>
+    <section className='py-10 flex flex-col w-full gap-3'>
       <h2 className='text-lg font-semibold pb-8'>번역가 공지사항</h2>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>

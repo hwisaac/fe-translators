@@ -16,7 +16,6 @@ export default function LogoutBtn({}: Props) {
   }, [loginState]); // loginState가 변경될 때마다 useEffect를 실행
 
   const handleClick = () => {
-    console.log('로그아웃!');
     console.log(loginState);
     setLoginState(null); // 로그아웃 처리
   };
@@ -27,7 +26,7 @@ export default function LogoutBtn({}: Props) {
       className={`btn btn-sm my-auto ${loginState === null ? 'hidden' : ''}`}
       onClick={handleClick}>
       <IoLogOutOutline />
-      로그아웃
+      로그아웃({`${loginState?.username}`})
     </div>
   );
 }
