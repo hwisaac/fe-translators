@@ -63,19 +63,23 @@ export default function page({}: Props) {
         <div className='flex flex-col h-[100px] w-full'>
           <div className='h-1/2 flex gap-10 items-center px-10'>
             <p className='font-semibold'>이전글</p>
-            <Link
-              href={`/member/notice/${data?.previous.id}`}
-              className='text-slate-600'>
-              {data?.previous.title}
-            </Link>
+            {data?.previous && (
+              <Link
+                href={`/member/notice/${data?.previous?.id}`}
+                className='text-slate-600'>
+                {data?.previous.title}
+              </Link>
+            )}
           </div>
           <div className='h-1/2 flex gap-10 items-center px-10 border-t'>
             <p className='font-semibold'>다음글</p>
-            <Link
-              href={`/member/notice/${data?.next.id}`}
-              className='text-slate-600'>
-              {data?.next.title}
-            </Link>
+            {data?.next && (
+              <Link
+                href={`/member/notice/${data?.next.id}`}
+                className='text-slate-600'>
+                {data?.next.title}
+              </Link>
+            )}
           </div>
         </div>
       </div>
