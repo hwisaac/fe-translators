@@ -7,6 +7,7 @@ import MyTasks from '@/components/my-page/MyTasks';
 import BASE_URL from '@/utils/BASE_URL';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
@@ -44,7 +45,11 @@ export default function page({}: Props) {
         </h2>
 
         <div className='flex join'>
-          <button className='btn join-item'>비밀번호 변경</button>
+          <Link
+            href='/member/my-page/change-password'
+            className='btn join-item'>
+            비밀번호 변경
+          </Link>
           <button className='btn join-item'>내정보 수정 변경</button>
           <button className='btn join-item'>회원 탈퇴</button>
         </div>
