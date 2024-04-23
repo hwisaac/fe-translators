@@ -186,7 +186,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       <div className='flex justify-between'>
         <span className='text-slate-800 font-semibold'>{`${comment.name}(${comment.author})`}</span>
         <span className='text-slate-500'>
-          {formatDateTimeWithMilliseconds(comment.created_at)}
+          {`${formatDateTimeWithMilliseconds(comment.created_at)}`}
         </span>
       </div>
       {!editable ? (

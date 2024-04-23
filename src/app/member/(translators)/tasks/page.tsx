@@ -11,8 +11,9 @@ import formatDate from '@/utils/formatDate';
 import BASE_URL from '@/utils/BASE_URL';
 import { NoticeType } from '@/components/my-page/MyNotices';
 import TasksPagination from '@/components/member/tasks/TasksPagination';
+import SearchForm from '@/components/member/tasks/SearchForm';
 type Props = {
-  searchParams: { page: string };
+  searchParams: { page: string; query: string; language: string };
 };
 export type TaskType = {
   id: number;
@@ -22,55 +23,27 @@ export type TaskType = {
   count_comments: number;
 };
 
-export default function OrderPage({ searchParams: { page } }: Props) {
+export default async function TasksPage({
+  searchParams: { page, query, language },
+}: Props) {
+  // console.log(query, page, filter);
+
+  const data = await fetch(
+    `${BASE_URL}/tasks?page=${page}&language=${language}&query=${query}&/`,
+    {
+      cache: 'no-cache',
+    }
+  ).then((data) => data.json());
+  console.log(data);
   return (
     <div className='flex flex-col items-center py-10'>
       <SearchForm />
-      <SearchFilter />
-      <OrderTable page={page ?? 1} />
+      <OrderTable data={data} />
     </div>
   );
 }
 
-function SearchForm() {
-  return (
-    <div className='join mx-auto'>
-      <div>
-        <div>
-          <input
-            className='input input-bordered join-item w-[400px]'
-            placeholder='Search'
-          />
-        </div>
-      </div>
-      <div className='indicator'>
-        <button className='btn join-item'>Search</button>
-      </div>
-    </div>
-  );
-}
-
-function SearchFilter() {
-  return (
-    <div className='flex gap-10'>
-      <label className='label cursor-pointer space-x-2'>
-        <input type='checkbox' className='checkbox' />
-        <span className='label-text'>영어</span>
-      </label>
-      <label className='label cursor-pointer space-x-2'>
-        <input type='checkbox' className='checkbox' />
-        <span className='label-text'>일어</span>
-      </label>
-    </div>
-  );
-}
-
-async function OrderTable({ page }: { page: string | number }) {
-  const data = await fetch(`${BASE_URL}/tasks?page=${page}&/`, {
-    cache: 'no-cache',
-  }).then((data) => data.json());
-  console.log(data);
-
+async function OrderTable({ data }: { data: any }) {
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
       <h2 className='text-lg font-semibold pb-8'>번역가 공지사항</h2>
