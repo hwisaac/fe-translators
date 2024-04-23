@@ -12,6 +12,7 @@ import BASE_URL from '@/utils/BASE_URL';
 import { NoticeType } from '@/components/my-page/MyNotices';
 import TasksPagination from '@/components/member/tasks/TasksPagination';
 import SearchForm from '@/components/member/tasks/SearchForm';
+import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 type Props = {
   searchParams: {
     page: string;
@@ -66,11 +67,12 @@ async function OrderTable({ data }: { data: any }) {
                 제목
               </TableCell>
               <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
-                언어
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
                 링크
               </TableCell>
+              <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
+                언어
+              </TableCell>
+
               <TableCell align='center' sx={{ fontWeight: 700, width: 230 }}>
                 상태
               </TableCell>
@@ -94,18 +96,19 @@ async function OrderTable({ data }: { data: any }) {
                   </Link>
                 </TableCell>
                 <TableCell align='center'>
-                  <LanguageBadge language={task.language} />
-                </TableCell>
-                <TableCell align='center'>
                   {task.link && (
                     <Link
                       href={task.link}
                       target='_blank'
                       className='btn btn-sm'>
-                      링크
+                      도서정보
                     </Link>
                   )}
                 </TableCell>
+                <TableCell align='center'>
+                  <LanguageBadge language={task.language} />
+                </TableCell>
+
                 <TableCell align='center'>
                   <StatusBadge status={task.status} />
                 </TableCell>
@@ -117,24 +120,6 @@ async function OrderTable({ data }: { data: any }) {
       <TasksPagination count={data.total_pages} />
     </section>
   );
-}
-
-function LanguageBadge({ language }: { language: 'en' | 'jp' }) {
-  if (language === 'en') {
-    return (
-      <span className='border rounded-full border-blue-800 text-blue-800 text-sm px-2 py-1'>
-        영어
-      </span>
-    );
-  }
-  if (language === 'jp') {
-    return (
-      <span className='border rounded-full border-pink-800 text-pink-800 text-sm px-2 py-1'>
-        일본어
-      </span>
-    );
-  }
-  return <span>{language}</span>;
 }
 
 function StatusBadge({

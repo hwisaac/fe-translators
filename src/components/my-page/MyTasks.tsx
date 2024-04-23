@@ -14,6 +14,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Link from 'next/link';
+import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 
 function createData(
   name: string,
@@ -55,8 +56,6 @@ export type TaskType = {
   updated_at: string;
 };
 
-
-
 export default function MyTasks({}: Props) {
   const [isClient, setIsClient] = useState(false);
   const token = useToken();
@@ -85,17 +84,18 @@ export default function MyTasks({}: Props) {
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 700 }}>번호</TableCell>
+              <TableCell sx={{ fontWeight: 700, width: 150 }}>번호</TableCell>
               <TableCell align='center' sx={{ fontWeight: 700 }}>
                 도서제목
               </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
-                언어
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
+
+              <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
                 링크
               </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
+              <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
+                언어
+              </TableCell>
+              <TableCell align='center' sx={{ fontWeight: 700, width: 230 }}>
                 상태
               </TableCell>
             </TableRow>
@@ -113,9 +113,7 @@ export default function MyTasks({}: Props) {
                     {task.title}
                   </Link>
                 </TableCell>
-                <TableCell align='center'>
-                  {task.language === 'en' ? '영어' : '일어'}
-                </TableCell>
+
                 <TableCell align='center'>
                   {task?.link && (
                     <Link
@@ -125,6 +123,9 @@ export default function MyTasks({}: Props) {
                       도서정보
                     </Link>
                   )}
+                </TableCell>
+                <TableCell align='center'>
+                  <LanguageBadge language={task.language} />
                 </TableCell>
                 <TableCell align='center'>
                   <EvaluatedStatus task={task} />
