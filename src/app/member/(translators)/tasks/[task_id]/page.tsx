@@ -37,7 +37,7 @@ export default function page({}) {
   const token = useToken();
   const router = useRouter();
   const { data } = useQuery({
-    queryKey: ['taskDtail', task_id],
+    queryKey: ['taskDetail', task_id],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/tasks/${task_id}/`, {
@@ -59,7 +59,7 @@ export default function page({}) {
         {formatTextField(data?.content)}
       </div>
       <Comments comments={data?.comments} />
-      <span onClick={() => router.back()} className='btn'>
+      <span onClick={() => router.push('/member/tasks')} className='btn'>
         목록
       </span>
     </div>
