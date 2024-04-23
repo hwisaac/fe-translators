@@ -19,7 +19,7 @@ export default function TasksPagination({ count }: Props) {
     <Pagination
       count={count}
       onChange={handleChange}
-      page={Number(searchParams.get('page')) ?? 1}
+      page={Number(searchParams.get('page')) || 1}
     />
   );
 }
