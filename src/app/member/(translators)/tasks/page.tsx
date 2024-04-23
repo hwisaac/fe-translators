@@ -26,6 +26,7 @@ export type TaskType = {
   title: string;
   language: 'en' | 'jp';
   count_comments: number;
+  link: string;
 };
 
 export default async function TasksPage({
@@ -67,6 +68,9 @@ async function OrderTable({ data }: { data: any }) {
               <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
                 언어
               </TableCell>
+              <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
+                링크
+              </TableCell>
               <TableCell align='center' sx={{ fontWeight: 700, width: 230 }}>
                 상태
               </TableCell>
@@ -91,6 +95,16 @@ async function OrderTable({ data }: { data: any }) {
                 </TableCell>
                 <TableCell align='center'>
                   <LanguageBadge language={task.language} />
+                </TableCell>
+                <TableCell align='center'>
+                  {task.link && (
+                    <Link
+                      href={task.link}
+                      target='_blank'
+                      className='btn btn-sm'>
+                      링크
+                    </Link>
+                  )}
                 </TableCell>
                 <TableCell align='center'>
                   <StatusBadge status={task.status} />

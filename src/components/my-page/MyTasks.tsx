@@ -55,27 +55,7 @@ export type TaskType = {
   updated_at: string;
 };
 
-const evalStatus = (task: TaskType): string => {
-  const taskStatus = task.status;
-  const comments = task.comments;
-  if (taskStatus === 'open' && comments.length === 0) {
-    return '지원 가능';
-  } else if (taskStatus === 'open' && comments.length !== 0) {
-    return '지원중';
-  }
-  // taskStatus !== 'open'
 
-  switch (taskStatus) {
-    case 'testing':
-      return '지원불가(샘플심사)';
-    case 'closed':
-      return '지원불가(마감)';
-    case 'closed':
-      return '지원불가(번역가선정)';
-    default:
-      return '버그(개발자문의)';
-  }
-};
 
 export default function MyTasks({}: Props) {
   const [isClient, setIsClient] = useState(false);
@@ -121,21 +101,25 @@ export default function MyTasks({}: Props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((row, index) => (
+            {data?.map((task, index) => (
               <TableRow
                 key={`${index}-rows`}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component='th' scope='row'>
-                  {row.id}
+                  {task.id}
                 </TableCell>
-                <TableCell align='center'>{row.title}</TableCell>
-                <TableCell align='center'>
-                  {row.language === 'en' ? '영어' : '일어'}
+                <TableCell align='left'>
+                  <Link href={`/member/tasks/${task.id}`} className='link'>
+                    {task.title}
+                  </Link>
                 </TableCell>
                 <TableCell align='center'>
-                  {row?.link && (
+                  {task.language === 'en' ? '영어' : '일어'}
+                </TableCell>
+                <TableCell align='center'>
+                  {task?.link && (
                     <Link
-                      href={row.link}
+                      href={task.link}
                       target='_blank'
                       className='btn btn-sm'>
                       도서정보
@@ -143,9 +127,7 @@ export default function MyTasks({}: Props) {
                   )}
                 </TableCell>
                 <TableCell align='center'>
-                  <div className='border border-blue-400 text-blue-500 flex justify-center items-center'>
-                    {evalStatus(row)}
-                  </div>
+                  <EvaluatedStatus task={task} />
                 </TableCell>
               </TableRow>
             ))}
@@ -154,4 +136,41 @@ export default function MyTasks({}: Props) {
       </TableContainer>
     </section>
   );
+}
+
+function EvaluatedStatus({ task }: { task: TaskType }) {
+  const evalStatus = (task: TaskType): string => {
+    const taskStatus = task.status;
+    const comments = task.comments;
+    if (taskStatus === 'open' && comments.length === 0) {
+      return '지원 가능';
+    } else if (taskStatus === 'open' && comments.length !== 0) {
+      return '지원중';
+    }
+    // taskStatus !== 'open'
+
+    switch (taskStatus) {
+      case 'testing':
+        return '지원불가(샘플심사)';
+      case 'closed':
+        return '지원불가(마감)';
+      case 'closed':
+        return '지원불가(번역가선정)';
+      default:
+        return '버그(개발자문의)';
+    }
+  };
+  if (evalStatus(task) === '지원 가능') {
+    return (
+      <div className='border bg-blue-50 border-blue-700 text-blue-700 flex justify-center items-center'>
+        {evalStatus(task)}
+      </div>
+    );
+  } else if (evalStatus(task) === '지원중')
+    return (
+      <div className='border bg-green-50 border-green-700 text-green-700 flex justify-center items-center'>
+        {evalStatus(task)}
+      </div>
+    );
+  return null;
 }
