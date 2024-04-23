@@ -13,7 +13,12 @@ import { NoticeType } from '@/components/my-page/MyNotices';
 import TasksPagination from '@/components/member/tasks/TasksPagination';
 import SearchForm from '@/components/member/tasks/SearchForm';
 type Props = {
-  searchParams: { page: string; query: string; language: string };
+  searchParams: {
+    page: string;
+    query: string;
+    language: string;
+    status: string;
+  };
 };
 export type TaskType = {
   id: number;
@@ -24,12 +29,14 @@ export type TaskType = {
 };
 
 export default async function TasksPage({
-  searchParams: { page, query, language },
+  searchParams: { page, query, language, status },
 }: Props) {
   // console.log(query, page, filter);
 
   const data = await fetch(
-    `${BASE_URL}/tasks?page=${page}&language=${language}&query=${query}&/`,
+    `${BASE_URL}/tasks?page=${page ?? ''}&language=${language ?? ''}&query=${
+      query ?? ''
+    }&status=${status ?? ''}&/`,
     {
       cache: 'no-cache',
     }
@@ -46,7 +53,7 @@ export default async function TasksPage({
 async function OrderTable({ data }: { data: any }) {
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
-      <h2 className='text-lg font-semibold pb-8'>번역가 공지사항</h2>
+      <h2 className='text-lg font-semibold pb-8'>번역가 수주 게시판</h2>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
@@ -125,13 +132,13 @@ function StatusBadge({
     case 'open':
       return (
         <div className='border rounded-md font-semibold text-green-700 border-green-700 bg-green-50 flex-1 w-full py-1'>
-          지원 가능
+          모집 중
         </div>
       );
     case 'testing':
       return (
         <div className='border rounded-md font-semibold text-orange-500 border-orange-500 bg-orange-50 flex-1 w-full py-1'>
-          지원불가 - 샘플심사중
+          모집 중단 - 샘플심사중
         </div>
       );
     case 'completed':

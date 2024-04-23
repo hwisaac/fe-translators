@@ -157,6 +157,25 @@ function CommentItem({ comment }: { comment: CommentType }) {
     },
   });
 
+  const { mutateAsync: deleteComment } = useMutation({
+    mutationKey: ['delete', comment.id],
+    mutationFn: () =>
+      axios.delete(`${BASE_URL}/comments/${comment.id}/`, {
+        headers: {
+          Authorization: token,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['taskDetail', task_id],
+      });
+      toast.success('삭제 되었습니다.');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const handleSubmitReply = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -179,6 +198,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
     setEditable(false);
     editComment({ content: commentInput });
   };
+
   return (
     <li className='flex flex-col w-full'>
       {/* <p className='badge badge-neutral'>샘플번역가</p> */}
@@ -216,7 +236,33 @@ function CommentItem({ comment }: { comment: CommentType }) {
         <button className='btn btn-outline btn-sm' onClick={onEdit}>
           수정
         </button>
-        <button className='btn btn-outline btn-sm'>삭제</button>
+        <button
+          className='btn btn-outline btn-sm'
+          onClick={() =>
+            // @ts-ignore
+            document.getElementById(`modal_${comment.id}`).showModal()
+          }>
+          삭제
+        </button>
+        <dialog
+          id={`modal_${comment.id}`}
+          className='modal modal-bottom sm:modal-middle'>
+          <div className='modal-box'>
+            <h3 className='font-bold text-lg'>삭제하기</h3>
+            <p className='py-4'>정말로 삭제하시겠습니까?</p>
+            <div className='modal-action'>
+              <form method='dialog' className='space-x-2'>
+                <button
+                  className='btn btn-neutral'
+                  onClick={() => deleteComment()}>
+                  삭제
+                </button>
+                {/* if there is a button in form, it will close the modal */}
+                <button className='btn'>취소</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
       {openReply && (
         <form
