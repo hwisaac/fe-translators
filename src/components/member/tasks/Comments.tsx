@@ -321,9 +321,35 @@ const ReplyItem = ({ reply }: { reply: ReplyType }) => {
       </div>
       <div className='w-full rounded-md shadow-md px-4 py-4 my-3 bg-slate-50 flex justify-between'>
         <div>{reply.content}</div>
-        <div className='btn btn-ghost btn-sm' onClick={() => deleteReply()}>
+        <div
+          className='btn btn-ghost btn-sm'
+          onClick={() =>
+            document
+              .getElementById(`reply_delete_modal_${reply.reply_id}`)!
+              // @ts-ignore
+              .showModal()
+          }>
           삭제
         </div>
+        <dialog
+          id={`reply_delete_modal_${reply.reply_id}`}
+          className='modal modal-bottom sm:modal-middle'>
+          <div className='modal-box'>
+            <h3 className='font-bold text-lg'>삭제하기</h3>
+            <p className='py-4'>정말로 삭제하시겠습니까?</p>
+            <div className='modal-action'>
+              <form method='dialog' className='space-x-2'>
+                <button
+                  className='btn btn-neutral'
+                  onClick={() => deleteReply()}>
+                  삭제
+                </button>
+                {/* if there is a button in form, it will close the modal */}
+                <button className='btn'>취소</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
     </li>
   );
