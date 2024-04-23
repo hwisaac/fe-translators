@@ -18,7 +18,7 @@ export type CommentType = {
   created_at: string;
   updated_at: string;
   name: string;
-  id: string;
+  id: number;
   status: CommentStatusType;
   replies: ReplyType[];
 };
@@ -293,6 +293,21 @@ const Replies = ({ replies }: { replies: ReplyType[] }) => {
 };
 
 const ReplyItem = ({ reply }: { reply: ReplyType }) => {
+  const queryClient = useQueryClient();
+  const { mutateAsync: deleteReply } = useMutation({
+    mutationFn: () =>
+      axios.delete(
+        `${BASE_URL}/comments/${reply.comment_id}/reply/${reply.reply_id}/`,
+        {}
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['taskDetail'],
+      });
+      toast.success('삭제되었습니다.');
+    },
+    onError: (error) => toast.error(error.message),
+  });
   return (
     <li className='rounded-md p-3 flex flex-col'>
       <div className='flex justify-between'>
@@ -304,8 +319,11 @@ const ReplyItem = ({ reply }: { reply: ReplyType }) => {
           {formatDateTime(reply.created_at)}
         </span>
       </div>
-      <div className='w-full rounded-md shadow-md px-4 py-4 my-3 bg-slate-50'>
-        {reply.content}
+      <div className='w-full rounded-md shadow-md px-4 py-4 my-3 bg-slate-50 flex justify-between'>
+        <div>{reply.content}</div>
+        <div className='btn btn-ghost btn-sm' onClick={() => deleteReply()}>
+          삭제
+        </div>
       </div>
     </li>
   );
