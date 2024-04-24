@@ -29,14 +29,6 @@ export default function page({}: Props) {
     formState: { errors },
   } = useForm<any>();
   const { mutateAsync, isPending } = useMutation({
-    // mutationFn: ({ postUser }: any) =>
-    //   fetch(`${BASE_URL}/users/`, {
-    //     method: 'POST',
-    //     body: JSON.stringify(postUser),
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   }),
     mutationFn: ({ postUser }: any) =>
       axios.post(`${BASE_URL}/users/`, postUser, {
         headers: {
@@ -49,7 +41,7 @@ export default function page({}: Props) {
     onSuccess: async (data) => {
       console.log(data);
       toast.success('가입에 성공했습니다.');
-      router.push('/member/login');
+      router.push('/member/additional-information');
     },
   });
   const phone = watch('phone');

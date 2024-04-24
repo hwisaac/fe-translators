@@ -64,13 +64,13 @@ export default function page({}: Props) {
   useEffect(() => {
     console.log(errors.old_password);
     if (errors.old_password) {
-      toast.error(errors.old_password.message as string);
+      toast.error(`기존 패스워드: ${errors.old_password.message}`);
     }
     if (errors.new_password) {
-      toast.error(errors.new_password.message as string);
+      toast.error(`새 패스워드: ${errors.new_password.message}`);
     }
     if (errors.new_password2) {
-      toast.error(errors.new_password2.message as string);
+      toast.error(`새 패스워드2: ${errors.new_password2.message}`);
     }
   }, [errors]);
 
