@@ -1,6 +1,7 @@
 'use client';
 import useToken from '@/app/hooks/useToken';
-import Comments, { CommentType } from '@/components/member/tasks/Comments';
+import MemberComments from '@/components/member/tasks/MemberComments';
+import { CommentType } from '@/components/member/tasks/MemberComments';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import { useQuery } from '@tanstack/react-query';
@@ -58,7 +59,7 @@ export default function page({}) {
       <div className='border-b border-b-slate-700 py-10'>
         {formatTextField(data?.content)}
       </div>
-      <Comments comments={data?.comments} />
+      <MemberComments comments={data?.comments} />
       <Link href='/member/tasks' className='btn'>
         목록
       </Link>

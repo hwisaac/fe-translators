@@ -1,7 +1,8 @@
-'use client';
 import useToken from '@/app/hooks/useToken';
 import StatusBadge from '@/components/StatusBadge';
-import Comments, { CommentType } from '@/components/member/tasks/Comments';
+import Comments, {
+  CommentType,
+} from '@/components/member/tasks/MemberComments';
 import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
@@ -38,25 +39,13 @@ export function formatTextField(text?: string | null): any {
     .map((line: string, index: number) => <p key={index}>{line}</p>);
 }
 
-export default function page({}: Props) {
-  const { task_id } = useParams();
-  const token = useToken();
-  const router = useRouter();
-  const { data } = useQuery({
-    queryKey: ['taskDetail', task_id],
-    queryFn: () =>
-      axios
-        .get(`${BASE_URL}/tasks/${task_id}/`, {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((res) => {
-          return res.data as TaskDetail;
-        }),
-    staleTime: 30,
-  });
-
+export default async function page({ params: { task_id } }: Props) {
+  // const { task_id } = useParams();
+  const data: TaskDetail = await fetch(`${BASE_URL}/tasks/${task_id}/`, {
+    next: {
+      tags: [`taskDetail_${task_id}`],
+    },
+  }).then((res) => res.json());
   return (
     <div className='flex flex-col py-10'>
       <div className='flex justify-between items-center border-b border-b-slate-700 px-4 py-2'>

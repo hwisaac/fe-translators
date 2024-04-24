@@ -40,10 +40,9 @@ export default async function AdminTasksPage({
       query ?? ''
     }&status=${status ?? ''}&/`,
     {
-      cache: 'no-store',
+      cache: 'no-cache',
     }
   ).then((data) => data.json());
-  console.log(data);
   return (
     <div className='flex flex-col items-center py-10'>
       <AdminSearchForm />

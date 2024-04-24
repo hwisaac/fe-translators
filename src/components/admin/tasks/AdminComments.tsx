@@ -42,7 +42,7 @@ type Props = {
   comments?: CommentType[];
 };
 
-export default function Comments({ comments }: Props) {
+export default function AdminComments({ comments }: Props) {
   const { task_id } = useParams();
   const token = useToken();
   const queryClient = useQueryClient();
