@@ -2,7 +2,7 @@
 import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { on } from 'events';
 import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
@@ -24,13 +24,14 @@ export default function LoginForm({}: Props) {
     onSuccess: (data) => {
       setLoginState(data);
       if (data.is_staff) {
-        router.push('/member/my-page/');
+        router.push('/admin/tasks/');
       } else {
         router.push('/member/my-page/');
       }
     },
-    onError: (error) => {
-      toast.error(error.message);
+    onError: (error: AxiosError) => {
+      // @ts-ignore
+      toast.error(String(error.response?.data?.error));
       setLoginState(null);
     },
   });

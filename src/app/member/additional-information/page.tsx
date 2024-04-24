@@ -23,7 +23,7 @@ type InterviewQuestionType = {
 };
 export default function page({}: Props) {
   const { isPending } = useMutation({
-    mutationFn: () => axios.get('/'),
+    mutationFn: () => axios.get(`${BASE_URL}/`),
   });
   const {
     register,
@@ -70,9 +70,8 @@ export default function page({}: Props) {
         <div className='flex items-center'>
           <div className='w-[150px] text-sm'>사진 등록</div>
           <input
-            type='password'
-            placeholder='********'
-            className='input input-bordered w-full'
+            type='file'
+            className='file-input file-input-bordered w-full max-w-xs'
             {...register('photo')}
           />
         </div>
@@ -89,7 +88,7 @@ export default function page({}: Props) {
                 <input
                   type='checkbox'
                   className='checkbox checkbox-warning'
-                  {...register(language.name)}
+                  {...register(`language_${language.id}`)}
                 />
               </label>
             ))}
@@ -110,7 +109,7 @@ export default function page({}: Props) {
                   <input
                     type='checkbox'
                     className='checkbox checkbox-accent'
-                    {...register(specialization.name)}
+                    {...register(`specialization_${specialization.id}`)}
                   />
                 </label>
               )
@@ -130,7 +129,7 @@ export default function page({}: Props) {
                 <input
                   type='checkbox'
                   className='checkbox checkbox-success'
-                  {...register(style.name)}
+                  {...register(`style_${style.id}`)}
                 />
               </label>
             ))}
@@ -147,6 +146,7 @@ export default function page({}: Props) {
               <textarea
                 className='textarea textarea-bordered h-24 w-full'
                 placeholder='주요역서'
+                {...register('major_works')}
               />
             </label>
           </div>
@@ -158,6 +158,7 @@ export default function page({}: Props) {
               <textarea
                 className='textarea textarea-bordered h-24 w-full'
                 placeholder='약력'
+                {...register('biography')}
               />
             </label>
           </div>
@@ -169,6 +170,7 @@ export default function page({}: Props) {
               <textarea
                 className='textarea textarea-bordered h-24 w-full'
                 placeholder='역서'
+                {...register('works')}
               />
             </label>
           </div>
@@ -187,6 +189,7 @@ export default function page({}: Props) {
                 <input
                   type='textarea'
                   className='textarea textarea-bordered textarea-lg w-full'
+                  {...register(`question_${id}`)}
                 />
               </div>
             ))}
@@ -203,7 +206,7 @@ export default function page({}: Props) {
               <input
                 type='checkbox'
                 className='checkbox'
-                {...register('is_allowed')}
+                {...register('is_public')}
               />
             </label>
           </div>
