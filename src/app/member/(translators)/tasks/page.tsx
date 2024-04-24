@@ -47,12 +47,12 @@ export default async function TasksPage({
   return (
     <div className='flex flex-col items-center py-10'>
       <SearchForm />
-      <OrderTable data={data} />
+      <TasksTable data={data} />
     </div>
   );
 }
 
-async function OrderTable({ data }: { data: any }) {
+async function TasksTable({ data }: { data: any }) {
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
       <h2 className='text-lg font-semibold pb-8'>번역가 수주 게시판</h2>
@@ -66,6 +66,7 @@ async function OrderTable({ data }: { data: any }) {
               <TableCell align='center' sx={{ fontWeight: 700 }}>
                 제목
               </TableCell>
+
               <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
                 링크
               </TableCell>
@@ -90,9 +91,7 @@ async function OrderTable({ data }: { data: any }) {
                   <Link
                     className='link link-neutral hover:font-semibold '
                     href={`/member/tasks/${task.id}`}>
-                    {`${task.title} ${
-                      task.count_comments > 0 ? ` (${task.count_comments})` : ''
-                    }`}
+                    {`${task.title}`}
                   </Link>
                 </TableCell>
                 <TableCell align='center'>

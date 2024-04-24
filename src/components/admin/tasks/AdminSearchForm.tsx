@@ -5,13 +5,14 @@ import { FormEvent, useState } from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
 
 type Props = {};
+
 type FilterType = {
   en: boolean;
   jp: boolean;
 };
-
 type StatusType = '' | 'open' | 'closed,completed' | 'testing';
-export default function SearchForm({}: Props) {
+
+export default function AdminSearchForm({}: Props) {
   const [status, setStatus] = useState<StatusType>('');
   const [query, setQuery] = useState('');
   const [languageFilter, setLanguageFilter] = useState<FilterType>({
@@ -27,7 +28,7 @@ export default function SearchForm({}: Props) {
       .map(([key]) => key);
     const language = activeFilters.join(',');
     router.push(
-      `/member/tasks?page=1&query=${query}&language=${language}&status=${status}`
+      `/admin/tasks?page=1&query=${query}&language=${language}&status=${status}`
     );
   };
 
