@@ -1,18 +1,36 @@
 'use client';
 
+import { TaskDetail } from '@/app/admin/tasks/[task_id]/page';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-
 type Props = {};
 
 export default function page({}: Props) {
   const router = useRouter();
+  const { task_id } = useParams();
+
+  const token = useToken();
+  const { data, isSuccess } = useQuery({
+    queryKey: ['taskDetail', task_id],
+    queryFn: () =>
+      axios
+        .get(`${BASE_URL}/tasks/${task_id}/`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => {
+          return res.data as TaskDetail;
+        }),
+    staleTime: 30,
+  });
   const {
     register,
     handleSubmit,
@@ -20,13 +38,22 @@ export default function page({}: Props) {
     setValue,
     formState: { errors },
   } = useForm<any>();
-  const token = useToken();
 
-  const { mutateAsync: postTask } = useMutation({
+  useEffect(() => {
+    if (isSuccess) {
+      setValue('status', data?.status);
+      setValue('title', data?.title);
+      setValue('language', data?.language);
+      setValue('link', data?.link);
+      setValue('content', data?.content);
+    }
+  }, [data, isSuccess, setValue]);
+
+  const { mutateAsync: putTask } = useMutation({
     mutationFn: (payload: any) =>
       axios
-        .post(
-          `${BASE_URL}/tasks/`,
+        .put(
+          `${BASE_URL}/tasks/${task_id}/`,
           { ...payload },
           {
             headers: {
@@ -36,18 +63,18 @@ export default function page({}: Props) {
         )
         .then((res) => res.data),
     onSuccess: (res) => {
-      toast.success('등록에 성공했습니다.');
+      toast.success('수정되었습니다.');
       router.push(`/admin/tasks/${res.id}`);
     },
     onError: (error) => toast.error(error.message),
   });
   const onValid = (data: any) => {
     console.log(data);
-    postTask(data);
+    putTask(data);
   };
   return (
     <section>
-      <h1 className='text-2xl my-10'>글쓰기</h1>
+      <h1 className='text-2xl my-10'>수정하기</h1>
       <form
         action=''
         className='flex flex-col'
@@ -99,7 +126,7 @@ export default function page({}: Props) {
           </li>
         </ul>
         <div className='space-x-3 self-end my-10'>
-          <button className='btn btn-neutral'>등록하기</button>
+          <button className='btn btn-neutral'>수정하기</button>
           <Link href='/admin/tasks' className='btn btn-outline'>
             목록
           </Link>

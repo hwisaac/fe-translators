@@ -1,6 +1,11 @@
 type Props = {};
 
-export default function LanguageBadge({ language }: { language: 'en' | 'jp' }) {
+export default function LanguageBadge({
+  language,
+}: {
+  language?: 'en' | 'jp';
+}) {
+  if (!language) return null;
   if (language === 'en') {
     return (
       <span className='border rounded-full border-blue-800 text-blue-800 text-sm px-2 py-1'>

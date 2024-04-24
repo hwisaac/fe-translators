@@ -59,9 +59,9 @@ export default function page({}) {
         {formatTextField(data?.content)}
       </div>
       <Comments comments={data?.comments} />
-      <span onClick={() => router.push('/member/tasks')} className='btn'>
+      <Link href='/member/tasks' className='btn'>
         목록
-      </span>
+      </Link>
     </div>
   );
 }
