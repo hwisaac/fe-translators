@@ -6,7 +6,7 @@ import { ChangeEvent } from 'react';
 
 type Props = { count: number };
 
-export default function TasksPagination({ count }: Props) {
+export default function MemberTasksPagination({ count }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 

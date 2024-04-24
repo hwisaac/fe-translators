@@ -10,10 +10,10 @@ import Link from 'next/link';
 import formatDate from '@/utils/formatDate';
 import BASE_URL from '@/utils/BASE_URL';
 import { NoticeType } from '@/components/my-page/MyNotices';
-import TasksPagination from '@/components/member/tasks/TasksPagination';
 
 import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 import AdminSearchForm from '@/components/admin/tasks/AdminSearchForm';
+import AdminTasksPagination from '@/components/admin/tasks/AdminTasksPagination';
 type Props = {
   searchParams: {
     page: string;
@@ -130,7 +130,7 @@ async function AdminTasksTable({ data }: { data: any }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <TasksPagination count={data.total_pages} />
+      <AdminTasksPagination count={data.total_pages} />
     </section>
   );
 }

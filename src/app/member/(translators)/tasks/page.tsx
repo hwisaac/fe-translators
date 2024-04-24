@@ -10,7 +10,7 @@ import Link from 'next/link';
 import formatDate from '@/utils/formatDate';
 import BASE_URL from '@/utils/BASE_URL';
 import { NoticeType } from '@/components/my-page/MyNotices';
-import TasksPagination from '@/components/member/tasks/TasksPagination';
+import TasksPagination from '@/components/member/tasks/MemberTasksPagination';
 import SearchForm from '@/components/member/tasks/SearchForm';
 import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 type Props = {
