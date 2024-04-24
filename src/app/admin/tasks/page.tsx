@@ -96,7 +96,7 @@ async function AdminTasksTable({ data }: { data: any }) {
                 <TableCell align='left'>
                   <Link
                     className='link link-neutral hover:font-semibold '
-                    href={`/member/tasks/${task.id}`}>
+                    href={`/admin/tasks/${task.id}`}>
                     {task.title}
                   </Link>
                 </TableCell>
