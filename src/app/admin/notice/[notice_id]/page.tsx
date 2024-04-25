@@ -15,7 +15,7 @@ type NoticeData = {
     content: string;
     created_at: string;
     updated_at: string;
-    file: any[];
+    file: string;
   };
   previous: {
     id: number;
@@ -29,7 +29,7 @@ type NoticeData = {
   };
 };
 export const FILE_URL = 'http://127.0.0.1:8000';
-export function formatTextField(text?: string | null): any {
+function formatTextField(text?: string | null): any {
   if (!text) return <p></p>;
   return text
     .split('\n')
@@ -40,6 +40,7 @@ export default async function page({ params: { notice_id } }: any) {
   const data = await fetch(`${BASE_URL}/notices/${notice_id}/`, {
     cache: 'no-cache',
   }).then((res) => res.json());
+
   console.log(data);
   //   const { notice_id } = useParams();
 
@@ -53,20 +54,23 @@ export default async function page({ params: { notice_id } }: any) {
 
   return (
     <div className='flex flex-col py-10'>
+      <Link href='/admin/notice/write' className='btn btn-neutral self-end'>
+        공지사항 등록
+      </Link>
       <div className='flex justify-between items-center border-b border-b-slate-700 px-4 py-2 mb-3'>
         <h2 className='text-semibold text-2xl'>{data?.notice.title}</h2>{' '}
         <p>{formatDate(data?.notice?.created_at)}</p>
       </div>
       <div className={`flex items-center gap-3 border-b pb-3`}>
-        <Link href={`/admin/notice/${notice_id}`} className='btn btn-sm'>
+        <Link href={`/admin/notice/${notice_id}/edit`} className='btn btn-sm'>
           수정
         </Link>
         <div className='btn btn-sm'>삭제</div>
         <Link
           href={`${FILE_URL}${data?.notice.file}`}
           target='_blank'
-          className={`btn btn-sm ${!data?.notice.file && 'hidden'}`}>
-          파일 다운로드
+          className={`btn btn-sm ${!data.notice.file && 'hidden'}`}>
+          파일 다운받기
         </Link>
       </div>
       <div className='border-b border-b-slate-700 py-10'>

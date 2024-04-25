@@ -63,11 +63,13 @@ async function NoticeTable({ page }: { page: number | string }) {
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 700 }}>번호</TableCell>
+              <TableCell sx={{ fontWeight: 700, width: 100 }} align='center'>
+                번호
+              </TableCell>
               <TableCell align='center' sx={{ fontWeight: 700 }}>
                 제목
               </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
+              <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
                 작성일
               </TableCell>
             </TableRow>
@@ -77,10 +79,10 @@ async function NoticeTable({ page }: { page: number | string }) {
               <TableRow
                 key={`${index}-rows`}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component='th' scope='row'>
+                <TableCell component='th' scope='row' align='center'>
                   {notice.id}
                 </TableCell>
-                <TableCell align='center'>
+                <TableCell align='left'>
                   <Link
                     className='link link-neutral hover:font-semibold'
                     href={`/member/notice/${notice.id}`}>

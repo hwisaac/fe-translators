@@ -1,5 +1,6 @@
 'use client';
 
+import { revalidateNoticeDetail } from '@/app/admin/notice/write/revalidateNoticeDetail';
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
@@ -35,8 +36,8 @@ export default function page({}: Props) {
         .then((res) => res.data),
     onSuccess: (res) => {
       toast.success('등록에 성공했습니다.');
-      //   revalidateTaskDetail(res.id);
-      //   router.push(`/admin/notice/${res.id}`);
+      revalidateNoticeDetail(res.id);
+      router.push(`/admin/notice/${res.id}`);
     },
     onError: (error) => toast.error(error.message),
   });
@@ -49,7 +50,7 @@ export default function page({}: Props) {
     }
 
     try {
-      const response = await postNotice(formData); // axios 설정을 multipart/form-data 로 해야함
+      const response = await postNotice(formData);
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -81,7 +82,7 @@ export default function page({}: Props) {
             />
           </li>
           <li className='flex items-center'>
-            <h5 className='w-[200px] shrink-0'>의뢰 내용</h5>
+            <h5 className='w-[200px] shrink-0'>내용</h5>
             <textarea
               className='textarea textarea-bordered w-full min-h-[500px] '
               {...register('content')}
@@ -90,7 +91,7 @@ export default function page({}: Props) {
         </ul>
         <div className='space-x-3 self-end my-10'>
           <button className='btn btn-neutral'>등록하기</button>
-          <Link href='/admin/tasks' className='btn btn-outline'>
+          <Link href='/admin/notice' className='btn btn-outline'>
             목록
           </Link>
         </div>

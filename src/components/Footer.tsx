@@ -4,7 +4,7 @@ import BASE_URL from '@/utils/BASE_URL';
 type Props = {};
 
 export default async function Footer({}: Props) {
-  const barun = await fetch(`${BASE_URL}/barun/`, { cache: 'no-store' })
+  const barun = await fetch(`${BASE_URL}/barun/`)
     .then((res) => res.json())
     .catch(console.error);
 
