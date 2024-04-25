@@ -24,6 +24,7 @@ type TaskDetail = {
   updated_at: string;
   content: string;
   comments: CommentType[];
+  status: 'open' | 'testing' | 'closed' | 'completed';
 };
 
 export function formatTextField(text?: string | null): any {
@@ -43,7 +44,7 @@ export default function page({}) {
       axios
         .get(`${BASE_URL}/tasks/${task_id}/`, {
           headers: {
-            Authorization: token,
+            Authorization: token, // member 는 토큰이 필요한 detail 페이지를 가짐
           },
         })
         .then((res) => {
@@ -59,7 +60,7 @@ export default function page({}) {
       <div className='border-b border-b-slate-700 py-10'>
         {formatTextField(data?.content)}
       </div>
-      <MemberComments comments={data?.comments} />
+      <MemberComments comments={data?.comments} status={data?.status} />
       <Link href='/member/tasks' className='btn'>
         목록
       </Link>

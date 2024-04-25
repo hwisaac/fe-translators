@@ -1,11 +1,13 @@
 'use client';
 
+import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDateTime from '@/utils/formatDateTime';
 import formatDateTimeWithMilliseconds from '@/utils/formatDateTimeWithMilliseconds';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { useParams } from 'next/navigation';
 import { FormEvent, LegacyRef, useEffect, useRef, useState } from 'react';
@@ -49,7 +51,7 @@ export default function AdminComments({ comments }: Props) {
   const [inputComment, setInputComment] = useState('');
 
   const { mutate: postComment } = useMutation({
-    mutationKey: ['add comment', task_id],
+    mutationKey: ['comments', task_id],
     mutationFn: (payload: any) =>
       axios.post(
         `${BASE_URL}/tasks/${task_id}/comments/`,
@@ -62,14 +64,19 @@ export default function AdminComments({ comments }: Props) {
       ),
     onSuccess: () => {
       toast.success('신청되었습니다.');
-      queryClient.invalidateQueries({
-        queryKey: ['taskDetail', task_id],
-      });
+      // queryClient.invalidateQueries({
+      //   queryKey: ['taskDetail', task_id],
+      // });
+      // revalidateMyPage();
     },
     onError: (err) => {
       toast.error(err.message);
     },
   });
+  const revalidateMyPage = async () => {
+    'use server';
+    revalidatePath('/member/my-page');
+  };
 
   const addComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -113,7 +120,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
   const token = useToken();
   const [reply, setReply] = useState('');
   const { mutateAsync: addReply } = useMutation({
-    mutationKey: ['addReply', comment.id],
+    mutationKey: ['comments', task_id],
     mutationFn: (payload: any) =>
       axios.post(
         `${BASE_URL}/comments/${comment.id}/reply/`,
@@ -128,6 +135,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       queryClient.invalidateQueries({
         queryKey: ['taskDetail', task_id],
       });
+      revalidateTaskDetail(task_id);
       toast.success('대댓글이 작성되었습니다.');
     },
     onError: (error) => {
@@ -150,6 +158,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       queryClient.invalidateQueries({
         queryKey: ['taskDetail', task_id],
       });
+      revalidateTaskDetail(task_id);
       toast.success('수정되었습니다.');
     },
     onError: (error) => {
@@ -158,7 +167,8 @@ function CommentItem({ comment }: { comment: CommentType }) {
   });
 
   const { mutateAsync: deleteComment } = useMutation({
-    mutationKey: ['delete', comment.id],
+    mutationKey: ['comments', task_id],
+    // mutationKey: ['delete', comment.id],
     mutationFn: () =>
       axios.delete(`${BASE_URL}/comments/${comment.id}/`, {
         headers: {
@@ -169,6 +179,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       queryClient.invalidateQueries({
         queryKey: ['taskDetail', task_id],
       });
+      revalidateTaskDetail(task_id);
       toast.success('삭제 되었습니다.');
     },
     onError: (error) => {

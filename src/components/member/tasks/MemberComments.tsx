@@ -1,5 +1,6 @@
 'use client';
 
+import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDateTime from '@/utils/formatDateTime';
@@ -40,9 +41,10 @@ type CommentStatusType =
   | 'completed';
 type Props = {
   comments?: CommentType[];
+  status?: 'open' | 'closed' | 'testing' | 'completed';
 };
 
-export default function MemberComments({ comments }: Props) {
+export default function MemberComments({ comments, status }: Props) {
   const { task_id } = useParams();
   const token = useToken();
   const queryClient = useQueryClient();
@@ -73,6 +75,7 @@ export default function MemberComments({ comments }: Props) {
 
   const addComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    revalidateTaskDetail(String(task_id));
     if (inputComment.length < 10) {
       return toast.error('10자 이상 입력해주세요');
     }
@@ -84,7 +87,9 @@ export default function MemberComments({ comments }: Props) {
 
   return (
     <>
-      <form className='join flex my-10' onSubmit={(event) => addComment(event)}>
+      <form
+        className={`join flex my-10 ${status === 'open' ? '' : 'hidden'}`}
+        onSubmit={(event) => addComment(event)}>
         <input
           value={inputComment}
           onChange={(e) => setInputComment(e.currentTarget.value)}

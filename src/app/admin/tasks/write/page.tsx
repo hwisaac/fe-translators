@@ -1,5 +1,6 @@
 'use client';
 
+import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
@@ -37,6 +38,7 @@ export default function page({}: Props) {
         .then((res) => res.data),
     onSuccess: (res) => {
       toast.success('등록에 성공했습니다.');
+      revalidateTaskDetail(res.id);
       router.push(`/admin/tasks/${res.id}`);
     },
     onError: (error) => toast.error(error.message),

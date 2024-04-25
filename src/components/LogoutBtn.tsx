@@ -23,7 +23,9 @@ export default function LogoutBtn({}: Props) {
   if (!show) return null; // show가 false면 null 반환, 버튼 숨김
   return (
     <div
-      className={`btn btn-sm my-auto ${loginState === null ? 'hidden' : ''}`}
+      className={`btn btn-sm my-auto ${loginState === null ? 'hidden' : ''} ${
+        loginState?.is_staff ? 'btn-outline btn-primary' : ''
+      }`}
       onClick={handleClick}>
       <IoLogOutOutline />
       로그아웃({`${loginState?.username}`})
