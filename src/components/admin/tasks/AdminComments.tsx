@@ -2,6 +2,8 @@
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useToken from '@/app/hooks/useToken';
+import TranslatorBadgeBtn from '@/components/admin/tasks/TranslatorBadgeBtn';
+import { ReplyType } from '@/components/member/tasks/MemberComments';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDateTime from '@/utils/formatDateTime';
 import formatDateTimeWithMilliseconds from '@/utils/formatDateTimeWithMilliseconds';
@@ -15,7 +17,21 @@ import { IoMdReturnRight } from 'react-icons/io';
 import { toast } from 'react-toastify';
 
 export type CommentType = {
-  author: string;
+  author: {
+    birth_date: string;
+    email: string;
+    gender: 'female' | 'male';
+    id: number;
+    name: string;
+    pen_name: string;
+    username: string;
+    subscribed: 'email' | 'kakao' | 'none';
+    styles: string[];
+    languages: string[];
+    specializations: string[];
+    tags: string[];
+    phone: string;
+  };
   content: string;
   created_at: string;
   updated_at: string;
@@ -24,22 +40,13 @@ export type CommentType = {
   status: CommentStatusType;
   replies: ReplyType[];
 };
-export type ReplyType = {
-  reply_id: number;
-  name: string;
-  comment_id: number;
-  content: string;
-  author: string;
-  created_at: string;
-  updated_at: string;
-};
+
 type CommentStatusType =
-  | 'available'
-  | 'applying'
-  | 'sample_translator'
-  | 'assigned_translator'
-  | 'assigned_to_other'
-  | 'completed';
+  | 'applying' // open 지원중
+  | 'sample_translator' // testing  -> 필요 (샘플번역가)
+  | 'assigned_translator' // completed  -> 필요 (담당 번역가)
+  | 'assigned_to_other' // testing -> 타 번역가에 샘플 할당
+  | 'completed'; // // completed -> 마감 - 타 번역가에 번역할당
 type Props = {
   comments?: CommentType[];
 };
@@ -51,7 +58,7 @@ export default function AdminComments({ comments }: Props) {
   const [inputComment, setInputComment] = useState('');
 
   const { mutate: postComment } = useMutation({
-    mutationKey: ['comments', task_id],
+    mutationKey: ['postComment', task_id],
     mutationFn: (payload: any) =>
       axios.post(
         `${BASE_URL}/tasks/${task_id}/comments/`,
@@ -64,19 +71,14 @@ export default function AdminComments({ comments }: Props) {
       ),
     onSuccess: () => {
       toast.success('신청되었습니다.');
-      // queryClient.invalidateQueries({
-      //   queryKey: ['taskDetail', task_id],
-      // });
-      // revalidateMyPage();
+      queryClient.invalidateQueries({
+        queryKey: ['taskDetail', task_id],
+      });
     },
     onError: (err) => {
       toast.error(err.message);
     },
   });
-  const revalidateMyPage = async () => {
-    'use server';
-    revalidatePath('/member/my-page');
-  };
 
   const addComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -135,7 +137,6 @@ function CommentItem({ comment }: { comment: CommentType }) {
       queryClient.invalidateQueries({
         queryKey: ['taskDetail', task_id],
       });
-      revalidateTaskDetail(task_id);
       toast.success('대댓글이 작성되었습니다.');
     },
     onError: (error) => {
@@ -158,7 +159,6 @@ function CommentItem({ comment }: { comment: CommentType }) {
       queryClient.invalidateQueries({
         queryKey: ['taskDetail', task_id],
       });
-      revalidateTaskDetail(task_id);
       toast.success('수정되었습니다.');
     },
     onError: (error) => {
@@ -167,8 +167,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
   });
 
   const { mutateAsync: deleteComment } = useMutation({
-    mutationKey: ['comments', task_id],
-    // mutationKey: ['delete', comment.id],
+    mutationKey: ['deleteComment', task_id],
     mutationFn: () =>
       axios.delete(`${BASE_URL}/comments/${comment.id}/`, {
         headers: {
@@ -215,9 +214,12 @@ function CommentItem({ comment }: { comment: CommentType }) {
       {/* <p className='badge badge-neutral'>샘플번역가</p> */}
       <CommentStatusBadge status={comment.status} />
       <div className='flex justify-between'>
-        <span className='text-slate-800 font-semibold'>{`${comment.name}(${comment.author})`}</span>
+        <TranslatorBadgeBtn comment={comment} />
+
         <span className='text-slate-500'>
-          {`${formatDateTimeWithMilliseconds(comment.created_at)}`}
+          {`${formatDateTimeWithMilliseconds(
+            comment.created_at
+          )} / ${formatDateTime(comment.updated_at)}`}
         </span>
       </div>
       {!editable ? (
@@ -322,9 +324,12 @@ const ReplyItem = ({ reply }: { reply: ReplyType }) => {
   return (
     <li className='rounded-md p-3 flex flex-col'>
       <div className='flex justify-between'>
-        <span className='flex items-center gap-3'>
+        <span
+          className={`flex items-center gap-3 ${
+            reply.author_is_staff ? 'text-green-800 font-bold' : ''
+          }`}>
           <IoMdReturnRight className='text-slate-400' />
-          {`${reply.name}(${reply.author})`}
+          {`${reply.author}(${reply.name})`}
         </span>
         <span className='text-slate-500'>
           {formatDateTime(reply.created_at)}
@@ -373,6 +378,6 @@ const CommentStatusBadge = ({ status }: { status: CommentStatusType }) => {
     case 'assigned_translator':
       return <p className='badge badge-primary'>담당 번역가</p>;
     default:
-      return null;
+      return <p className='badge badge-outline'>{status}</p>;
   }
 };

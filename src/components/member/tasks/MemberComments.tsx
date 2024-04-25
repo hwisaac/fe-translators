@@ -2,6 +2,7 @@
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useToken from '@/app/hooks/useToken';
+import { CommentType } from '@/components/admin/tasks/AdminComments';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDateTime from '@/utils/formatDateTime';
 import formatDateTimeWithMilliseconds from '@/utils/formatDateTimeWithMilliseconds';
@@ -13,16 +14,6 @@ import { FormEvent, LegacyRef, useEffect, useRef, useState } from 'react';
 import { IoMdReturnRight } from 'react-icons/io';
 import { toast } from 'react-toastify';
 
-export type CommentType = {
-  author: string;
-  content: string;
-  created_at: string;
-  updated_at: string;
-  name: string;
-  id: number;
-  status: CommentStatusType;
-  replies: ReplyType[];
-};
 export type ReplyType = {
   reply_id: number;
   name: string;
@@ -31,6 +22,7 @@ export type ReplyType = {
   author: string;
   created_at: string;
   updated_at: string;
+  author_is_staff: boolean;
 };
 type CommentStatusType =
   | 'available'
@@ -44,7 +36,7 @@ type Props = {
   status?: 'open' | 'closed' | 'testing' | 'completed';
 };
 
-export default function MemberComments({ comments, status }: Props) {
+export default function AdminComments({ comments, status }: Props) {
   const { task_id } = useParams();
   const token = useToken();
   const queryClient = useQueryClient();
@@ -209,7 +201,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       {/* <p className='badge badge-neutral'>샘플번역가</p> */}
       <CommentStatusBadge status={comment.status} />
       <div className='flex justify-between'>
-        <span className='text-slate-800 font-semibold'>{`${comment.name}(${comment.author})`}</span>
+        <span className='text-slate-800'>{`${comment.name}`}</span>
         <span className='text-slate-500'>
           {`${formatDateTimeWithMilliseconds(comment.created_at)}`}
         </span>
@@ -316,9 +308,16 @@ const ReplyItem = ({ reply }: { reply: ReplyType }) => {
   return (
     <li className='rounded-md p-3 flex flex-col'>
       <div className='flex justify-between'>
-        <span className='flex items-center gap-3'>
+        <span
+          className={`flex items-center gap-3 ${
+            reply.author_is_staff && 'font-black text-green-800'
+          }`}>
           <IoMdReturnRight className='text-slate-400' />
-          {`${reply.name}(${reply.author})`}
+          {`${
+            reply.author_is_staff
+              ? '관리자'
+              : `${reply.name}(${reply.reply_id})`
+          }`}
         </span>
         <span className='text-slate-500'>
           {formatDateTime(reply.created_at)}

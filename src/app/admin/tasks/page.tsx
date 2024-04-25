@@ -15,6 +15,8 @@ import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 import AdminSearchForm from '@/components/admin/tasks/AdminSearchForm';
 import AdminTasksPagination from '@/components/admin/tasks/AdminTasksPagination';
 import StatusBadge from '@/components/StatusBadge';
+import { formatLink } from '@/utils/formatLink';
+
 type Props = {
   searchParams: {
     page: string;
@@ -38,10 +40,7 @@ export default async function AdminTasksPage({
   const data = await fetch(
     `${BASE_URL}/tasks?page=${page ?? ''}&language=${language ?? ''}&query=${
       query ?? ''
-    }&status=${status ?? ''}&/`,
-    {
-      cache: 'no-cache',
-    }
+    }&status=${status ?? ''}&/`
   ).then((data) => data.json());
   return (
     <div className='flex flex-col items-center py-10'>
@@ -111,7 +110,7 @@ async function AdminTasksTable({ data }: { data: any }) {
                 <TableCell align='center'>
                   {task.link && (
                     <Link
-                      href={task.link}
+                      href={formatLink(task.link)}
                       target='_blank'
                       className='btn btn-sm'>
                       도서정보

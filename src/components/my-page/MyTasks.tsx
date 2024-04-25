@@ -155,7 +155,7 @@ function EvaluatedStatus({ task }: { task: TaskType }) {
         return '지원불가(샘플심사)';
       case 'closed':
         return '지원불가(마감)';
-      case 'closed':
+      case 'completed':
         return '지원불가(번역가선정)';
       default:
         return '버그(개발자문의)';

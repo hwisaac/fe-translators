@@ -1,7 +1,7 @@
 'use client';
 import useToken from '@/app/hooks/useToken';
+import { CommentType } from '@/components/admin/tasks/AdminComments';
 import MemberComments from '@/components/member/tasks/MemberComments';
-import { CommentType } from '@/components/member/tasks/MemberComments';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import { useQuery } from '@tanstack/react-query';

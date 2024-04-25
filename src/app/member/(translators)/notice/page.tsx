@@ -11,13 +11,13 @@ import formatDate from '@/utils/formatDate';
 import BASE_URL from '@/utils/BASE_URL';
 import { NoticeType } from '@/components/my-page/MyNotices';
 
-import NoticesPagination from '@/components/my-page/notices/NoticesPagination';
+import NoticesPagination from '@/components/my-page/notices/MemberNoticesPagination';
 
 type Props = {
   searchParams: { page: number };
 };
 
-export default function NoticePage({ searchParams: { page } }: Props) {
+export default function MemberNoticePage({ searchParams: { page } }: Props) {
   return (
     <div className='flex flex-col items-center py-10'>
       <SearchForm />
@@ -50,20 +50,6 @@ function SearchForm() {
   );
 }
 
-function SearchFilter() {
-  return (
-    <div className='flex gap-10'>
-      <label className='label cursor-pointer space-x-2'>
-        <input type='checkbox' className='checkbox' />
-        <span className='label-text'>영어</span>
-      </label>
-      <label className='label cursor-pointer space-x-2'>
-        <input type='checkbox' className='checkbox' />
-        <span className='label-text'>일어</span>
-      </label>
-    </div>
-  );
-}
 
 async function NoticeTable({ page }: { page: number | string }) {
   const data = await fetch(`${BASE_URL}/notices?page=${page}&/`, {
