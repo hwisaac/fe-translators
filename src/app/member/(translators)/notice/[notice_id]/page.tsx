@@ -2,6 +2,7 @@
 import { FILE_URL } from '@/app/admin/notice/[notice_id]/page';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
+import getImgUrl from '@/utils/getImgUrl';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
@@ -56,7 +57,7 @@ export default function page({}: Props) {
       </div>
       <div className={`flex items-center gap-3 border-b pb-3`}>
         <Link
-          href={`${FILE_URL}${data?.notice.file}`}
+          href={getImgUrl(data?.notice.file)}
           target='_blank'
           className={`btn btn-sm ${!data?.notice.file && 'hidden'}`}>
           파일 다운로드

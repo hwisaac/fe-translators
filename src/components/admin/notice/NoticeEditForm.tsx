@@ -1,5 +1,4 @@
 'use client';
-import { FILE_URL } from '@/app/admin/notice/[notice_id]/page';
 import { revalidateNoticeDetail } from '@/app/admin/notice/write/revalidateNoticeDetail';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';

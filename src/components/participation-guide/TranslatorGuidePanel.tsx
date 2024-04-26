@@ -46,6 +46,7 @@ export default function TranslatorGuidePanel({ value }: any) {
           layout='fill'
           objectFit='cover'
           className=''
+          placeholder='blur'
         />
         <div className='h-full backdrop-brightness-50 flex flex-col justify-end'>
           <div className='z-10 '>
@@ -87,6 +88,7 @@ export default function TranslatorGuidePanel({ value }: any) {
           layout='fill'
           objectFit='cover'
           className=''
+          placeholder='blur'
         />
         <div className='h-full backdrop-brightness-50 flex flex-col justify-end'>
           <div className='z-10 '>

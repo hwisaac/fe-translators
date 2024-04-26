@@ -1,25 +1,26 @@
-'use client';
 import PageLayout from '@/layouts/PageLayout';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Pagination from '@mui/material/Pagination';
+
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Button from '@mui/material/Button';
 import { FormEvent, useState } from 'react';
 import dummyImage from '@/utils/dummyImage';
 import Paper from '@mui/material/Paper';
+import { GetNewBooksType, NewBookType } from '@/components/home/SectionTwo';
+import BASE_URL from '@/utils/BASE_URL';
+import getImgUrl from '@/utils/getImgUrl';
+import Link from 'next/link';
+import NewBooksPagination from '@/components/new-books/NewBooksPagination';
+import NewBooksSearchForm from '@/components/new-books/NewBooksSearchForm';
 
-type Props = {};
+type Props = {
+  searchParams: { page: string; query: string; option: string };
+};
 
-type NewBookType = {
+type NewBookDetailType = {
   id: number | string;
   title: string;
   content: string;
@@ -29,52 +30,25 @@ type NewBookType = {
   thumbnail: string;
 };
 
-export default function page({}: Props) {
-  const [filter, setFilter] = useState('');
-
-  const handleFilter = (event: SelectChangeEvent) => {
-    setFilter(event.target.value);
-  };
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+export default async function page({
+  searchParams: { page, query, option },
+}: Props) {
+  const data: GetNewBooksType = await fetch(
+    `${BASE_URL}/new-books?page=${page || 1}&query=${query || ''}&option=${
+      option || ''
+    }&/`,
+    {
+      cache: 'no-cache',
+    }
+  ).then((res) => res.json());
 
   return (
     <PageLayout title='신간안내'>
-      <div className='flex items-center'>
-        <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id='demo-simple-select-standard-label'>필터</InputLabel>
-          <Select
-            labelId='demo-simple-select-standard-label'
-            id='demo-simple-select-standard'
-            value={filter}
-            onChange={handleFilter}
-            label='필터'>
-            <MenuItem value=''>None</MenuItem>
-            <MenuItem value={'title'}>제목</MenuItem>
-            <MenuItem value={'content'}>내용</MenuItem>
-            <MenuItem value={'titleContent'}>제목+내용</MenuItem>
-            <MenuItem value={'publisher'}>출판사</MenuItem>
-            <MenuItem value={'author'}>저자</MenuItem>
-            <MenuItem value={'translator'}>번역가</MenuItem>
-          </Select>
-        </FormControl>
-        <form
-          className='flex items-center gap-3'
-          onSubmit={(e) => handleSubmit(e)}>
-          <TextField
-            id='standard-basic'
-            label='검색어'
-            variant='standard'
-            sx={{ width: '400px' }}
-          />
-
-          <Button variant='contained' size='small' className='relative top-2'>
-            검색
-          </Button>
-        </form>
-      </div>
-      <NewBooksTable />
+      <NewBooksSearchForm />
+      <NewBooksTable
+        new_books={data?.new_books ?? []}
+        total_pages={data.total_pages}
+      />
     </PageLayout>
   );
 }
@@ -89,13 +63,13 @@ function createData(
   return { id, title, author, publisher, translator, thumbnail: dummyImage };
 }
 
-const rows = [
-  createData(1, '암기할 필요 없는 타로', '한스미디어', '미미코', '김수정'),
-  createData(2, '암기할 필요 없는 타로', '한스미디어', '미미코', '김수정'),
-  createData(3, '암기할 필요 없는 타로', '한스미디어', '미미코', '김수정'),
-];
-
-function NewBooksTable() {
+function NewBooksTable({
+  new_books,
+  total_pages,
+}: {
+  new_books: NewBookType[];
+  total_pages: number;
+}) {
   return (
     <section className='my-10'>
       <TableContainer component={Paper}>
@@ -110,25 +84,32 @@ function NewBooksTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {new_books.map((book) => (
               <TableRow
-                key={row.id}
+                key={book.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component='th' scope='row' align='center'>
-                  <img src={row.thumbnail} className='h-[100px]' />
+                  <Link href={`/new-books/${book.id}`}>
+                    <img
+                      src={getImgUrl(book.thumbnail)}
+                      className='h-[100px]'
+                    />
+                  </Link>
                 </TableCell>
-                <TableCell align='left'>{row.title}</TableCell>
-                <TableCell align='center'>{row.publisher}</TableCell>
-                <TableCell align='center'>{row.author}</TableCell>
-                <TableCell align='center'>{row.translator}</TableCell>
+                <TableCell align='left'>
+                  <Link href={`/new-books/${book.id}`} className='link'>
+                    {book.title}
+                  </Link>
+                </TableCell>
+                <TableCell align='center'>{book.publisher}</TableCell>
+                <TableCell align='center'>{book.author}</TableCell>
+                <TableCell align='center'>{book.translator}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <div className='w-full flex justify-center my-10'>
-        <Pagination count={3} />
-      </div>
+      <NewBooksPagination total_pages={total_pages} />
     </section>
   );
 }
