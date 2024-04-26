@@ -38,6 +38,7 @@ export type NoticeType = {
   title: string;
   id: number;
   created_at: string;
+  file: string;
 };
 
 type Props = {};

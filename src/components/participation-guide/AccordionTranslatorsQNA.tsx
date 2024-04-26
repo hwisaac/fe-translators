@@ -148,16 +148,27 @@ export default function AccordionTranslatorsQNA() {
     };
   return (
     <>
-      {qnas?.map((item, index) => (
-        <AccordionItem
-          key={index}
-          id={index}
-          question={item.question}
-          answer={item.answer}
-          expanded={expanded}
-          handleChange={handleChange}
-        />
-      ))}
+      {qnas && qnas?.length > 0
+        ? qnas.map((item, index) => (
+            <AccordionItem
+              key={index}
+              id={index}
+              question={item.question}
+              answer={item.answer}
+              expanded={expanded}
+              handleChange={handleChange}
+            />
+          ))
+        : accordionItems.map((item, index) => (
+            <AccordionItem
+              key={index}
+              id={index}
+              question={item.question}
+              answer={item.answer}
+              expanded={expanded}
+              handleChange={handleChange}
+            />
+          ))}
     </>
   );
 }

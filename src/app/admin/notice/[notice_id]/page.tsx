@@ -41,17 +41,6 @@ export default async function page({ params: { notice_id } }: any) {
     cache: 'no-cache',
   }).then((res) => res.json());
 
-  console.log(data);
-  //   const { notice_id } = useParams();
-
-  //   const { data } = useQuery({
-  //     queryKey: ['notice_detail', notice_id],
-  //     queryFn: () =>
-  //       axios
-  //         .get(`${BASE_URL}/notices/${notice_id}/`)
-  //         .then((res) => res.data as NoticeData),
-  //   });
-
   return (
     <div className='flex flex-col py-10'>
       <Link href='/admin/notice/write' className='btn btn-neutral self-end'>
@@ -69,8 +58,8 @@ export default async function page({ params: { notice_id } }: any) {
         <Link
           href={`${FILE_URL}${data?.notice.file}`}
           target='_blank'
-          className={`btn btn-sm ${!data.notice.file && 'hidden'}`}>
-          파일 다운받기
+          className={`btn btn-sm btn-ghost ${!data.notice.file && 'hidden'}`}>
+          {data.notice.file.split('/')[3]}
         </Link>
       </div>
       <div className='border-b border-b-slate-700 py-10'>

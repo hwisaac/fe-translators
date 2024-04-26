@@ -22,6 +22,11 @@ export default function LoginForm({}: Props) {
         .post(`${BASE_URL}/users/login/`, data)
         .then((res) => res.data as LoginDataType),
     onSuccess: (data) => {
+      setLoginState(null);
+      if (!data) {
+        toast.error('데이터를 가져오는 데 실패했습니다.');
+        return;
+      }
       setLoginState(data);
       if (data.is_staff) {
         router.push('/admin/tasks/');

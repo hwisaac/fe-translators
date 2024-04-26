@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FaFile } from 'react-icons/fa';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -54,9 +55,10 @@ async function NoticeTable({ page }: { page: number | string }) {
     cache: 'no-cache',
   }).then((data) => data.json());
 
+  console.log(data);
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
-      <h2 className='text-lg font-semibold pb-8'>번역가 공지사항 관리</h2>
+      <h2 className='text-lg font-semibold pb-8'>공지사항(관리자용)</h2>
       <div className='w-full flex justify-end'>
         <Link href='/admin/notice/write' className='btn btn-neutral'>
           글쓰기
@@ -87,9 +89,12 @@ async function NoticeTable({ page }: { page: number | string }) {
                 </TableCell>
                 <TableCell align='left'>
                   <Link
-                    className='link link-neutral hover:font-semibold'
+                    className='link link-neutral hover:font-semibold flex items-center gap-2 group'
                     href={`/admin/notice/${notice.id}`}>
-                    {notice.title}
+                    {notice?.title}{' '}
+                    {notice?.file && (
+                      <FaFile className='inline text-slate-400 group-hover:text-slate-700' />
+                    )}
                   </Link>
                 </TableCell>
                 <TableCell align='center'>

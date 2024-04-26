@@ -23,280 +23,95 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import TranslatorSearchForm from '@/components/translators/TranslatorSearchForm';
+import Link from 'next/link';
+import { formatLink } from '@/utils/formatLink';
+import TranslatorPagination from '@/components/translators/TranslatorPagination';
+import BASE_URL from '@/utils/BASE_URL';
 
 type Props = {};
+type GetUsersType = {
+  page: number;
+  total_pages: number;
+  total_items: number;
+  users: UserType[];
+};
+type UserType = {
+  id: number;
+  username: string;
+  name: string;
+  pen_name: string;
+  major_works: string;
+  biography: string;
+  works: string;
+  is_public: true;
+  languages: string[];
+  styles: string[];
+  specializations: string[];
+  tags: string[];
+};
+export default async function page({}: Props) {
+  const data: GetUsersType = await fetch(`${BASE_URL}/users/`, {
+    cache: 'no-cache',
+  }).then((res) => res.json());
 
-export default function page({}: Props) {
-  const [filter, setFilter] = useState('');
-
-  const handleFilter = (event: SelectChangeEvent) => {
-    setFilter(event.target.value);
-  };
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  console.log(data);
 
   return (
     <PageLayout title='번역가 소개'>
-      <div className='flex items-center my-10'>
-        <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id='demo-simple-select-standard-label'>필터</InputLabel>
-          <Select
-            labelId='demo-simple-select-standard-label'
-            id='demo-simple-select-standard'
-            value={filter}
-            onChange={handleFilter}
-            label='필터'>
-            <MenuItem value=''>None</MenuItem>
-            <MenuItem value={'title'}>제목</MenuItem>
-            <MenuItem value={'content'}>내용</MenuItem>
-            <MenuItem value={'titleContent'}>제목+내용</MenuItem>
-            <MenuItem value={'publisher'}>출판사</MenuItem>
-            <MenuItem value={'author'}>저자</MenuItem>
-            <MenuItem value={'translator'}>번역가</MenuItem>
-          </Select>
-        </FormControl>
-        <form
-          className='flex items-center gap-3'
-          onSubmit={(e) => handleSubmit(e)}>
-          <TextField
-            id='standard-basic'
-            label='검색어'
-            variant='standard'
-            sx={{ width: '400px' }}
-          />
-
-          <Button variant='contained' size='small' className='relative top-2'>
-            검색
-          </Button>
-        </form>
-      </div>
-      <SearchFilters />
-      <TranslatorTable />
+      <TranslatorSearchForm />
+      <TranslatorTable data={data} />
     </PageLayout>
   );
 }
 
-function SearchFilters() {
+function TranslatorTable({ data }: { data: GetUsersType }) {
   return (
-    <section className='flex flex-col'>
-      <FormControl component='fieldset'>
-        <FormLabel component='legend'>언어별</FormLabel>
-        <FormGroup aria-label='position' row>
-          <FormControlLabel
-            value='english'
-            control={<Checkbox />}
-            label='영어'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='japanese'
-            control={<Checkbox />}
-            label='일어'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='german'
-            control={<Checkbox />}
-            label='독어'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='chinese'
-            control={<Checkbox />}
-            label='중국어'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='french'
-            control={<Checkbox />}
-            label='불어'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='etc'
-            control={<Checkbox />}
-            label='그 외 언어'
-            labelPlacement='end'
-          />
-        </FormGroup>
-      </FormControl>
-      <FormControl component='fieldset'>
-        <FormLabel component='legend'>분야별</FormLabel>
-        <FormGroup aria-label='position' row>
-          <FormControlLabel
-            value='humanitiesSocial'
-            control={<Checkbox />}
-            label='인문사회'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='economicsManagement'
-            control={<Checkbox />}
-            label='경제경영'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='selfImprovement'
-            control={<Checkbox />}
-            label='자기계발'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='literature'
-            control={<Checkbox />}
-            label='문학(소설/에세이)'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='scienceTechnology'
-            control={<Checkbox />}
-            label='과학/기술'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='healthHobby'
-            control={<Checkbox />}
-            label='건강/취미실용'
-            labelPlacement='end'
-          />
-          <FormControlLabel
-            value='childEducation'
-            control={<Checkbox />}
-            label='아동/자녀교육'
-            labelPlacement='end'
-          />
-        </FormGroup>
-      </FormControl>
+    <section className='py-10 flex flex-col w-full gap-3'>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ fontWeight: 700 }} align='center'>
+                번역가
+              </TableCell>
+              <TableCell align='center' sx={{ fontWeight: 700 }}>
+                언어
+              </TableCell>
+              <TableCell align='center' sx={{ fontWeight: 700 }}>
+                분야
+              </TableCell>
+              <TableCell align='center' sx={{ fontWeight: 700 }}>
+                주요 역서
+              </TableCell>
+              <TableCell align='center' sx={{ fontWeight: 700 }}></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data?.users?.map((user, index: number) => (
+              <TableRow
+                key={`${index}-rows`}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableCell component='th' scope='row' align='center'>
+                  {user.pen_name ? user.pen_name : user.name}
+                </TableCell>
+                <TableCell align='left'>{user.languages.join(', ')}</TableCell>
+                <TableCell align='center'>
+                  {user.specializations.join(', ')}
+                </TableCell>
+                <TableCell align='center'>{user.major_works}</TableCell>
+
+                <TableCell align='center'>
+                  <Link href={`/translators/${user.id}`} className='btn btn-sm'>
+                    상세정보
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TranslatorPagination count={data.total_pages} />
     </section>
-  );
-}
-
-const columns: GridColDef[] = [
-  { field: 'id', headerName: '아이디', width: 70 },
-  { field: 'name', headerName: '이름', width: 130 },
-  { field: 'language', headerName: '언어', width: 130 },
-  {
-    field: 'email',
-    headerName: '이메일',
-    width: 90,
-  },
-  {
-    field: 'major',
-    headerName: '분야',
-    sortable: false,
-    width: 160,
-  },
-  {
-    field: 'portfolio',
-    headerName: '주요 역서',
-    sortable: false,
-    width: 160,
-  },
-];
-
-const rows = [
-  {
-    id: 1,
-    name: 'Snow',
-    email: 'Jon',
-    birth: '19850614',
-    language: '영어',
-    major: '인문사회',
-    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
-  },
-  {
-    id: 2,
-    name: 'Lannister',
-    email: 'Cersei',
-    birth: '19850614',
-    language: '영어',
-    major: '인문사회',
-    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
-  },
-  {
-    id: 3,
-    name: 'Lannister',
-    email: 'Jaime',
-    birth: '19850614',
-    language: '영어',
-    major: '인문사회',
-    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
-  },
-  {
-    id: 4,
-    name: 'Stark',
-    email: 'Arya',
-    birth: '19850614',
-    language: '영어',
-    major: '인문사회',
-    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
-  },
-  {
-    id: 5,
-    name: 'Targaryen',
-    email: 'Daenerys',
-    birth: '19850614',
-    language: '영어',
-
-    major: '인문사회',
-    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
-  },
-  {
-    id: 6,
-    name: 'Melisandre',
-    email: null,
-    birth: '19850614',
-    language: '영어',
-
-    major: '인문사회',
-    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
-  },
-  {
-    id: 7,
-    name: 'Clifford',
-    email: 'Ferrara',
-    birth: '19850614',
-    language: '영어',
-
-    major: '인문사회',
-    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
-  },
-  {
-    id: 8,
-    name: 'Frances',
-    email: 'Rossini',
-    birth: '19850614',
-    language: '영어',
-
-    major: '인문사회',
-    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
-  },
-  {
-    id: 9,
-    name: 'Roxie',
-    email: 'Harvey',
-    birth: '19850614',
-    language: '영어',
-
-    major: '인문사회',
-    portfolio: '나는 사랑받는 실험을 시작했다 번역 중',
-  },
-];
-
-function TranslatorTable() {
-  return (
-    <div style={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-      />
-    </div>
   );
 }

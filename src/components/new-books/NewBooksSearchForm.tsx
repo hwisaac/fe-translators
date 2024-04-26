@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 type Props = {};
 
 export default function NewBooksSearchForm({}: Props) {
-  const [option, setOption] = useState('');
+  const [option, setOption] = useState('title');
   const [query, setQuery] = useState('');
   const router = useRouter();
   const handleOption = (event: SelectChangeEvent) => {
@@ -34,7 +34,6 @@ export default function NewBooksSearchForm({}: Props) {
           value={option}
           onChange={handleOption}
           label='옵션'>
-          <MenuItem value=''>None</MenuItem>
           <MenuItem value={'title'}>제목</MenuItem>
           <MenuItem value={'description'}>내용</MenuItem>
           <MenuItem value={'publisher'}>출판사</MenuItem>
