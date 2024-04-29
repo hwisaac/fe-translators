@@ -20,7 +20,6 @@ export default function NewBooksSearchForm({}: Props) {
   };
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(query, option);
     router.push(`/new-books?page=1&query=${query}&option=${option}`);
   };
 

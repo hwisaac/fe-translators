@@ -12,8 +12,10 @@ export default function TranslatorPagination({ count }: Props) {
   const searchParams = useSearchParams();
 
   const handleChange = (event: ChangeEvent<unknown>, page: number) => {
-    console.log(page);
-    // router.push(`/admin/tasks?page=${page}`);
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+
+    newSearchParams.set('page', String(page));
+    router.push(`/translators?${newSearchParams.toString()}`);
   };
   return (
     <Pagination

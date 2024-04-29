@@ -51,7 +51,6 @@ export default function page({}: Props) {
 
     try {
       const response = await postNotice(formData);
-      console.log(response);
     } catch (error) {
       console.error(error);
     }

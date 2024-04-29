@@ -7,13 +7,14 @@ import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import formatDateTime from '@/utils/formatDateTime';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import AdminComments, {
   CommentType,
 } from '@/components/admin/tasks/AdminComments';
 import { formatLink } from '@/utils/formatLink';
+import { toast } from 'react-toastify';
 
 type Props = {
   params: {
@@ -50,12 +51,17 @@ export default function page({}: Props) {
     queryKey: ['adminTaskDetail', task_id],
     queryFn: () =>
       axios
-        .get(`${BASE_URL}/tasks/${task_id}/`, {
+        .get(`${BASE_URL}/tasks/admin/${task_id}/`, {
           headers: {
             Authorization: token,
           },
         })
-        .then((res) => res.data as TaskDetail),
+        .then((res) => res.data as TaskDetail)
+        .catch((error: AxiosError) => {
+          if (error.response?.status === 401) {
+            toast.error('권한이 없습니다.');
+          }
+        }),
   });
 
   return (

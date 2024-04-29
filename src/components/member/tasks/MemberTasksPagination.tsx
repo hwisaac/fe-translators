@@ -11,8 +11,10 @@ export default function MemberTasksPagination({ count }: Props) {
   const searchParams = useSearchParams();
 
   const handleChange = (event: ChangeEvent<unknown>, page: number) => {
-    console.log(page);
-    router.push(`/member/tasks?page=${page}`);
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+
+    newSearchParams.set('page', String(page));
+    router.push(`/member/tasks?${newSearchParams.toString()}`);
   };
 
   return (

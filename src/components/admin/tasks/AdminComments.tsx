@@ -5,6 +5,7 @@ import useToken from '@/app/hooks/useToken';
 import TranslatorBadgeBtn from '@/components/admin/tasks/TranslatorBadgeBtn';
 import { ReplyType } from '@/components/member/tasks/MemberComments';
 import BASE_URL from '@/utils/BASE_URL';
+import { COMMENT_LIMIT } from '@/utils/commons';
 import formatDateTime from '@/utils/formatDateTime';
 import formatDateTimeWithMilliseconds from '@/utils/formatDateTimeWithMilliseconds';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -29,7 +30,7 @@ export type CommentType = {
     styles: string[];
     languages: string[];
     specializations: string[];
-    tags: string[];
+    tags: { name: string }[];
     phone: string;
   };
   content: string;
@@ -74,6 +75,7 @@ export default function AdminComments({ comments }: Props) {
       queryClient.invalidateQueries({
         queryKey: ['adminTaskDetail'],
       });
+      revalidateTaskDetail(task_id);
     },
     onError: (err) => {
       toast.error(err.message);
@@ -82,8 +84,8 @@ export default function AdminComments({ comments }: Props) {
 
   const addComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (inputComment.length < 10) {
-      return toast.error('10자 이상 입력해주세요');
+    if (inputComment.length < 5) {
+      return toast.error('5자 이상 입력해주세요');
     }
     postComment({
       content: inputComment,
@@ -138,6 +140,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
         queryKey: ['adminTaskDetail'],
       });
       toast.success('대댓글이 작성되었습니다.');
+      revalidateTaskDetail(task_id);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -159,7 +162,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       queryClient.invalidateQueries({
         queryKey: ['adminTaskDetail'],
       });
-      toast.success('수정되었습니다.');
+      toast.success('댓글이 수정되었습니다.');
     },
     onError: (error) => {
       toast.error(error.message);

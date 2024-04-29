@@ -44,7 +44,6 @@ export default function page({}: Props) {
     onError: (error) => toast.error(error.message),
   });
   const onValid = (data: any) => {
-    console.log(data);
     postTask(data);
   };
   return (

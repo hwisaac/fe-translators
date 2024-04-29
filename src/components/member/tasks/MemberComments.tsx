@@ -5,6 +5,7 @@ import useLoginData from '@/app/hooks/useLoginData';
 import useToken from '@/app/hooks/useToken';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
 import BASE_URL from '@/utils/BASE_URL';
+import { COMMENT_LIMIT } from '@/utils/commons';
 import formatDateTime from '@/utils/formatDateTime';
 import formatDateTimeWithMilliseconds from '@/utils/formatDateTimeWithMilliseconds';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -72,8 +73,8 @@ export default function AdminComments({ comments, status }: Props) {
   const addComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     revalidateTaskDetail(String(task_id));
-    if (inputComment.length < 10) {
-      return toast.error('10자 이상 입력해주세요');
+    if (inputComment.length < COMMENT_LIMIT) {
+      return toast.error(`${COMMENT_LIMIT}자 이상 입력해주세요`);
     }
     postComment({
       content: inputComment,
@@ -130,6 +131,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
         queryKey: ['taskDetail', task_id],
       });
       toast.success('대댓글이 작성되었습니다.');
+      revalidateTaskDetail(task_id);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -151,7 +153,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       queryClient.invalidateQueries({
         queryKey: ['taskDetail', task_id],
       });
-      toast.success('수정되었습니다.');
+      toast.success('댓글이 수정되었습니다.');
     },
     onError: (error) => {
       toast.error(error.message);
@@ -196,6 +198,10 @@ function CommentItem({ comment }: { comment: CommentType }) {
   }, [editable, commentRef.current]);
   const handleEditConfirm = (e: any) => {
     e.preventDefault();
+    if (commentInput.length < COMMENT_LIMIT) {
+      toast.error(`댓글은 ${COMMENT_LIMIT}자 이내로 수정 할 수 없습니다.`);
+      return;
+    }
     setEditable(false);
     editComment({ content: commentInput });
   };

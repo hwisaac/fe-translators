@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,6 +17,12 @@ import AdminSearchForm from '@/components/admin/tasks/AdminSearchForm';
 import AdminTasksPagination from '@/components/admin/tasks/AdminTasksPagination';
 import StatusBadge from '@/components/StatusBadge';
 import { formatLink } from '@/utils/formatLink';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import useToken from '@/app/hooks/useToken';
+import AdminTasksTable from '@/components/admin/tasks/AdminTasksTable';
+import { toast } from 'react-toastify';
+import { useSearchParams } from 'next/navigation';
 
 type Props = {
   searchParams: {
@@ -34,14 +41,39 @@ type TaskType = {
   link: string;
 };
 
-export default async function AdminTasksPage({
-  searchParams: { page, query, language, status },
-}: Props) {
-  const data = await fetch(
-    `${BASE_URL}/tasks?page=${page ?? ''}&language=${language ?? ''}&query=${
-      query ?? ''
-    }&status=${status ?? ''}&/`
-  ).then((data) => data.json());
+export default function AdminTasksPage() {
+  const token = useToken();
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page');
+  const query = searchParams.get('query');
+  const status = searchParams.get('status');
+  const language = searchParams.get('language');
+  // const data = await fetch(
+  // `${BASE_URL}/tasks/admin?page=${page ?? ''}&language=${
+  //   language ?? ''
+  // }&query=${query ?? ''}&status=${status ?? ''}&/`,
+  //   {
+  //     cache: 'no-cache',
+  //   }
+  // ).then((data) => data.json());
+
+  const { data } = useQuery({
+    queryKey: ['adminTasksList', page, query, status, language],
+    queryFn: () =>
+      axios
+        .get(
+          `${BASE_URL}/tasks/admin?page=${page ?? ''}&language=${
+            language ?? ''
+          }&query=${query ?? ''}&status=${status ?? ''}&/`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((res) => res.data)
+        .catch((error) => toast.error('권한이 없습니다')),
+  });
   return (
     <div className='flex flex-col items-center py-10'>
       <AdminSearchForm />
@@ -49,88 +81,3 @@ export default async function AdminTasksPage({
     </div>
   );
 }
-
-async function AdminTasksTable({ data }: { data: any }) {
-  return (
-    <section className='py-10 flex flex-col w-full gap-3'>
-      <h2 className='text-lg font-semibold pb-8'>관리자 수주 게시판</h2>
-      <div className='w-full flex justify-end'>
-        <Link href='/admin/tasks/write' className='btn btn-neutral'>
-          글쓰기
-        </Link>
-      </div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 700, width: 100 }} align='center'>
-                번호
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
-                제목
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700, width: 80 }}>
-                댓글 수
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
-                링크
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700, width: 100 }}>
-                언어
-              </TableCell>
-
-              <TableCell align='center' sx={{ fontWeight: 700, width: 230 }}>
-                상태
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.tasks?.map((task: TaskType, index: number) => (
-              <TableRow
-                key={`${index}-rows`}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component='th' scope='row' align='center'>
-                  {task.id}
-                </TableCell>
-                <TableCell align='left'>
-                  <Link
-                    className='link link-neutral hover:font-semibold '
-                    href={`/admin/tasks/${task.id}`}>
-                    {task.title}
-                  </Link>
-                </TableCell>
-                <TableCell align='center'>
-                  <span
-                    className={`${
-                      task.count_comments === 0 && 'text-slate-300'
-                    }`}>
-                    {task.count_comments}
-                  </span>
-                </TableCell>
-                <TableCell align='center'>
-                  {task.link && (
-                    <Link
-                      href={formatLink(task.link)}
-                      target='_blank'
-                      className='btn btn-sm'>
-                      도서정보
-                    </Link>
-                  )}
-                </TableCell>
-                <TableCell align='center'>
-                  <LanguageBadge language={task.language} />
-                </TableCell>
-
-                <TableCell align='center'>
-                  <StatusBadge status={task.status} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <AdminTasksPagination count={data.total_pages} />
-    </section>
-  );
-}
-

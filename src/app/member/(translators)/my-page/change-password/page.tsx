@@ -37,7 +37,6 @@ export default function page({}: Props) {
         }
       ),
     onSuccess: (res) => {
-      console.log(res);
       toast.success('비밀번호가 변경되었습니다.');
       router.push('/member/my-page');
     },
@@ -58,11 +57,10 @@ export default function page({}: Props) {
       return;
     }
     changePassword(data);
-    console.log(data);
   };
 
   useEffect(() => {
-    console.log(errors.old_password);
+
     if (errors.old_password) {
       toast.error(`기존 패스워드: ${errors.old_password.message}`);
     }

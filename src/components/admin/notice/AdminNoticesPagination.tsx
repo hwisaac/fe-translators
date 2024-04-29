@@ -12,8 +12,10 @@ export default function AdminNoticesPagination({ count }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const handleChange = (event: ChangeEvent<unknown>, page: number) => {
-    console.log(page);
-    router.push(`/admin/notice?page=${page}`);
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+
+    newSearchParams.set('page', String(page));
+    router.push(`/admin/notice?${newSearchParams.toString()}`);
   };
   return (
     <Pagination

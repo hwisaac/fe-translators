@@ -1,4 +1,3 @@
-'use client';
 import PageLayout from '@/layouts/PageLayout';
 import Box from '@mui/material/Box';
 import FormLabel from '@mui/material/FormLabel';
@@ -29,7 +28,9 @@ import { formatLink } from '@/utils/formatLink';
 import TranslatorPagination from '@/components/translators/TranslatorPagination';
 import BASE_URL from '@/utils/BASE_URL';
 
-type Props = {};
+type Props = {
+  searchParams: { page: string };
+};
 type GetUsersType = {
   page: number;
   total_pages: number;
@@ -50,12 +51,10 @@ type UserType = {
   specializations: string[];
   tags: string[];
 };
-export default async function page({}: Props) {
-  const data: GetUsersType = await fetch(`${BASE_URL}/users/`, {
+export default async function page({ searchParams: { page } }: Props) {
+  const data: GetUsersType = await fetch(`${BASE_URL}/users?page=${page}`, {
     cache: 'no-cache',
   }).then((res) => res.json());
-
-  console.log(data);
 
   return (
     <PageLayout title='번역가 소개'>
@@ -93,7 +92,9 @@ function TranslatorTable({ data }: { data: GetUsersType }) {
                 key={`${index}-rows`}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component='th' scope='row' align='center'>
-                  {user.pen_name ? user.pen_name : user.name}
+                  <Link href={`/translators/${user.id}`}>
+                    {user.pen_name ? user.pen_name : user.name}
+                  </Link>
                 </TableCell>
                 <TableCell align='left'>{user.languages.join(', ')}</TableCell>
                 <TableCell align='center'>
@@ -103,7 +104,7 @@ function TranslatorTable({ data }: { data: GetUsersType }) {
 
                 <TableCell align='center'>
                   <Link href={`/translators/${user.id}`} className='btn btn-sm'>
-                    상세정보
+                    자세히
                   </Link>
                 </TableCell>
               </TableRow>

@@ -10,7 +10,7 @@ type Props = {
 export default function TranslatorBadgeBtn({ comment }: Props) {
   if (!comment) return null;
   const author = comment.author;
-  console.log(author);
+  console.log(author, 'author');
   const handleCopy = (text: string) => {
     navigator.clipboard
       .writeText(text)
@@ -23,12 +23,23 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
   };
   return (
     <div className='dropdown'>
-      <div
-        tabIndex={0}
-        role='button'
-        className={`btn btn-sm btn-ghost ${
-          author.gender === 'male' ? 'text-blue-800' : 'text-pink-700'
-        }`}>{`${author.username}(${author.name})`}</div>
+      <div className='flex items-center'>
+        <div
+          tabIndex={0}
+          role='button'
+          className={`btn btn-sm btn-ghost ${
+            author.gender === 'male' ? 'text-blue-800' : 'text-pink-700'
+          }`}>{`${author.username}(${author.name})`}</div>
+        <ul className='flex gap-1'>
+          {author?.tags?.map((tags, index) => (
+            <li
+              key={`${index}${author.name}${comment.id}-tag`}
+              className='text-sm rounded-full px-2 py-1 border'>
+              # {tags.name}
+            </li>
+          ))}
+        </ul>
+      </div>
       <ul
         tabIndex={0}
         className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box min-w-[300px]'>
@@ -55,8 +66,13 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
             </span>
           </li>
         )}
+        {author.tags.length > 0 && (
+          <li>
+            <p>{author.tags.map(({ name }: any) => `#${name}`).join(' ')}</p>
+          </li>
+        )}
         <li>
-          <p>{author.tags.map(({ name }: any) => `#${name}`).join(' ')}</p>
+          <p>상세 정보</p>
         </li>
       </ul>
     </div>

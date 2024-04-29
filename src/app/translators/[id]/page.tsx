@@ -1,16 +1,23 @@
 import PageLayout from '@/layouts/PageLayout';
+import BASE_URL from '@/utils/BASE_URL';
 import dummyImage from '@/utils/dummyImage';
+import getImgUrl from '@/utils/getImgUrl';
 import img from '@/utils/img';
 import Image from 'next/image';
+import Link from 'next/link';
 
-type Props = {};
+type Props = {
+  params: {
+    id: string;
+  };
+};
 
 function IntroItem({ title, desc }: any) {
   if (typeof desc === 'string') {
     return (
       <li className='grid grid-cols-[100px_1fr]'>
         <div className='text-blue-500 font-semibold'>{title}</div>
-        <div>{desc}</div>
+        <div className=' whitespace-pre'>{desc}</div>
       </li>
     );
   }
@@ -28,94 +35,83 @@ function IntroItem({ title, desc }: any) {
     </li>
   );
 }
-const history = [
-  '세종대학교 식품공학 전공',
-  '사이버한국외국어대학교 일본어, 한국어교육 전공',
-  '중앙일보 조인스닷컴 뉴스 및 여성잡지 온라인 콘텐츠 서비스 업무 담당',
-  '홍대 게스트하우스 운영',
-  '바른번역 글밥아카데미 일본어 출판번역과정 수료',
-  '한겨레문화센터 김경원의 일본어 논픽션 번역 입문 수강',
-  '▸한국어교원 2급',
-  '▸사이버한국외국어대학교 제7회 해외문학번역대회 장려상',
-];
-export default function page({}: Props) {
+type TranslatorDetailDataType = {
+  id: number;
+  username: string;
+  pen_name: string;
+  name: string;
+  is_public: boolean;
+  birth_date: string;
+  email: string;
+  photo: null | string;
+  gender: 'female' | 'male';
+  major_works: string;
+  biography: string;
+  works: string;
+  languages: string[];
+  styles: string[];
+  specializations: string[];
+  interviews: {
+    question: string;
+    answer: string;
+  }[];
+};
+
+export default async function page({ params }: Props) {
+  const data: TranslatorDetailDataType = await fetch(
+    `${BASE_URL}/users/${params.id}/`,
+    {
+      cache: 'no-cache',
+    }
+  ).then((res) => res.json());
+
   return (
     <PageLayout title='번역가 소개'>
-      <h2>번역가 소개</h2>
-      <div className='w-full h-1 bg-black' />
+      <Link href='/translators' className='btn btn-sm ml-10'>
+        목록
+      </Link>
       <div className='flex'>
-        <div className='w-[200px] h-[250px] bg-yellow-400 m-10 relative'>
-          <Image
-            src={dummyImage}
-            alt='profile_picture'
-            layout='fill'
-            objectFit='cover'
-          />
+        <div className='w-[200px] h-[250px] bg-slate-100 m-10 relative'>
+          {getImgUrl(data.photo) === '' ? null : (
+            <Image
+              src={getImgUrl(data.photo)}
+              alt='profile_picture'
+              width={200}
+              height={250}
+              style={{ objectFit: 'contain' }}
+            />
+          )}
         </div>
         <div className='m-10'>
-          <h3 className='text-3xl mb-10'>주현정</h3>
+          <h3 className='text-3xl mb-10'>
+            {data.pen_name ? data.pen_name : data.name}
+          </h3>
           <ul className=' space-y-6'>
-            <IntroItem title='언어' desc='일어' />
+            <IntroItem title='언어' desc={data.languages.join(', ')} />
             <IntroItem
               title='주요분야'
-              desc='인문사회, 문학(소설/에세이),건강/취미실용'
+              desc={data.specializations.join(', ')}
             />
-            <IntroItem
-              title='스타일'
-              desc='감성적이고 매끄러운 글, 건조하면서 간결한 글'
-            />
-            <IntroItem title='약력' desc={history} />
-            <IntroItem
-              title='역서'
-              desc='나는 사랑받는 실험을 시작했다 번역 중'
-            />
+            <IntroItem title='스타일' desc={data.styles.join(', ')} />
+            <IntroItem title='약력' desc={data.biography} />
+            <IntroItem title='역서' desc={data.works} />
           </ul>
         </div>
       </div>
-      <InterviewSection />
+      <InterviewSection interviews={data.interviews} />
+      <Link href='/translators' className='btn btn-sm my-10'>
+        목록
+      </Link>
     </PageLayout>
   );
 }
 
-const interview = [
-  {
-    question:
-      '자신의 번역관 및 작업할 때 가장 중요하게 생각하는 점을 말씀해주세요.',
-    answer:
-      '저자의 목소리가 온전히 독자에게 전해지는지 늘 세심하게 주의를 기울이며 마음을 다해 성실하게 번역하고자 노력합니다.',
-  },
-  {
-    question:
-      '자신의 번역관 및 작업할 때 가장 중요하게 생각하는 점을 말씀해주세요.',
-    answer:
-      '저자의 목소리가 온전히 독자에게 전해지는지 늘 세심하게 주의를 기울이며 마음을 다해 성실하게 번역하고자 노력합니다.',
-  },
-  {
-    question:
-      '자신의 번역관 및 작업할 때 가장 중요하게 생각하는 점을 말씀해주세요.',
-    answer:
-      '저자의 목소리가 온전히 독자에게 전해지는지 늘 세심하게 주의를 기울이며 마음을 다해 성실하게 번역하고자 노력합니다.',
-  },
-  {
-    question:
-      '자신의 번역관 및 작업할 때 가장 중요하게 생각하는 점을 말씀해주세요.',
-    answer:
-      '저자의 목소리가 온전히 독자에게 전해지는지 늘 세심하게 주의를 기울이며 마음을 다해 성실하게 번역하고자 노력합니다.',
-  },
-  {
-    question:
-      '자신의 번역관 및 작업할 때 가장 중요하게 생각하는 점을 말씀해주세요.',
-    answer:
-      '저자의 목소리가 온전히 독자에게 전해지는지 늘 세심하게 주의를 기울이며 마음을 다해 성실하게 번역하고자 노력합니다.',
-  },
-];
-
-function InterviewSection() {
+function InterviewSection({ interviews }: { interviews: any[] }) {
   return (
     <section className='bg-gray-100 px-10 py-10'>
       <h3 className='text-3xl text-slate-600 mb-10'>Interview</h3>
       <ul className=' space-y-4'>
-        {interview.map(({ question, answer }) => (
+        {interviews.map(({ question, answer }) => (
           <InterviewItem question={question} answer={answer} />
         ))}
       </ul>

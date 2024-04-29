@@ -90,7 +90,7 @@ export default function Header({}: Props) {
               </Link>
             </ul>
             <LogoutBtn />
-            <Link href='/member/login'>
+            <Link href='/member'>
               <button className='border border-white text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3'>
                 <FaPenNib />
                 번역가방
