@@ -59,6 +59,10 @@ export default function AdminComments({ comments, status }: Props) {
       queryClient.invalidateQueries({
         queryKey: ['taskDetail', task_id],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['my-available-tasks', token],
+      });
+      
     },
     onError: (err) => {
       toast.error(err.message);
