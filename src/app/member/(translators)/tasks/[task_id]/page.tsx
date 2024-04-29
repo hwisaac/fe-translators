@@ -50,6 +50,7 @@ export default function page({}) {
         .then((res) => {
           return res.data as TaskDetail;
         }),
+    staleTime: 0,
   });
   return (
     <div className='flex flex-col py-10'>

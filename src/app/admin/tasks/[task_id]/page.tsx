@@ -47,7 +47,7 @@ export default function page({}: Props) {
   const token = useToken();
 
   const { data } = useQuery({
-    queryKey: ['taskDetail', task_id],
+    queryKey: ['adminTaskDetail', task_id],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/tasks/${task_id}/`, {

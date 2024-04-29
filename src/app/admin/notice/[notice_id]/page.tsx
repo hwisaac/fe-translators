@@ -59,7 +59,7 @@ export default async function page({ params: { notice_id } }: any) {
           href={`${FILE_URL}${data?.notice.file}`}
           target='_blank'
           className={`btn btn-sm btn-ghost ${!data.notice.file && 'hidden'}`}>
-          {data.notice.file.split('/')[3]}
+          {data?.notice?.file?.split('/')[3]}
         </Link>
       </div>
       <div className='border-b border-b-slate-700 py-10'>

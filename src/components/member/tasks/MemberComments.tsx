@@ -1,6 +1,7 @@
 'use client';
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
+import useLoginData from '@/app/hooks/useLoginData';
 import useToken from '@/app/hooks/useToken';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
 import BASE_URL from '@/utils/BASE_URL';
@@ -62,7 +63,6 @@ export default function AdminComments({ comments, status }: Props) {
       queryClient.invalidateQueries({
         queryKey: ['my-available-tasks', token],
       });
-      
     },
     onError: (err) => {
       toast.error(err.message);
@@ -170,7 +170,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       queryClient.invalidateQueries({
         queryKey: ['taskDetail', task_id],
       });
-      toast.success('삭제 되었습니다.');
+      toast.success('댓글이 삭제 되었습니다.');
     },
     onError: (error) => {
       toast.error(error.message);
@@ -199,7 +199,13 @@ function CommentItem({ comment }: { comment: CommentType }) {
     setEditable(false);
     editComment({ content: commentInput });
   };
-
+  const handleDeleteComment = () => {
+    if (comment.replies.length > 0) {
+      toast.error('대댓글이 달린 댓글은 삭제할 수 없습니다.');
+      return;
+    }
+    deleteComment();
+  };
   return (
     <li className='flex flex-col w-full'>
       {/* <p className='badge badge-neutral'>샘플번역가</p> */}
@@ -255,7 +261,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
               <form method='dialog' className='space-x-2'>
                 <button
                   className='btn btn-neutral'
-                  onClick={() => deleteComment()}>
+                  onClick={() => handleDeleteComment()}>
                   삭제
                 </button>
                 {/* if there is a button in form, it will close the modal */}
@@ -294,6 +300,7 @@ const Replies = ({ replies }: { replies: ReplyType[] }) => {
 };
 
 const ReplyItem = ({ reply }: { reply: ReplyType }) => {
+  const loginState = useLoginData();
   const queryClient = useQueryClient();
   const { mutateAsync: deleteReply } = useMutation({
     mutationFn: () =>
@@ -309,6 +316,7 @@ const ReplyItem = ({ reply }: { reply: ReplyType }) => {
     },
     onError: (error) => toast.error(error.message),
   });
+  const handleDelete = () => {};
   return (
     <li className='rounded-md p-3 flex flex-col'>
       <div className='flex justify-between'>
@@ -329,16 +337,18 @@ const ReplyItem = ({ reply }: { reply: ReplyType }) => {
       </div>
       <div className='w-full rounded-md shadow-md px-4 py-4 my-3 bg-slate-50 flex justify-between'>
         <div>{reply.content}</div>
-        <div
-          className='btn btn-ghost btn-sm'
-          onClick={() =>
-            document
-              .getElementById(`reply_delete_modal_${reply.reply_id}`)!
-              // @ts-ignore
-              .showModal()
-          }>
-          삭제
-        </div>
+        {reply.author === loginState?.username && (
+          <div
+            className='btn btn-ghost btn-sm'
+            onClick={() =>
+              document
+                .getElementById(`reply_delete_modal_${reply.reply_id}`)!
+                // @ts-ignore
+                .showModal()
+            }>
+            삭제
+          </div>
+        )}
         <dialog
           id={`reply_delete_modal_${reply.reply_id}`}
           className='modal modal-bottom sm:modal-middle'>

@@ -72,7 +72,7 @@ export default function AdminComments({ comments }: Props) {
     onSuccess: () => {
       toast.success('신청되었습니다.');
       queryClient.invalidateQueries({
-        queryKey: ['taskDetail', task_id],
+        queryKey: ['adminTaskDetail'],
       });
     },
     onError: (err) => {
@@ -135,7 +135,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['taskDetail', task_id],
+        queryKey: ['adminTaskDetail'],
       });
       toast.success('대댓글이 작성되었습니다.');
     },
@@ -157,7 +157,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['taskDetail', task_id],
+        queryKey: ['adminTaskDetail'],
       });
       toast.success('수정되었습니다.');
     },
@@ -176,7 +176,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['taskDetail', task_id],
+        queryKey: ['adminTaskDetail'],
       });
       revalidateTaskDetail(task_id);
       toast.success('삭제 되었습니다.');
@@ -315,7 +315,7 @@ const ReplyItem = ({ reply }: { reply: ReplyType }) => {
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['taskDetail'],
+        queryKey: ['adminTaskDetail'],
       });
       toast.success('삭제되었습니다.');
     },

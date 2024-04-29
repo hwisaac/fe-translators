@@ -24,14 +24,6 @@ export default function AdminTabs({}: Props) {
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    switch (newValue) {
-      case 0:
-        router.push('/admin/tasks');
-        return;
-      case 1:
-        router.push('/admin/notice');
-        return;
-    }
   };
   useEffect(() => {
     setValue(valueFromPath(pathname));
@@ -41,8 +33,16 @@ export default function AdminTabs({}: Props) {
   return (
     <div className='w-full border-b flex justify-center relative top-[50px]'>
       <Tabs value={value} onChange={handleChange} centered>
-        <Tab label='수주게시판' style={{ fontSize: '1.3rem' }} />
-        <Tab label='공지사항' style={{ fontSize: '1.3rem' }} />
+        <Tab
+          label='수주게시판'
+          style={{ fontSize: '1.3rem' }}
+          onClick={() => router.push('/admin/tasks')}
+        />
+        <Tab
+          label='공지사항'
+          style={{ fontSize: '1.3rem' }}
+          onClick={() => router.push('/admin/notice')}
+        />
       </Tabs>
     </div>
   );

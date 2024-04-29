@@ -27,17 +27,6 @@ export default function MemberTabs({}: Props) {
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    switch (newValue) {
-      case 0:
-        router.push('/member/my-page');
-        return;
-      case 1:
-        router.push('/member/tasks');
-        return;
-      case 2:
-        router.push('/member/notice');
-        return;
-    }
   };
   useEffect(() => {
     setValue(valueFromPath(pathname));
@@ -47,11 +36,23 @@ export default function MemberTabs({}: Props) {
   return (
     <div className='w-full border-b flex justify-center relative top-[50px]'>
       <Tabs value={value} onChange={handleChange} centered>
-        <Tab label='마이페이지' style={{ fontSize: '1.3rem' }} />
+        <Tab
+          label='마이페이지'
+          style={{ fontSize: '1.3rem' }}
+          onClick={() => router.push('/member/my-page')}
+        />
 
-        <Tab label='수주게시판' style={{ fontSize: '1.3rem' }} />
+        <Tab
+          label='수주게시판'
+          style={{ fontSize: '1.3rem' }}
+          onClick={() => router.push('/member/tasks')}
+        />
 
-        <Tab label='공지사항' style={{ fontSize: '1.3rem' }} />
+        <Tab
+          label='공지사항'
+          style={{ fontSize: '1.3rem' }}
+          onClick={() => router.push('/member/notice')}
+        />
       </Tabs>
     </div>
   );
