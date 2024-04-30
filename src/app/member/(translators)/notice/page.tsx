@@ -12,50 +12,37 @@ import BASE_URL from '@/utils/BASE_URL';
 import { NoticeType } from '@/components/my-page/MyNotices';
 
 import NoticesPagination from '@/components/my-page/notices/MemberNoticesPagination';
+import MemberNoticeSearchForm from '@/components/member/notice/MemberNoticeSearchForm';
 
 type Props = {
-  searchParams: { page: number };
+  searchParams: {
+    page: string;
+    query: string;
+    option: string;
+  };
 };
 
-export default function MemberNoticePage({ searchParams: { page } }: Props) {
+export default async function MemberNoticePage({
+  searchParams: { page, query, option },
+}: Props) {
+  const data = await fetch(
+    `${BASE_URL}/notices?page=${page || ''}&query=${query || ''}&option=${
+      option || ''
+    }&/`,
+    {
+      cache: 'no-cache',
+    }
+  ).then((res) => res.json());
+
   return (
     <div className='flex flex-col items-center py-10'>
-      <SearchForm />
-
-      <NoticeTable page={page ?? 1} />
+      <MemberNoticeSearchForm />
+      <MemberNoticeTable data={data} />
     </div>
   );
 }
 
-function SearchForm() {
-  return (
-    <div className='join mx-auto'>
-      <div>
-        <div>
-          <input
-            className='input input-bordered join-item w-[400px]'
-            placeholder='Search'
-          />
-        </div>
-      </div>
-      <select className='select select-bordered join-item'>
-        <option>제목</option>
-        <option>내용</option>
-        <option>제목+내용</option>
-      </select>
-      <div className='indicator'>
-        <button className='btn join-item'>검색</button>
-      </div>
-    </div>
-  );
-}
-
-
-async function NoticeTable({ page }: { page: number | string }) {
-  const data = await fetch(`${BASE_URL}/notices?page=${page}&/`, {
-    cache: 'no-cache',
-  }).then((data) => data.json());
-
+async function MemberNoticeTable({ data }: any) {
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
       <h2 className='text-lg font-semibold pb-8'>번역가 공지사항</h2>

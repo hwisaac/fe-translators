@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 
 type Props = {};
 
-export default function AdminNoticeSearchForm({}: Props) {
+export default function MemberNoticeSearchForm({}: Props) {
   const router = useRouter();
   const {
     register,
@@ -16,9 +16,10 @@ export default function AdminNoticeSearchForm({}: Props) {
   } = useForm<any>({});
 
   const onValid = (data: any) => {
+    console.log(data);
     const query = data.query;
     const option = data.option;
-    router.push(`/admin/notice?page=1&query=${query}&option=${option}`);
+    router.push(`/member/notice?page=1&query=${query}&option=${option}`);
   };
   return (
     <form className='join mx-auto' onSubmit={handleSubmit(onValid)}>
@@ -35,7 +36,7 @@ export default function AdminNoticeSearchForm({}: Props) {
         className='select select-bordered join-item'
         {...register('option')}>
         <option value={'title'}>제목</option>
-        <option value={'content'}>내용</option>
+        <option value='content'>내용</option>
       </select>
       <div className='indicator'>
         <button className='btn join-item'>검색</button>

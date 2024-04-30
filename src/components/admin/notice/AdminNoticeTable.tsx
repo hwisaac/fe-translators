@@ -25,25 +25,22 @@ export default function AdminNoticeTable({}) {
   const searchParams = useSearchParams();
 
   const { data }: any = useQuery({
-    queryKey: ['adminNoticesList', searchParams.get('page')],
+    queryKey: ['adminNoticesList', searchParams.toString()],
     queryFn: () =>
       axios
-        .get(
-          `${BASE_URL}/notices/admin?page=${searchParams.get('page') || 1}&/`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        )
+        .get(`${BASE_URL}/notices/admin?${searchParams.toString()}&/`, {
+          headers: {
+            Authorization: token,
+          },
+        })
         .then((res) => res.data)
         .catch((error) => {
           toast.error(error.message);
         }),
   });
   React.useEffect(() => {
-    console.log(searchParams.get('page'));
-  }, [searchParams.get('page')]);
+    console.log(searchParams.toString());
+  }, [searchParams.toString()]);
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
       <h2 className='text-lg font-semibold pb-8'>공지사항(관리자용)</h2>
