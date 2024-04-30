@@ -1,8 +1,6 @@
 'use client';
 import { postSignUp } from '@/app/member/signup/actions';
 import { SignupType } from '@/app/member/signup/schema';
-import AdditionalInformation from '@/components/member/signup/AdditionalInformation';
-import InterviewInformation from '@/components/member/signup/InterviewInformation';
 import PageLayout from '@/layouts/PageLayout';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
@@ -12,6 +10,8 @@ import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { loginAtom } from '@/atoms/loginAtom';
 type Props = {};
 
 const years = Array.from({ length: 2023 - 1900 + 1 }, (_, i) => 2023 - i);
@@ -19,6 +19,7 @@ const days = Array.from({ length: 31 }, (_, i) => 1 + i);
 const months = Array.from({ length: 12 }, (_, i) => 1 + i);
 
 export default function page({}: Props) {
+  const setLoginState = useSetRecoilState(loginAtom);
   const [address, setAddress] = useState<any>();
   const router = useRouter();
   const {
@@ -30,16 +31,29 @@ export default function page({}: Props) {
   } = useForm<any>();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ({ postUser }: any) =>
-      axios.post(`${BASE_URL}/users/`, postUser, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }),
+      axios
+        .post(`${BASE_URL}/users/`, postUser, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .then((res) => res.data),
     onError: (err: AxiosError) => {
-      toast.error(err.response?.request.responseText);
+      // @ts-ignore
+      toast.error(`${err?.response?.data.error}`);
     },
     onSuccess: async (data) => {
-      console.log(data);
+      console.log(data, '회원가입시 데이터');
+      const user = data.user;
+
+      setLoginState({
+        email: user.email,
+        id: user.id,
+        photo: null,
+        token: data.token,
+        username: user.username,
+        is_staff: false,
+      });
       toast.success('가입에 성공했습니다.');
       router.push('/member/additional-information');
     },
@@ -175,7 +189,7 @@ export default function page({}: Props) {
         <div className='flex items-center'>
           <div className='w-[150px] text-sm'>생년월일</div>
           <select
-            className='select select-bordered w-full max-w-[130px]'
+            className='select select-bordered w-full max-w-[130px] mr-1'
             {...register('year', { required: true })}>
             <option disabled>(년)</option>
             {years.map((year) => (
@@ -183,7 +197,7 @@ export default function page({}: Props) {
             ))}
           </select>
           <select
-            className='select select-bordered w-full max-w-[130px]'
+            className='select select-bordered w-full max-w-[130px] mr-1'
             {...register('month', { required: true })}>
             <option disabled>(월)</option>
             {months.map((month) => (
@@ -318,6 +332,15 @@ export default function page({}: Props) {
               )}
             </label>
           </div>
+        </div>
+        <div className='flex items-center'>
+          <div className='w-[150px] text-sm'>가입승인 코드</div>
+          <input
+            type='text'
+            {...register('code', { required: true })}
+            placeholder='관리자에게 받은 승인 코드'
+            className='input input-bordered w-full max-w-xs'
+          />
         </div>
         <button className='btn btn-neutral btn-wide relative top-5'>
           {isPending ? (
