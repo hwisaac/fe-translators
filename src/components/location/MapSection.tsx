@@ -8,8 +8,13 @@ export default function MapSection({}: Props) {
   return (
     <Container>
       <div className='border flex flex-col'>
-        <div className='bg-red-400 w-full h-[400px]'>
-          <Image src={img.map} alt='map' className='h-full object-cover' />
+        <div className='bg-slate-100 w-full h-[400px]'>
+          <Image
+            src={img.map}
+            alt='map'
+            className='h-full object-cover'
+            placeholder='blur'
+          />
         </div>
         <div className='w-full flex justify-between items-center px-10 my-5 text-slate-700'>
           <p className='text-2xl'>서울시 마포구 어울마당로 26 제일빌딩 5층</p>

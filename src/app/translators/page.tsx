@@ -29,7 +29,12 @@ import TranslatorPagination from '@/components/translators/TranslatorPagination'
 import BASE_URL from '@/utils/BASE_URL';
 
 type Props = {
-  searchParams: { page: string };
+  searchParams: {
+    page: string;
+    query: string;
+    language: string;
+    specialization: string;
+  };
 };
 type GetUsersType = {
   page: number;
@@ -51,10 +56,15 @@ type UserType = {
   specializations: string[];
   tags: string[];
 };
-export default async function page({ searchParams: { page } }: Props) {
-  const data: GetUsersType = await fetch(`${BASE_URL}/users?page=${page}`, {
-    cache: 'no-cache',
-  }).then((res) => res.json());
+export default async function page({
+  searchParams: { page, query, language, specialization },
+}: Props) {
+  const data: GetUsersType = await fetch(
+    `${BASE_URL}/users?page=${page}&query=${query}&language=${language}&specialization=${specialization}&/`,
+    {
+      cache: 'no-cache',
+    }
+  ).then((res) => res.json());
 
   return (
     <PageLayout title='번역가 소개'>
@@ -71,7 +81,7 @@ function TranslatorTable({ data }: { data: GetUsersType }) {
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 700 }} align='center'>
+              <TableCell sx={{ fontWeight: 700, width: 200 }} align='center'>
                 번역가
               </TableCell>
               <TableCell align='center' sx={{ fontWeight: 700 }}>
@@ -92,7 +102,9 @@ function TranslatorTable({ data }: { data: GetUsersType }) {
                 key={`${index}-rows`}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component='th' scope='row' align='center'>
-                  <Link href={`/translators/${user.id}`}>
+                  <Link
+                    href={`/translators/${user.id}`}
+                    className='text-[16px]'>
                     {user.pen_name ? user.pen_name : user.name}
                   </Link>
                 </TableCell>

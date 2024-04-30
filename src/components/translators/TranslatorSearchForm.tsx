@@ -1,5 +1,8 @@
 'use client';
 
+import BASE_URL from '@/utils/BASE_URL';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
@@ -7,98 +10,92 @@ import { IoMdCloseCircle } from 'react-icons/io';
 type Props = {};
 
 type FilterType = {
-  en: boolean;
-  jp: boolean;
+  [name: string]: boolean;
 };
 type StatusType = '' | 'open' | 'closed,completed' | 'testing';
 
 export default function TranslatorSearchForm({}: Props) {
-  const [status, setStatus] = useState<StatusType>('');
   const [query, setQuery] = useState('');
-  const [languageFilter, setLanguageFilter] = useState<FilterType>({
-    en: false,
-    jp: false,
-  });
+  const [languageFilter, setLanguageFilter] = useState<any>({});
+  const [specializationFilter, setSpecializationFilter] = useState<any>({});
   const router = useRouter();
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    const activeFilters = Object.entries(languageFilter)
+    const activeLanguageFilters = Object.entries(languageFilter)
       .filter(([_, value]) => value)
       .map(([key]) => key);
-    const language = activeFilters.join(',');
+    const language = activeLanguageFilters.join(',');
+
+    const activeSpecializationFilter = Object.entries(specializationFilter)
+      .filter(([_, value]) => value)
+      .map(([key]) => key);
+    const specialization = activeSpecializationFilter.join(',');
+    console.log('language', language);
+    console.log('specialization', specialization);
     router.push(
-      `/admin/tasks?page=1&query=${query}&language=${language}&status=${status}`
+      `/translators?page=1&query=${query}&language=${language}&specialization=${specialization}`
     );
   };
 
-  const toggleFilter = (key: keyof FilterType) => {
-    setLanguageFilter((prev) => ({ ...prev, [key]: !prev[key] }));
+  const toggleLanguageFilter = (name: keyof FilterType) => {
+    if (languageFilter[name]) {
+      setLanguageFilter((prev: any) => ({ ...prev, [name]: !prev[name] }));
+    } else {
+      setLanguageFilter((prev: any) => ({ ...prev, [name]: true }));
+    }
   };
 
+  const toggleSpecializationFilter = (name: keyof FilterType) => {
+    // 로직 작성 필요
+    if (specializationFilter[name]) {
+      setSpecializationFilter((prev: any) => ({
+        ...prev,
+        [name]: !prev[name],
+      }));
+    } else {
+      setSpecializationFilter((prev: any) => ({ ...prev, [name]: true }));
+    }
+  };
+
+  const { data: checkBoxes } = useQuery({
+    queryKey: ['check-boxes'],
+    queryFn: () =>
+      axios.get(`${BASE_URL}/users/check-boxes/`).then((res) => res.data),
+  });
   return (
     <div>
-      <div className='flex gap-10'>
-        <label className='label cursor-pointer space-x-2'>
-          <input
-            type='checkbox'
-            className='checkbox'
-            checked={languageFilter.en}
-            onChange={() => toggleFilter('en')}
-          />
-          <span className='label-text'>영어</span>
-        </label>
-        <label className='label cursor-pointer space-x-2'>
-          <input
-            type='checkbox'
-            className='checkbox'
-            checked={languageFilter.jp}
-            onChange={() => toggleFilter('jp')}
-          />
-          <span className='label-text'>일어</span>
-        </label>
+      <div className='flex gap-5 items-center'>
+        <p className='font-semibold'>언어별</p>
+        {checkBoxes?.languages?.map((item: { id: number; name: string }) => (
+          <label key={item.id} className='label cursor-pointer space-x-2'>
+            <input
+              type='checkbox'
+              className='checkbox'
+              checked={languageFilter[item.name] || false}
+              onChange={() => toggleLanguageFilter(item.name)}
+            />
+            <span className='label-text'>{item.name}</span>
+          </label>
+        ))}
       </div>
-      <div className='flex items-center gap-5'>
-        <label className='label cursor-pointer space-x-2'>
-          <input
-            type='radio'
-            name='status_radio'
-            className='radio checked:bg-blue-500'
-            checked={status === ''}
-            onChange={() => setStatus('')}
-          />
-          <span className='label-text'>전체</span>
-        </label>
-        <label className='label cursor-pointer space-x-2'>
-          <input
-            type='radio'
-            name='status_radio'
-            className='radio checked:bg-blue-500'
-            checked={status === 'open'}
-            onChange={() => setStatus('open')}
-          />
-          <span className='label-text'>모집 중</span>
-        </label>
-        <label className='label cursor-pointer space-x-2'>
-          <input
-            type='radio'
-            name='status_radio'
-            className='radio checked:bg-blue-500'
-            checked={status === 'testing'}
-            onChange={() => setStatus('testing')}
-          />
-          <span className='label-text'>모집 중단(샘플심사)</span>
-        </label>
-        <label className='label cursor-pointer space-x-2'>
-          <input
-            type='radio'
-            name='status_radio'
-            className='radio checked:bg-blue-500'
-            checked={status === 'closed,completed'}
-            onChange={() => setStatus('closed,completed')}
-          />
-          <span className='label-text'>마감</span>
-        </label>
+      <div className='flex items-center gap-5 mb-3'>
+        <p className='font-semibold'>분야별</p>
+        {checkBoxes?.specializations?.map(
+          (item: { id: number; name: string }) => (
+            <label
+              key={`${item.name}-specialization`}
+              className='label cursor-pointer space-x-2'>
+              <input
+                type='checkbox'
+                className='checkbox'
+                checked={specializationFilter[item.name] || false}
+                onChange={() => toggleSpecializationFilter(item.name)}
+              />
+              <span className='label-text'>{item.name}</span>
+            </label>
+          )
+        )}
       </div>
       <form className='join mx-auto' onSubmit={(e) => handleSubmit(e)}>
         <div>
@@ -120,7 +117,7 @@ export default function TranslatorSearchForm({}: Props) {
           </div>
         </div>
         <div className='indicator'>
-          <button className='btn join-item'>Search</button>
+          <button className='btn join-item'>검색하기</button>
         </div>
       </form>
     </div>
