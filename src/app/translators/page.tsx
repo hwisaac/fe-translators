@@ -60,7 +60,9 @@ export default async function page({
   searchParams: { page, query, language, specialization },
 }: Props) {
   const data: GetUsersType = await fetch(
-    `${BASE_URL}/users?page=${page}&query=${query}&language=${language}&specialization=${specialization}&/`,
+    `${BASE_URL}/users?page=${page || 1}&query=${query || ''}&language=${
+      language || ''
+    }&specialization=${specialization || ''}&/`,
     {
       cache: 'no-cache',
     }
