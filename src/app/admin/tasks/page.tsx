@@ -48,14 +48,6 @@ export default function AdminTasksPage() {
   const query = searchParams.get('query');
   const status = searchParams.get('status');
   const language = searchParams.get('language');
-  // const data = await fetch(
-  // `${BASE_URL}/tasks/admin?page=${page ?? ''}&language=${
-  //   language ?? ''
-  // }&query=${query ?? ''}&status=${status ?? ''}&/`,
-  //   {
-  //     cache: 'no-cache',
-  //   }
-  // ).then((data) => data.json());
 
   const { data } = useQuery({
     queryKey: ['adminTasksList', page, query, status, language],

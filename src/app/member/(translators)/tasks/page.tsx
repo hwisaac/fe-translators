@@ -38,10 +38,7 @@ export default async function TasksPage({
   const data = await fetch(
     `${BASE_URL}/tasks?page=${page ?? ''}&language=${language ?? ''}&query=${
       query ?? ''
-    }&status=${status ?? ''}&/`,
-    {
-      cache: 'no-cache',
-    }
+    }&status=${status ?? ''}&/`
   ).then((data) => data.json());
   return (
     <div className='flex flex-col items-center py-10'>

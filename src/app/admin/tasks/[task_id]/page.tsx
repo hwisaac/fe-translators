@@ -34,6 +34,7 @@ export type TaskDetail = {
   language: 'jp' | 'en';
   link: string;
   status: 'closed' | 'completed' | 'open' | 'testing';
+  comment_start_time: string;
 };
 
 export function formatTextField(text?: string | null): any {
@@ -73,9 +74,11 @@ export default function page({}: Props) {
         <h2 className='text-semibold text-2xl flex items-center gap-3'>
           {data?.title} <LanguageBadge language={data?.language} />
         </h2>
-        <p className='text-slate-500'>{formatDateTime(data?.created_at)}</p>
+        <p className='text-slate-500'>
+          생성: {formatDateTime(data?.created_at)}
+        </p>
       </div>
-      <div className='flex gap-3 px-3 py-3'>
+      <div className='flex gap-3 px-3 py-3 items-center'>
         <StatusBadge status={data?.status} />
         {data?.link && (
           <Link
@@ -88,6 +91,10 @@ export default function page({}: Props) {
         <Link href={`/admin/tasks/${task_id}/edit`} className='btn btn-sm'>
           수정하기
         </Link>
+
+        <span className='text-orange-700 rounded-md bg-orange-50 px-2 py-1'>
+          {formatDateTime(data?.comment_start_time)}
+        </span>
       </div>
       <div className='border-b border-b-slate-700 py-10'>
         {formatTextField(data?.content)}

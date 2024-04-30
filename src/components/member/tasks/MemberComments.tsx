@@ -9,7 +9,7 @@ import { COMMENT_LIMIT } from '@/utils/commons';
 import formatDateTime from '@/utils/formatDateTime';
 import formatDateTimeWithMilliseconds from '@/utils/formatDateTimeWithMilliseconds';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { headers } from 'next/headers';
 import { useParams } from 'next/navigation';
 import { FormEvent, LegacyRef, useEffect, useRef, useState } from 'react';
@@ -36,13 +36,19 @@ type CommentStatusType =
 type Props = {
   comments?: CommentType[];
   status?: 'open' | 'closed' | 'testing' | 'completed';
+  comment_start_time?: string;
 };
 
-export default function AdminComments({ comments, status }: Props) {
+export default function MemberComments({
+  comments,
+  status,
+  comment_start_time,
+}: Props) {
   const { task_id } = useParams();
   const token = useToken();
   const queryClient = useQueryClient();
   const [inputComment, setInputComment] = useState('');
+  const [disabled, setDisabled] = useState(false);
 
   const { mutate: postComment } = useMutation({
     mutationKey: ['add comment', task_id],
@@ -65,21 +71,37 @@ export default function AdminComments({ comments, status }: Props) {
         queryKey: ['my-available-tasks', token],
       });
     },
-    onError: (err) => {
-      toast.error(err.message);
+    onError: (err: AxiosError) => {
+      // @ts-ignore
+      toast.error((err?.response?.data.error as string) || '');
     },
   });
 
   const addComment = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    revalidateTaskDetail(String(task_id));
+    setDisabled(true);
+    setTimeout(() => {
+      setDisabled(false);
+    }, 3000);
     if (inputComment.length < COMMENT_LIMIT) {
       return toast.error(`${COMMENT_LIMIT}자 이상 입력해주세요`);
     }
-    postComment({
-      content: inputComment,
-    });
-    setInputComment('');
+    if (!comment_start_time) {
+      return toast.error('(Bug)신청 시각 시간데이터가 없습니다.');
+    }
+
+    const now = new Date();
+    const commentStartTime = new Date(comment_start_time ?? '');
+
+    if (now > commentStartTime) {
+      postComment({
+        content: inputComment,
+      });
+      revalidateTaskDetail(String(task_id));
+      setInputComment('');
+    } else {
+      toast.error('신청할 수 있는 시간이 아닙니다.');
+    }
   };
 
   return (
@@ -94,18 +116,30 @@ export default function AdminComments({ comments, status }: Props) {
           name='newComment'
           className='join-item input input-bordered w-full'
         />
-        <button className='join-item btn btn-neutral'>신청하기</button>
+        <button className='join-item btn btn-neutral' disabled={disabled}>
+          신청하기
+        </button>
       </form>
       <ul className='flex flex-col w-full py-4'>
         {comments?.map((comment) => (
-          <CommentItem comment={comment} key={`${comment.id}-comment`} />
+          <CommentItem
+            comment={comment}
+            status={status}
+            key={`${comment.id}-comment`}
+          />
         ))}
       </ul>
     </>
   );
 }
 
-function CommentItem({ comment }: { comment: CommentType }) {
+function CommentItem({
+  comment,
+  status,
+}: {
+  comment: CommentType;
+  status: 'open' | 'testing' | 'closed' | 'completed' | undefined;
+}) {
   const commentRef = useRef(null);
   const [openReply, setOpenReply] = useState(false);
   const [editable, setEditable] = useState(false);
@@ -219,7 +253,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       <div className='flex justify-between'>
         <span className='text-slate-800'>{`${comment.name}`}</span>
         <span className='text-slate-500'>
-          {`${formatDateTimeWithMilliseconds(comment.created_at)}`}
+          {`${formatDateTime(comment.created_at)}`}
         </span>
       </div>
       {!editable ? (
@@ -240,7 +274,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
           <button className='btn absolute right-3 btn-sm'>확인</button>
         </form>
       )}
-      <div className='space-x-2 my-2'>
+      <div className={`space-x-2 my-2 ${status !== 'open' && 'hidden'}`}>
         <button
           className='btn btn-outline btn-sm'
           onClick={() => setOpenReply((p) => !p)}>

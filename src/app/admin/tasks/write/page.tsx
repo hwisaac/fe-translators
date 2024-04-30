@@ -12,6 +12,9 @@ import { toast } from 'react-toastify';
 
 type Props = {};
 
+const hoursArr = Array.from({ length: 24 }, (_, i) => i);
+const minutesArr = Array.from({ length: 12 }, (_, i) => i * 5);
+
 export default function page({}: Props) {
   const router = useRouter();
   const {
@@ -20,7 +23,12 @@ export default function page({}: Props) {
     watch,
     setValue,
     formState: { errors },
-  } = useForm<any>();
+  } = useForm<any>({
+    defaultValues: {
+      date: new Date().toISOString().split('T')[0],
+      hour: `${new Date().getHours()}`,
+    },
+  });
   const token = useToken();
 
   const { mutateAsync: postTask } = useMutation({
@@ -44,7 +52,14 @@ export default function page({}: Props) {
     onError: (error) => toast.error(error.message),
   });
   const onValid = (data: any) => {
-    postTask(data);
+    const date = data.date;
+    const hour = data.hour;
+    const minute = data.minute;
+
+    const dateTime = new Date(
+      `${date}T${hour.padStart(2, '0')}:${minute.padStart(2, '0')}:00`
+    );
+    postTask({ ...data, comment_start_time: dateTime.toISOString() });
   };
   return (
     <section>
@@ -90,6 +105,30 @@ export default function page({}: Props) {
               placeholder='https:// 를 반드시 입력해주세요'
               {...register('link')}
             />
+          </li>
+          <li className='flex items-center gap-2'>
+            <h5 className='w-[200px] shrink-0'>신청시작 시각</h5>
+
+            <input
+              type='text'
+              className='input input-bordered w-[200px]'
+              placeholder='YYYY-MM-DD'
+              {...register('date')}
+            />
+            <select
+              className='select select-bordered w-[100px]'
+              {...register('hour')}>
+              {hoursArr.map((hour) => (
+                <option value={hour}>{hour} 시</option>
+              ))}
+            </select>
+            <select
+              className='select select-bordered w-[100px]'
+              {...register('minute')}>
+              {minutesArr.map((minute) => (
+                <option value={minute}>{minute} 분</option>
+              ))}
+            </select>
           </li>
           <li className='flex items-center'>
             <h5 className='w-[200px] shrink-0'>의뢰 내용</h5>

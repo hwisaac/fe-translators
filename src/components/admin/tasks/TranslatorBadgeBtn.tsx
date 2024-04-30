@@ -1,6 +1,7 @@
 'use client';
 
 import { CommentType } from '@/components/admin/tasks/AdminComments';
+import Link from 'next/link';
 import { toast } from 'react-toastify';
 
 type Props = {
@@ -66,13 +67,8 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
             </span>
           </li>
         )}
-        {author.tags.length > 0 && (
-          <li>
-            <p>{author.tags.map(({ name }: any) => `#${name}`).join(' ')}</p>
-          </li>
-        )}
         <li>
-          <p>상세 정보</p>
+          <Link href={`/admin/translator/${author.id}`}>상세 정보</Link>
         </li>
       </ul>
     </div>

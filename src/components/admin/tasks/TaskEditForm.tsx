@@ -4,20 +4,22 @@ import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import { TaskDetail } from '@/app/admin/tasks/[task_id]/page';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-
+const hoursArr = Array.from({ length: 24 }, (_, i) => i);
+const minutesArr = Array.from({ length: 12 }, (_, i) => i * 5);
 type Props = {
   data: TaskDetail;
   task_id: number;
 };
 
 export default function TaskEditForm({ data, task_id }: Props) {
+  const queryClient = useQueryClient();
   const token = useToken();
   const router = useRouter();
   const {
@@ -33,6 +35,12 @@ export default function TaskEditForm({ data, task_id }: Props) {
       language: data.language,
       link: data.link,
       content: data.content,
+      date: `${
+        new Date(data?.comment_start_time).toISOString().split('T')[0] ??
+        '2024-01-01'
+      }`,
+      hour: `${new Date(data.comment_start_time).getHours()}`,
+      minute: `55`,
     },
   });
 
@@ -50,15 +58,28 @@ export default function TaskEditForm({ data, task_id }: Props) {
         )
         .then((res) => res.data),
     onSuccess: (res) => {
-      toast.success(`(${res.id})수정되었습니다.`);
+      toast.success(`수정되었습니다.`);
       revalidateTaskDetail(res.id);
+      queryClient.invalidateQueries({
+        queryKey: ['adminTaskDetail', res.id],
+      });
       router.push(`/admin/tasks/${res.id}`);
     },
     onError: (error) => toast.error(error.message),
   });
   const onValid = (data: any) => {
-    console.log(data);
-    putTask(data);
+    const date = data.date;
+    const hour = data.hour;
+    const minute = data.minute;
+
+    const dateTime = new Date(
+      `${date}T${hour.padStart(2, '0')}:${minute.padStart(2, '0')}:00`
+    );
+    try {
+      putTask({ ...data, comment_start_time: dateTime.toISOString() });
+    } catch (err) {
+      toast.error('날짜 형식은 YYYY-MM-DD 여야 합니다.');
+    }
   };
 
   return (
@@ -100,6 +121,30 @@ export default function TaskEditForm({ data, task_id }: Props) {
             placeholder='https:// 를 반드시 입력해주세요'
             {...register('link')}
           />
+        </li>
+        <li className='flex items-center gap-2'>
+          <h5 className='w-[200px] shrink-0'>신청시작 시각</h5>
+
+          <input
+            type='text'
+            className='input input-bordered w-[200px]'
+            placeholder='YYYY-MM-DD'
+            {...register('date')}
+          />
+          <select
+            className='select select-bordered w-[100px]'
+            {...register('hour')}>
+            {hoursArr.map((hour) => (
+              <option value={hour}>{hour} 시</option>
+            ))}
+          </select>
+          <select
+            className='select select-bordered w-[100px]'
+            {...register('minute')}>
+            {minutesArr.map((minute) => (
+              <option value={minute}>{minute} 분</option>
+            ))}
+          </select>
         </li>
         <li className='flex items-center'>
           <h5 className='w-[200px] shrink-0'>의뢰 내용</h5>

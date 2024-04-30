@@ -1,3 +1,4 @@
+import { TranslatorDetailDataType } from '@/app/translators/[id]/page';
 import InterviewSection from '@/components/translators/InterviewSection';
 import IntroItem from '@/components/translators/IntroItem';
 import PageLayout from '@/layouts/PageLayout';
@@ -7,31 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 type Props = {
-  params: {
-    id: string;
-  };
-};
-
-export type TranslatorDetailDataType = {
-  id: number;
-  username: string;
-  pen_name: string;
-  name: string;
-  is_public: boolean;
-  birth_date: string;
-  email: string;
-  photo: null | string;
-  gender: 'female' | 'male';
-  major_works: string;
-  biography: string;
-  works: string;
-  languages: string[];
-  styles: string[];
-  specializations: string[];
-  interviews: {
-    question: string;
-    answer: string;
-  }[];
+  params: { id: string };
 };
 
 export default async function page({ params }: Props) {
@@ -43,10 +20,7 @@ export default async function page({ params }: Props) {
   ).then((res) => res.json());
 
   return (
-    <PageLayout title='번역가 소개'>
-      <Link href='/translators' className='btn btn-sm ml-10'>
-        목록
-      </Link>
+    <div className='my-10'>
       <div className='flex'>
         <div className='w-[200px] h-[250px] bg-slate-100 m-10 relative'>
           {getImgUrl(data.photo) === '' ? null : (
@@ -76,9 +50,6 @@ export default async function page({ params }: Props) {
         </div>
       </div>
       <InterviewSection interviews={data.interviews} />
-      <Link href='/translators' className='btn btn-sm my-10'>
-        목록
-      </Link>
-    </PageLayout>
+    </div>
   );
 }

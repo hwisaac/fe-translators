@@ -7,10 +7,10 @@ type Props = {
 };
 
 export default async function page({ params: { task_id } }: Props) {
-  const data: TaskDetail = await fetch(`${BASE_URL}/tasks/${task_id}/`).then(
-    (res) => res.json()
-  );
-
+  const data: TaskDetail = await fetch(`${BASE_URL}/tasks/${task_id}/`, {
+    cache: 'no-cache',
+  }).then((res) => res.json());
+  console.log(data, 'ddd');
   return (
     <section>
       <h1 className='text-2xl my-10'>수정하기</h1>
