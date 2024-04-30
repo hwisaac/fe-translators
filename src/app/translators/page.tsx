@@ -65,10 +65,13 @@ export default async function page({
       cache: 'no-cache',
     }
   ).then((res) => res.json());
+  const checkBoxes = await fetch(`${BASE_URL}/users/check-boxes/`, {
+    cache: 'no-cache',
+  }).then((res) => res.json());
 
   return (
     <PageLayout title='번역가 소개'>
-      <TranslatorSearchForm />
+      <TranslatorSearchForm checkBoxes={checkBoxes} />
       <TranslatorTable data={data} />
     </PageLayout>
   );

@@ -7,14 +7,19 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
 
-type Props = {};
+type Props = {
+  checkBoxes: {
+    languages: { name: string; id: number }[];
+    specializations: { name: string; id: number }[];
+  };
+};
 
 type FilterType = {
   [name: string]: boolean;
 };
 type StatusType = '' | 'open' | 'closed,completed' | 'testing';
 
-export default function TranslatorSearchForm({}: Props) {
+export default function TranslatorSearchForm({ checkBoxes }: Props) {
   const [query, setQuery] = useState('');
   const [languageFilter, setLanguageFilter] = useState<any>({});
   const [specializationFilter, setSpecializationFilter] = useState<any>({});
@@ -31,8 +36,6 @@ export default function TranslatorSearchForm({}: Props) {
       .filter(([_, value]) => value)
       .map(([key]) => key);
     const specialization = activeSpecializationFilter.join(',');
-    console.log('language', language);
-    console.log('specialization', specialization);
     router.push(
       `/translators?page=1&query=${query}&language=${language}&specialization=${specialization}`
     );
@@ -58,11 +61,6 @@ export default function TranslatorSearchForm({}: Props) {
     }
   };
 
-  const { data: checkBoxes } = useQuery({
-    queryKey: ['check-boxes'],
-    queryFn: () =>
-      axios.get(`${BASE_URL}/users/check-boxes/`).then((res) => res.data),
-  });
   return (
     <div>
       <div className='flex gap-5 items-center'>
