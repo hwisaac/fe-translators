@@ -1,10 +1,14 @@
 'use client';
+import useMe from '@/app/hooks/useMe';
 import useToken from '@/app/hooks/useToken';
 import PageLayout from '@/layouts/PageLayout';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 type Props = {
   checkBoxes: CheckBoxesType;
   interviewQuestions: InterviewQuestionType[];
@@ -29,7 +33,32 @@ export default function AdditionalInformationForm({
   checkBoxes,
   interviewQuestions,
 }: Props) {
+  const router = useRouter();
+  const [imagePreview, setImagePreview] = useState<string>('');
   const token = useToken();
+  const { data: me } = useMe();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<any>();
+
+  const watchedPhoto = watch('photo');
+  useEffect(() => {
+    if (watchedPhoto && watchedPhoto.length > 0) {
+      const file = watchedPhoto[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview('');
+    }
+  }, [watchedPhoto]);
+
   const { isPending, mutateAsync: putInfos } = useMutation({
     mutationFn: (formData: any) =>
       axios.put(`${BASE_URL}/users/additional-information/`, formData, {
@@ -39,19 +68,36 @@ export default function AdditionalInformationForm({
         },
       }),
     onSuccess: () => {
-      console.log('성공');
+      toast.success('저장되었습니다.');
+      router.push('/member/my-page');
     },
     onError: (err) => {
-      console.error('에러');
+      toast.error('변경 에러');
     },
   });
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors },
-  } = useForm<any>();
+
+  useEffect(() => {
+    if (me) {
+      setValue('pen_name', me.pen_name);
+      setValue('major_works', me.major_works);
+      setValue('biography', me.biography);
+      setValue('works', me.works);
+      me.languages.forEach((id: number) => {
+        setValue(`language_${id}`, true);
+      });
+      me.styles.forEach((id: number) => {
+        setValue(`style_${id}`, true);
+      });
+      me.specializations.forEach((id: number) => {
+        setValue(`specialization_${id}`, true);
+      });
+      setValue('is_public', me.is_public);
+      me.interviews.forEach(({ question_id, answer }: any) => {
+        setValue(`question_${question_id}`, answer);
+      });
+      setImagePreview(`http://127.0.0.1:8000${me.photo}`);
+    }
+  }, [me]);
 
   const onValid = (data: any) => {
     const formData = new FormData();
@@ -75,22 +121,17 @@ export default function AdditionalInformationForm({
       .filter((spec, index) => data[`specialization_${spec.id}`])
       .map((spec) => spec.id);
 
+    const interviews = interviewQuestions.map(({ id }: any) => ({
+      id,
+      answer: data[`question_${id}`],
+    }));
+
     // 배열을 JSON 문자열로 변환하여 전송
     formData.append('languages', JSON.stringify(languages));
     formData.append('styles', JSON.stringify(styles));
     formData.append('specializations', JSON.stringify(specializations));
+    formData.append('interviews', JSON.stringify(interviews));
 
-    // 인터뷰 질문 응답
-    interviewQuestions.forEach((question) => {
-      if (data[`question_${question.id}`]) {
-        formData.append(
-          `question_${question.id}`,
-          data[`question_${question.id}`]
-        );
-      }
-    });
-
-    console.log(data);
     putInfos(formData);
   };
 
@@ -113,6 +154,14 @@ export default function AdditionalInformationForm({
           className='file-input file-input-bordered w-full max-w-xs'
           {...register('photo')}
         />
+        {imagePreview && (
+          <img
+            src={imagePreview}
+            alt='미리보기'
+            className='ml-2'
+            style={{ maxWidth: '200px', maxHeight: '200px' }}
+          />
+        )}
       </div>
 
       <div className='flex items-center'>
@@ -224,7 +273,9 @@ export default function AdditionalInformationForm({
                 2,
                 '0'
               )}. ${question}`}</h4>
-              <p className='text-sm text-slate-500 mb-4'>{description}</p>
+              <p className='text-sm text-slate-500 mb-4'>
+                {description} ({id})
+              </p>
               <input
                 type='textarea'
                 className='textarea textarea-bordered textarea-lg w-full'

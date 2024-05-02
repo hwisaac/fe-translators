@@ -16,6 +16,7 @@ export default function AdminLayout({ children }: Props) {
   const loginState = useRecoilValue(loginAtom);
   const router = useRouter();
 
+
   useEffect(() => {
     setIsClient(true);
   }, []);

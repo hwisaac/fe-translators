@@ -1,21 +1,25 @@
 'use client';
 import useLoginData from '@/app/hooks/useLoginData';
+import useLogout from '@/app/hooks/useLogout';
 import useToken from '@/app/hooks/useToken';
 import { loginAtom } from '@/atoms/loginAtom';
 import MyNotices from '@/components/my-page/MyNotices';
 import MyTasks from '@/components/my-page/MyTasks';
 import BASE_URL from '@/utils/BASE_URL';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useRecoilValue } from 'recoil';
 
 type Props = {};
 
 export default function page({}: Props) {
   const [isClient, setIsClient] = useState(false);
-
+  const logout = useLogout();
+  const router = useRouter();
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -32,7 +36,14 @@ export default function page({}: Props) {
             Authorization: token,
           },
         })
-        .then((res) => res.data),
+        .then((res) => res.data)
+        .catch((err: AxiosError) => {
+          if (err.response?.status === 403) {
+            toast.error('Forbidden');
+            logout();
+            router.push('/member');
+          }
+        }),
   });
 
   if (!isClient) return null;
@@ -50,7 +61,9 @@ export default function page({}: Props) {
             className='btn join-item'>
             비밀번호 변경
           </Link>
-          <button className='btn join-item'>내정보 수정 변경</button>
+          <Link href='/member/additional-information' className='btn join-item'>
+            내 정보 수정
+          </Link>
           <button className='btn join-item'>회원 탈퇴</button>
         </div>
       </section>
