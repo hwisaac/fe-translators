@@ -20,6 +20,7 @@ const months = Array.from({ length: 12 }, (_, i) => 1 + i);
 
 export default function page({}: Props) {
   const setLoginState = useSetRecoilState(loginAtom);
+  const [emailConfirmed, setEmailConfirmed] = useState(false);
   const [address, setAddress] = useState<any>();
   const router = useRouter();
   const {
@@ -39,8 +40,17 @@ export default function page({}: Props) {
         })
         .then((res) => res.data),
     onError: (err: AxiosError) => {
-      // @ts-ignore
-      toast.error(`${err?.response?.data.error}`);
+      if (
+        // @ts-ignore
+        err?.response?.data?.error
+      ) {
+        // @ts-ignore
+        toast.error(`${err?.response?.data.error}`);
+      } else if (err?.response?.status === 400) {
+        toast.error('입력하신 정보로는 가입할 수 없습니다. 다시 확인해주세요');
+      } else {
+        toast.error(err.message);
+      }
     },
     onSuccess: async (data) => {
       console.log(data, '회원가입시 데이터');
@@ -75,25 +85,52 @@ export default function page({}: Props) {
     const day = data.day;
 
     const birth_date = `${year}-${month.padStart(2, 0)}-${day.padStart(2, 0)}`;
-    const postUser = { ...data, birth_date, is_active: false };
+    const postUser = { ...data, birth_date, is_active: true };
     console.log(postUser);
-    //   toast.promise(
-    //     mutateAsync({postUser}),
-    //     {
-    //       pending: 'Promise is pending',
-    //       success: 'Promise resolved 👌',
-    //       error: 'Promise rejected 🤯'
-    //     }
-    // )
+
     mutateAsync({ postUser });
   };
-  const handleClick = () => {
-    toast.info('wow');
+
+  const { mutateAsync: confirmMail, isPending: mailing } = useMutation({
+    mutationFn: (payload: any) =>
+      axios.post(`${BASE_URL}/gmail/`, payload).then((res) => res.data),
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success('코드가 생성되었습니다');
+    },
+    onError: (err) => {
+      console.error(err);
+      toast.error('코드 생성 실패');
+    },
+  });
+  const { mutateAsync: confirmCode } = useMutation({
+    mutationFn: ({ email, code }: any) =>
+      axios
+        .delete(`${BASE_URL}/gmail?email=${email}&code=${code}&/`)
+        .then((res) => res.data),
+    onSuccess: (data) => {
+      toast.success('코드인증 성공');
+      setEmailConfirmed(true);
+    },
+    onError: (err) => {
+      toast.error('코드인증 실패');
+    },
+  });
+  const handleConfirmEmail = () => {
+    const email = watch('email');
+    confirmMail({ email });
   };
+  const handleConfirmCode = () => {
+    const email = watch('email');
+    const code = watch('emailCode');
+    console.log(email, code);
+    confirmCode({ email, code });
+  };
+
   return (
     <PageLayout title='회원가입'>
-      <h2 className='w-full border-b pb-3 text-lg mb-10' onClick={handleClick}>
-        회원가입 정보
+      <h2 className='w-full border-b pb-3 text-lg mb-10'>
+        회원가입 정보 - 모두 필수항목입니다.
       </h2>
       <form className='space-y-5' onSubmit={handleSubmit(onValid)}>
         <div className='flex items-center'>
@@ -159,17 +196,39 @@ export default function page({}: Props) {
         </div>
         <div className='flex items-center'>
           <div className='w-[150px] text-sm'>이메일</div>
-          <input
-            type='email'
-            placeholder='translator@barunmc.com'
-            className='input input-bordered w-full max-w-xs'
-            {...register('email', { required: true })}
-          />
-          {errors.email && (
-            <p className='text-red-500 ml-2'>
-              {errors.email.message as React.ReactNode}
-            </p>
-          )}
+          <div className='flex flex-col gap-2'>
+            <div className='join'>
+              <input
+                type='email'
+                placeholder='translator@barunmc.com'
+                className='input input-bordered w-full max-w-xs join-item'
+                disabled={emailConfirmed}
+                {...register('email', { required: true })}
+              />
+              <div
+                className={`btn join-item ${emailConfirmed && 'btn-disabled'}`}
+                onClick={handleConfirmEmail}>
+                {mailing ? (
+                  <span className='loading loading-spinner loading-sm' />
+                ) : (
+                  '인증하기'
+                )}
+              </div>
+            </div>
+            {!emailConfirmed && (
+              <div className='join'>
+                <input
+                  type='text'
+                  placeholder='XXXXXX'
+                  className='input input-bordered w-full max-w-xs join-item'
+                  {...register('emailCode')}
+                />
+                <div className='btn join-item' onClick={handleConfirmCode}>
+                  코드입력
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         <div className='flex items-center'>
           <div className='w-[150px] text-sm'>핸드폰번호</div>
@@ -342,12 +401,11 @@ export default function page({}: Props) {
             className='input input-bordered w-full max-w-xs'
           />
         </div>
-        <button className='btn btn-neutral btn-wide relative top-5'>
-          {isPending ? (
-            <span className='loading loading-spinner loading-xs' />
-          ) : (
-            `회원가입`
-          )}
+        <button
+          className='btn btn-neutral btn-wide relative top-5'
+          disabled={!emailConfirmed}>
+          {isPending && <span className='loading loading-spinner loading-xs' />}
+          {!emailConfirmed ? '이메일 인증을 해야합니다' : `회원가입`}
         </button>
       </form>
     </PageLayout>
