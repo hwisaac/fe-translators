@@ -14,8 +14,8 @@ export default function page({}: Props) {
       <LoginForm />
       <div className='max-w-lg mx-auto flex flex-col gap-5 pt-3'>
         <div className='flex gap-10 relative left-2 justify-center'>
-          <div>아이디 찾기</div>
-          <div>비밀번호 찾기</div>
+          <Link href='/member/find-id'>아이디 찾기</Link>
+          <Link href='/member/find-password'>비밀번호 찾기</Link>
           <Link href='/member/signup'>
             <div>회원 가입</div>
           </Link>
