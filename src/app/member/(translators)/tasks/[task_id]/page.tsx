@@ -57,6 +57,11 @@ export default function page({}) {
 
   return (
     <div className='flex flex-col py-10'>
+      <div className='self-end'>
+        <Link href='/member/tasks' className='btn'>
+          목록
+        </Link>
+      </div>
       <div className='flex justify-between items-center border-b border-b-slate-700 px-4 py-2 mb-10'>
         <h2 className='text-semibold text-2xl'>{data?.title}</h2>{' '}
         <p>{formatDate(data?.created_at)}</p>
@@ -75,9 +80,6 @@ export default function page({}) {
         status={data?.status}
         comment_start_time={data?.comment_start_time}
       />
-      <Link href='/member/tasks' className='btn'>
-        목록
-      </Link>
     </div>
   );
 }

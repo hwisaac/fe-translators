@@ -1,6 +1,9 @@
 'use client';
 
 import { CommentType } from '@/components/admin/tasks/AdminComments';
+import BASE_URL from '@/utils/BASE_URL';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 
@@ -11,6 +14,7 @@ type Props = {
 export default function TranslatorBadgeBtn({ comment }: Props) {
   if (!comment) return null;
   const author = comment.author;
+  const queryClient = useQueryClient();
   console.log(author, 'author');
   const handleCopy = (text: string) => {
     navigator.clipboard
@@ -21,6 +25,45 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
       .catch((err) => {
         console.error('클립보드 복사에 실패했습니다.', err);
       });
+  };
+
+  const { mutateAsync: changeStatus } = useMutation({
+    mutationFn: (payload: any) =>
+      axios
+        .put(`${BASE_URL}/comments/${comment.id}/status/`, payload)
+        .then((res) => res.data),
+    onSuccess: (data) => {
+      console.log(data);
+      toast.success('성공');
+      queryClient.invalidateQueries({
+        queryKey: ['adminTaskDetail'],
+      });
+    },
+    onError: (error: AxiosError) => {
+      toast.error(error.message);
+    },
+  });
+  const STATUS = {
+    applying: 'applying',
+    sampleTranslator: 'sample_translator',
+    assignedTranslator: 'assigned_translator',
+    assignedToOther: 'assigned_to_other',
+    completed: 'completed',
+  };
+  const chooseApplying = () => {
+    changeStatus({
+      status: STATUS.applying,
+    });
+  };
+  const chooseSampleTranslator = () => {
+    changeStatus({
+      status: STATUS.sampleTranslator,
+    });
+  };
+  const chooseAssignedTranslator = () => {
+    changeStatus({
+      status: STATUS.assignedTranslator,
+    });
   };
   return (
     <div className='dropdown'>
@@ -44,11 +87,14 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
       <ul
         tabIndex={0}
         className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box min-w-[300px]'>
-        <li>
-          <span>샘플 번역가 지정</span>
+        <li onClick={chooseApplying}>
+          <span>1. 지원자로 지정</span>
         </li>
-        <li>
-          <span>담당 번역가 지정</span>
+        <li onClick={chooseSampleTranslator}>
+          <span>2. 샘플 번역가 지정</span>
+        </li>
+        <li onClick={chooseAssignedTranslator}>
+          <span>3. 담당 번역가 지정</span>
         </li>
         {author.email && (
           <li onClick={() => handleCopy(author.email)}>

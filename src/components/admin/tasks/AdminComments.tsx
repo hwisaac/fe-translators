@@ -384,6 +384,12 @@ const CommentStatusBadge = ({ status }: { status: CommentStatusType }) => {
       return <p className='badge badge-neutral'>샘플 번역가</p>;
     case 'assigned_translator':
       return <p className='badge badge-primary'>담당 번역가</p>;
+    case 'assigned_to_other':
+      return <p className='badge badge-outline'>타번역가에 샘플 할당</p>;
+    case 'completed':
+      return <p className='badge badge-outline'>마감(타번역가에 번역 할당)</p>;
+    case 'applying':
+      return <p className='badge badge-outline'>지원중</p>;
     default:
       return <p className='badge badge-outline'>{status}</p>;
   }
