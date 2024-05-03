@@ -389,7 +389,7 @@ const CommentStatusBadge = ({ status }: { status: CommentStatusType }) => {
     case 'completed':
       return <p className='badge badge-outline'>마감(타번역가에 번역 할당)</p>;
     case 'applying':
-      return <p className='badge badge-outline'>지원중</p>;
+      return <p className='badge badge-outline'>지원자</p>;
     default:
       return <p className='badge badge-outline'>{status}</p>;
   }

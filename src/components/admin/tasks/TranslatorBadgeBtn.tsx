@@ -1,5 +1,6 @@
 'use client';
 
+import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -38,6 +39,7 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
       queryClient.invalidateQueries({
         queryKey: ['adminTaskDetail'],
       });
+      revalidateTaskDetail();
     },
     onError: (error: AxiosError) => {
       toast.error(error.message);

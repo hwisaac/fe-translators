@@ -65,10 +65,10 @@ export default function MyTasks({}: Props) {
   }, []);
 
   const { data } = useQuery({
-    queryKey: ['my-available-tasks', token],
+    queryKey: ['my-tasks', token],
     queryFn: () =>
       axios
-        .get(`${BASE_URL}/users/me/available-tasks/`, {
+        .get(`${BASE_URL}/users/me/my-tasks/`, {
           headers: {
             Authorization: token,
           },
@@ -148,18 +148,20 @@ function EvaluatedStatus({ task }: { task: TaskType }) {
     } else if (taskStatus === 'open' && comments.length !== 0) {
       return '지원중';
     }
-    // taskStatus !== 'open'
+    const commentStatus = comments[0].status;
 
-    switch (taskStatus) {
-      case 'testing':
-        return '지원불가(샘플심사)';
-      case 'closed':
-        return '지원불가(마감)';
+    switch (commentStatus) {
+      case 'assigned_translator':
+        return '담당번역가';
+      case 'sample_translator':
+        return '샘플번역가';
+      case 'assigned_to_other':
+        return '타번역가에 샘플 할당';
       case 'completed':
-        return '지원불가(번역가선정)';
-      default:
-        return '버그(개발자문의)';
+        return '마감';
     }
+    return '';
+    // taskStatus !== 'open'
   };
   if (evalStatus(task) === '지원 가능') {
     return (
@@ -173,5 +175,18 @@ function EvaluatedStatus({ task }: { task: TaskType }) {
         {evalStatus(task)}
       </div>
     );
-  return null;
+  else if (evalStatus(task) === '샘플번역가') {
+    return (
+      <div className='border bg-orange-50 border-orange-700 text-orange-700 flex justify-center items-center'>
+        {evalStatus(task)}
+      </div>
+    );
+  } else if (evalStatus(task) === '담당번역가') {
+    return (
+      <div className='bg-orange-700 text-white flex justify-center items-center'>
+        {evalStatus(task)}
+      </div>
+    );
+  }
+  return evalStatus(task);
 }
