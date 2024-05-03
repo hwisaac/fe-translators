@@ -69,6 +69,9 @@ export default function page({}: Props) {
   return (
     <div className='flex flex-col py-10'>
       <div className='self-end space-x-2'>
+        <Link href='/admin/tasks' className='btn'>
+          목록
+        </Link>
         <Link href={`/admin/tasks/${task_id}/edit`} className='btn'>
           수정하기
         </Link>

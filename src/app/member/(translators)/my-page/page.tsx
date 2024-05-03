@@ -63,7 +63,6 @@ export default function page({}: Props) {
           <Link href='/member/additional-information' className='btn join-item'>
             내 정보 수정
           </Link>
-          <button className='btn join-item'>회원 탈퇴</button>
         </div>
       </section>
       <MyTasks />

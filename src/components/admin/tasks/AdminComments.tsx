@@ -17,22 +17,23 @@ import { FormEvent, LegacyRef, useEffect, useRef, useState } from 'react';
 import { IoMdReturnRight } from 'react-icons/io';
 import { toast } from 'react-toastify';
 
+export type AuthorType = {
+  birth_date: string;
+  email: string;
+  gender: 'female' | 'male';
+  id: number;
+  name: string;
+  pen_name: string;
+  username: string;
+  subscribed: 'email' | 'kakao' | 'none';
+  styles: string[];
+  languages: string[];
+  specializations: string[];
+  tags: { name: string }[];
+  phone: string;
+};
 export type CommentType = {
-  author: {
-    birth_date: string;
-    email: string;
-    gender: 'female' | 'male';
-    id: number;
-    name: string;
-    pen_name: string;
-    username: string;
-    subscribed: 'email' | 'kakao' | 'none';
-    styles: string[];
-    languages: string[];
-    specializations: string[];
-    tags: { name: string }[];
-    phone: string;
-  };
+  author: AuthorType;
   content: string;
   created_at: string;
   updated_at: string;

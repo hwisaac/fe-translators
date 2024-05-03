@@ -2,6 +2,7 @@
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
+import TranslatorTagDialog from '@/components/admin/tasks/TranslatorTagDialog';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
@@ -16,7 +17,6 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
   if (!comment) return null;
   const author = comment.author;
   const queryClient = useQueryClient();
-  console.log(author, 'author');
   const handleCopy = (text: string) => {
     navigator.clipboard
       .writeText(text)
@@ -34,7 +34,6 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
         .put(`${BASE_URL}/comments/${comment.id}/status/`, payload)
         .then((res) => res.data),
     onSuccess: (data) => {
-      console.log(data);
       toast.success('성공');
       queryClient.invalidateQueries({
         queryKey: ['adminTaskDetail'],
@@ -118,7 +117,18 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
         <li>
           <Link href={`/admin/translator/${author.id}`}>상세 정보</Link>
         </li>
+        <li
+          onClick={() =>
+            // @ts-ignore
+            document.getElementById(`modal_${comment.id}`).showModal()
+          }>
+          <span>태그</span>
+        </li>
       </ul>
+      <TranslatorTagDialog
+        author={comment.author}
+        modalId={`modal_${comment.id}`}
+      />
     </div>
   );
 }
