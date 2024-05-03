@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -19,6 +20,7 @@ type Props = {
 export default function NoticeEditForm({ data, notice_id }: Props) {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const [deleteFile, setDeleteFile] = useState(false);
   console.log(data.notice.file);
   const {
     register,
@@ -30,9 +32,6 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
     defaultValues: {
       content: data.notice.content,
       title: data.notice.title,
-      file: data.notice.file
-        ? `http://http://127.0.0.1:8000${data.notice.file}`
-        : '',
     },
   });
   const token = useToken();
@@ -53,6 +52,10 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
       queryClient.invalidateQueries({
         queryKey: ['adminNotice', res.id],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['adminNoticesList'],
+      });
+
       router.push(`/admin/notice/${res.id}`);
     },
     onError: (error) => toast.error(error.message),
@@ -64,6 +67,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
     if (data?.file?.length > 0) {
       formData.append('file', data.file[0]);
     }
+    formData.append('delete_file', `${deleteFile}`);
 
     try {
       const response = await postNotice(formData);
@@ -92,6 +96,13 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
             className='file-input file-input-bordered w-full max-w-xs'
             {...register('file')}
           />
+          {data.notice.file && (
+            <div
+              className='btn ml-2'
+              onClick={() => setDeleteFile((pre) => !pre)}>
+              {!deleteFile ? `파일 삭제` : '파일 삭제 취소'}
+            </div>
+          )}
         </li>
         <li className='flex items-center'>
           <h5 className='w-[200px] shrink-0'>내용</h5>
