@@ -16,7 +16,7 @@ type Props = {};
 export default function FindPasswordForm({}: Props) {
   const [text, setText] = useState('');
   const router = useRouter();
-  const { mutateAsync: findPassword } = useMutation({
+  const { mutateAsync: findPassword, isPending } = useMutation({
     mutationFn: (data: any) => {
       return axios
         .post(`${BASE_URL}/users/find-password/`, data)
@@ -66,7 +66,10 @@ export default function FindPasswordForm({}: Props) {
           {...register('username')}
         />
       </label>
-      <button className='btn btn-primary'>패스워드 찾기</button>
+      <button className='btn btn-primary'>
+        {isPending && <span className='loading loading-spinner' />}
+        패스워드 찾기
+      </button>
       <div className='btn' onClick={() => router.back()}>
         뒤로가기
       </div>

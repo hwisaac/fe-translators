@@ -63,13 +63,19 @@ export default function page({}: Props) {
             toast.error('권한이 없습니다.');
           }
         }),
+    staleTime: 1000 * 60,
   });
 
   return (
     <div className='flex flex-col py-10'>
-      <Link href='/admin/tasks/write' className='btn btn-neutral self-end'>
-        글쓰기
-      </Link>
+      <div className='self-end space-x-2'>
+        <Link href={`/admin/tasks/${task_id}/edit`} className='btn'>
+          수정하기
+        </Link>
+        <Link href='/admin/tasks/write' className='btn btn-neutral'>
+          글쓰기
+        </Link>
+      </div>
       <div className='flex justify-between items-center border-b border-b-slate-700 px-4 py-2'>
         <h2 className='text-semibold text-2xl flex items-center gap-3'>
           {data?.title} <LanguageBadge language={data?.language} />
@@ -88,12 +94,9 @@ export default function page({}: Props) {
             도서 정보
           </Link>
         )}
-        <Link href={`/admin/tasks/${task_id}/edit`} className='btn btn-sm'>
-          수정하기
-        </Link>
 
         <span className='text-orange-700 rounded-md bg-orange-50 px-2 py-1'>
-          {formatDateTime(data?.comment_start_time)}
+          [댓글] {formatDateTime(data?.comment_start_time)}
         </span>
       </div>
       <div className='border-b border-b-slate-700 py-10'>

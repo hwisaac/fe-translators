@@ -4,7 +4,7 @@ import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import { formatTextField } from '@/utils/formatTextField';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -17,7 +17,9 @@ type Props = {
 };
 
 export default function NoticeEditForm({ data, notice_id }: Props) {
+  const queryClient = useQueryClient();
   const router = useRouter();
+  console.log(data.notice.file);
   const {
     register,
     handleSubmit,
@@ -28,7 +30,9 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
     defaultValues: {
       content: data.notice.content,
       title: data.notice.title,
-      file: data.notice.file,
+      file: data.notice.file
+        ? `http://http://127.0.0.1:8000${data.notice.file}`
+        : '',
     },
   });
   const token = useToken();
@@ -36,7 +40,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
   const { mutateAsync: postNotice } = useMutation({
     mutationFn: (payload: any) =>
       axios
-        .put(`${BASE_URL}/notices/${notice_id}/`, payload, {
+        .put(`${BASE_URL}/notices/admin/${notice_id}/`, payload, {
           headers: {
             Authorization: token,
             'Content-Type': 'multipart/form-data',
@@ -46,6 +50,9 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
     onSuccess: (res) => {
       toast.success('수정에 성공했습니다.');
       revalidateNoticeDetail(res.id);
+      queryClient.invalidateQueries({
+        queryKey: ['adminNotice', res.id],
+      });
       router.push(`/admin/notice/${res.id}`);
     },
     onError: (error) => toast.error(error.message),
@@ -54,7 +61,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('content', data.content);
-    if (data.file.length > 0) {
+    if (data?.file?.length > 0) {
       formData.append('file', data.file[0]);
     }
 

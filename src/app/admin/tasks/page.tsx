@@ -1,14 +1,5 @@
 'use client';
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Link from 'next/link';
-import formatDate from '@/utils/formatDate';
 import BASE_URL from '@/utils/BASE_URL';
 import { NoticeType } from '@/components/my-page/MyNotices';
 
@@ -22,7 +13,8 @@ import axios from 'axios';
 import useToken from '@/app/hooks/useToken';
 import AdminTasksTable from '@/components/admin/tasks/AdminTasksTable';
 import { toast } from 'react-toastify';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import useLogout from '@/app/hooks/useLogout';
 
 type Props = {
   searchParams: {
@@ -48,6 +40,7 @@ export default function AdminTasksPage() {
   const query = searchParams.get('query');
   const status = searchParams.get('status');
   const language = searchParams.get('language');
+  const logout = useLogout();
 
   const { data } = useQuery({
     queryKey: ['adminTasksList', page, query, status, language],
@@ -64,7 +57,10 @@ export default function AdminTasksPage() {
           }
         )
         .then((res) => res.data)
-        .catch((error) => toast.error('권한이 없습니다')),
+        .catch((error) => {
+          toast.error('권한이 없습니다');
+          logout();
+        }),
   });
   return (
     <div className='flex flex-col items-center py-10'>

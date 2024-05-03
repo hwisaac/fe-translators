@@ -7,9 +7,9 @@ type Props = {
 };
 
 export default async function page({ params: { notice_id } }: Props) {
-  const data = await fetch(`${BASE_URL}/notices/${notice_id}/`).then((res) =>
-    res.json()
-  );
+  const data = await fetch(`${BASE_URL}/notices/${notice_id}/`, {
+    cache: 'no-cache',
+  }).then((res) => res.json());
   return (
     <section>
       <h1 className='text-2xl my-10'>공지사항 등록</h1>

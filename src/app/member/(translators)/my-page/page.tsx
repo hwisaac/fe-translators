@@ -41,7 +41,6 @@ export default function page({}: Props) {
           if (err.response?.status === 403) {
             toast.error('Forbidden');
             logout();
-            router.push('/member');
           }
         }),
   });

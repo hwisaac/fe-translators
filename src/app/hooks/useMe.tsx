@@ -11,7 +11,6 @@ type Props = {};
 export default function useMe() {
   const token = useToken();
   const logout = useLogout();
-  const router = useRouter();
   return useQuery({
     queryKey: ['me', token],
     queryFn: () =>
@@ -26,7 +25,6 @@ export default function useMe() {
           if (err.response?.status === 403) {
             toast.error('Forbidden');
             logout();
-            router.push('/member/login');
           }
         }),
     staleTime: 0,

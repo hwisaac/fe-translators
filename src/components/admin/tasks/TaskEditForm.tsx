@@ -58,10 +58,10 @@ export default function TaskEditForm({ data, task_id }: Props) {
         )
         .then((res) => res.data),
     onSuccess: (res) => {
-      toast.success(`수정되었습니다.`);
+      toast.success(`수정되었습니다.${res.id}, ${task_id}`);
       revalidateTaskDetail(res.id);
       queryClient.invalidateQueries({
-        queryKey: ['adminTaskDetail', res.id],
+        queryKey: ['adminTaskDetail'],
       });
       router.push(`/admin/tasks/${res.id}`);
     },

@@ -9,7 +9,7 @@ import { COMMENT_LIMIT } from '@/utils/commons';
 import formatDateTime from '@/utils/formatDateTime';
 import formatDateTimeWithMilliseconds from '@/utils/formatDateTimeWithMilliseconds';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { useParams } from 'next/navigation';
@@ -77,8 +77,12 @@ export default function AdminComments({ comments }: Props) {
       });
       revalidateTaskDetail(task_id);
     },
-    onError: (err) => {
-      toast.error(err.message);
+    onError: (error: AxiosError) => {
+      if (error.response?.status === 406) {
+        toast.error('댓글은 한개만 달 수 있습니다.');
+      } else {
+        toast.error(error.message);
+      }
     },
   });
 
@@ -142,7 +146,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       toast.success('대댓글이 작성되었습니다.');
       revalidateTaskDetail(task_id);
     },
-    onError: (error) => {
+    onError: (error: AxiosError) => {
       toast.error(error.message);
     },
   });
@@ -164,7 +168,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       });
       toast.success('댓글이 수정되었습니다.');
     },
-    onError: (error) => {
+    onError: (error: AxiosError) => {
       toast.error(error.message);
     },
   });

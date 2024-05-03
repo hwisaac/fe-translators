@@ -55,22 +55,29 @@ export default function page({}) {
         })
         .then((res) => res.data)
         .catch((err) => toast.error(err.message)),
+    staleTime: 0,
   });
 
   return (
     <div className='flex flex-col py-10'>
-      <Link href='/admin/notice/write' className='btn btn-neutral self-end'>
-        공지사항 등록
-      </Link>
-      <div className='flex justify-between items-center border-b border-b-slate-700 px-4 py-2 mb-3'>
-        <h2 className='text-semibold text-2xl'>{data?.notice?.title}</h2>{' '}
-        <p>{formatDate(data?.notice?.created_at)}</p>
-      </div>
-      <div className={`flex items-center gap-3 border-b pb-3`}>
-        <Link href={`/admin/notice/${notice_id}/edit`} className='btn btn-sm'>
+      <div className='self-end space-x-2'>
+        <Link href='/admin/notice' className='btn'>
+          목록
+        </Link>
+        <Link href={`/admin/notice/${notice_id}/edit`} className='btn'>
           수정
         </Link>
-        <div className='btn btn-sm'>삭제</div>
+        <div className='btn'>삭제</div>
+
+        <Link href='/admin/notice/write' className='btn btn-neutral'>
+          공지사항 등록
+        </Link>
+      </div>
+      <div className='flex justify-between items-center border-b border-b-slate-300 px-4 py-2 mb-3'>
+        <h2 className='text-semibold text-2xl'>{data?.notice?.title}</h2>{' '}
+        <p>생성: {formatDate(data?.notice?.created_at)}</p>
+      </div>
+      <div className={`flex items-center gap-3  pb-3`}>
         <Link
           href={`${FILE_URL}${data?.notice?.file}`}
           target='_blank'
@@ -78,17 +85,12 @@ export default function page({}) {
           {data?.notice?.file?.split('/')[3]}
         </Link>
       </div>
-      <div className='border-b border-b-slate-700 py-10'>
+      <div className='bg-stone-50 rounded-md shadow-md px-8 py-10'>
         {formatTextField(data?.notice?.content)}
       </div>
-      <div className='flex my-10 border'>
-        <Link href='/admin/notice'>
-          <div className='border bg-slate-300 text-2xl flex justify-center items-center h-[100px] w-[120px]'>
-            목록
-          </div>
-        </Link>
+      <div className='flex my-10'>
         <div className='flex flex-col h-[100px] w-full'>
-          <div className='h-1/2 flex gap-10 items-center px-10 border-t'>
+          <div className='h-1/2 flex gap-10 items-center px-10 border-b border-dotted'>
             <p className='font-semibold'>다음글</p>
             {data?.next && (
               <Link
