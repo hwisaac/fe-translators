@@ -41,7 +41,7 @@ export default function AdminTasksTable({ data }: any) {
                 제목
               </TableCell>
               <TableCell align='center' sx={{ fontWeight: 700, width: 80 }}>
-                댓글 수
+                지원자
               </TableCell>
               <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
                 링크

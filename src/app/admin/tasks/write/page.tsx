@@ -3,6 +3,7 @@
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
+import getKoreanDate from '@/utils/getKoreanDate';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
@@ -25,7 +26,7 @@ export default function page({}: Props) {
     formState: { errors },
   } = useForm<any>({
     defaultValues: {
-      date: new Date().toISOString().split('T')[0],
+      date: getKoreanDate(),
       hour: `${new Date().getHours()}`,
     },
   });

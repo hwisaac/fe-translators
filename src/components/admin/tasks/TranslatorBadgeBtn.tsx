@@ -115,7 +115,9 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
           </li>
         )}
         <li>
-          <Link href={`/admin/translator/${author.id}`}>상세 정보</Link>
+          <Link href={`/admin/translator/${author.id}`} target='_blank'>
+            상세 정보
+          </Link>
         </li>
         <li
           onClick={() =>

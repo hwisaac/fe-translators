@@ -62,15 +62,19 @@ export default function page({}) {
           목록
         </Link>
       </div>
-      <div className='flex justify-between items-center border-b border-b-slate-700 px-4 py-2 mb-10'>
+      <div className='flex justify-between items-center border-b border-b-slate-700 px-4 py-2'>
         <h2 className='text-semibold text-2xl'>{data?.title}</h2>{' '}
         <p>{formatDate(data?.created_at)}</p>
       </div>
-      <div className='flex items-center'>
-        신청 가능 시각:
-        <span className='bg-orange-50 text-orange-600 rounded-md px-2 py-1'>
-          {formatDateTime(data?.comment_start_time)}
-        </span>
+      <div className='flex flex-col gap-2 py-1 '>
+        <div>도서링크1</div>
+        <div>도서링크2</div>
+        <div>
+          신청 가능 시각:
+          <span className='bg-orange-50 text-orange-600 rounded-md px-2 py-1'>
+            {formatDateTime(data?.comment_start_time)}
+          </span>
+        </div>
       </div>
       <div className='border-b border-b-slate-700 py-10'>
         {formatTextField(data?.content)}

@@ -75,6 +75,15 @@ export default function page({}: Props) {
         <Link href={`/admin/tasks/${task_id}/edit`} className='btn'>
           수정하기
         </Link>
+        <button
+          className='btn'
+          onClick={() =>
+            // @ts-ignore
+            document.getElementById('choose_directly').showModal()
+          }>
+          번역가 직접 지정
+        </button>
+        <ChooseDirectlyModal modal_id='choose_directly' />
         <Link href='/admin/tasks/write' className='btn btn-neutral'>
           글쓰기
         </Link>
@@ -110,5 +119,29 @@ export default function page({}: Props) {
         목록
       </Link>
     </div>
+  );
+}
+
+interface ChooseDirectlyModalProps {
+  modal_id: string;
+}
+function ChooseDirectlyModal({ modal_id }: ChooseDirectlyModalProps) {
+  return (
+    <dialog id={modal_id} className='modal'>
+      <div className='modal-box'>
+        <h3 className='font-bold text-lg'>번역가 직접 지정</h3>
+        <div className='join'>
+          <input
+            className='join-item input input-bordered'
+            placeholder='이름 검색'
+          />
+          <button className='join-item btn'>검색</button>
+        </div>
+      </div>
+
+      <form method='dialog' className='modal-backdrop'>
+        <button>close</button>
+      </form>
+    </dialog>
   );
 }

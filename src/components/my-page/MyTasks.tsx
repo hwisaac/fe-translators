@@ -160,7 +160,15 @@ function EvaluatedStatus({ task }: { task: TaskType }) {
       case 'completed':
         return '마감';
     }
-    return '';
+    switch (taskStatus) {
+      case 'closed':
+        return '종료';
+      case 'completed':
+        return '마감 - 타번역가에 번역 할당';
+      case 'testing':
+        return '타번역가에 샘플 할당';
+    }
+    return taskStatus;
     // taskStatus !== 'open'
   };
   if (evalStatus(task) === '지원 가능') {

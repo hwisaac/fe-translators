@@ -35,6 +35,7 @@ export default function LoginForm({}: Props) {
       }
     },
     onError: (error: AxiosError) => {
+      toast.error(error.message);
       // @ts-ignore
       toast.error(String(error.response?.data?.error));
       setLoginState(null);

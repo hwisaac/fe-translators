@@ -4,6 +4,7 @@ import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import { TaskDetail } from '@/app/admin/tasks/[task_id]/page';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
+import getKoreanDate from '@/utils/getKoreanDate';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
@@ -35,10 +36,7 @@ export default function TaskEditForm({ data, task_id }: Props) {
       language: data.language,
       link: data.link,
       content: data.content,
-      date: `${
-        new Date(data?.comment_start_time).toISOString().split('T')[0] ??
-        '2024-01-01'
-      }`,
+      date: getKoreanDate(data?.comment_start_time),
       hour: `${new Date(data.comment_start_time).getHours()}`,
       minute: `55`,
     },
@@ -58,10 +56,13 @@ export default function TaskEditForm({ data, task_id }: Props) {
         )
         .then((res) => res.data),
     onSuccess: (res) => {
-      toast.success(`수정되었습니다.${res.id}, ${task_id}`);
+      toast.success(`수정되었습니다.`);
       revalidateTaskDetail(res.id);
       queryClient.invalidateQueries({
         queryKey: ['adminTaskDetail'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['adminTasksList'],
       });
       router.push(`/admin/tasks/${res.id}`);
     },

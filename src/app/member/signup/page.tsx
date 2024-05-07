@@ -96,7 +96,7 @@ export default function page({}: Props) {
       axios.post(`${BASE_URL}/gmail/`, payload).then((res) => res.data),
     onSuccess: (data) => {
       console.log(data);
-      toast.success('코드가 생성되었습니다');
+      toast.success('코드가 생성되었습니다. 이메일을 확인해주세요');
     },
     onError: (err) => {
       console.error(err);
@@ -117,6 +117,7 @@ export default function page({}: Props) {
     },
   });
   const handleConfirmEmail = () => {
+    if (mailing) return;
     const email = watch('email');
     confirmMail({ email });
   };
@@ -210,6 +211,8 @@ export default function page({}: Props) {
                 onClick={handleConfirmEmail}>
                 {mailing ? (
                   <span className='loading loading-spinner loading-sm' />
+                ) : emailConfirmed ? (
+                  '인증됨'
                 ) : (
                   '인증하기'
                 )}
@@ -396,10 +399,15 @@ export default function page({}: Props) {
           <div className='w-[150px] text-sm'>가입승인 코드</div>
           <input
             type='text'
-            {...register('code', { required: true })}
+            {...register('code', { required: '필수 입력입니다' })}
             placeholder='관리자에게 받은 승인 코드'
             className='input input-bordered w-full max-w-xs'
           />
+          {errors.code && (
+            <p className='text-red-500 ml-2'>
+              {errors.code.message as React.ReactNode}
+            </p>
+          )}
         </div>
         <button
           className='btn btn-neutral btn-wide relative top-5'
