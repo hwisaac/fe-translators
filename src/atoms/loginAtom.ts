@@ -8,6 +8,7 @@ export type LoginDataType = {
   token: string;
   username: string;
   is_staff: boolean;
+  is_translator: boolean;
 };
 const { persistAtom } = recoilPersist();
 

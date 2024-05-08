@@ -1,8 +1,9 @@
 type Props = {
-  interviews: { question: string; answer: string }[];
+  interviews?: { question: string; answer: string }[];
 };
 
 export default function InterviewSection({ interviews }: Props) {
+  if (!interviews) return null;
   return (
     <section
       className={`bg-gray-100 px-10 py-10 ${

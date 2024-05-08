@@ -14,10 +14,6 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginAtom } from '@/atoms/loginAtom';
 type Props = {};
 
-const years = Array.from({ length: 2023 - 1900 + 1 }, (_, i) => 2023 - i);
-const days = Array.from({ length: 31 }, (_, i) => 1 + i);
-const months = Array.from({ length: 12 }, (_, i) => 1 + i);
-
 export default function page({}: Props) {
   const setLoginState = useSetRecoilState(loginAtom);
   const [emailConfirmed, setEmailConfirmed] = useState(false);
@@ -80,13 +76,7 @@ export default function page({}: Props) {
 
   const onValid: SubmitHandler<any> = async (data) => {
     console.log(data);
-
-    const year = data.year;
-    const month = data.month;
-    const day = data.day;
-
-    const birth_date = `${year}-${month.padStart(2, 0)}-${day.padStart(2, 0)}`;
-    const postUser = { ...data, birth_date, is_active: true };
+    const postUser = { ...data, is_active: true, is_translator: false };
     console.log(postUser);
 
     mutateAsync({ postUser });
@@ -128,7 +118,6 @@ export default function page({}: Props) {
     console.log(email, code);
     confirmCode({ email, code });
   };
-
   return (
     <PageLayout title='회원가입'>
       <h2 className='w-full border-b pb-3 text-lg mb-10'>
@@ -197,6 +186,20 @@ export default function page({}: Props) {
           )}
         </div>
         <div className='flex items-center'>
+          <div className='w-[150px] text-sm'>회사명</div>
+          <input
+            type='text'
+            placeholder='회사명'
+            className='input input-bordered w-full max-w-xs'
+            {...register('company', { required: '필수 입력항목입니다.' })}
+          />
+          {errors.name && (
+            <p className='text-red-500 ml-2'>
+              {errors.name.message as React.ReactNode}
+            </p>
+          )}
+        </div>
+        <div className='flex items-center'>
           <div className='w-[150px] text-sm'>이메일</div>
           <div className='flex flex-col gap-2'>
             <div className='join'>
@@ -250,130 +253,6 @@ export default function page({}: Props) {
         </div>
 
         <div className='flex items-center'>
-          <div className='w-[150px] text-sm'>생년월일</div>
-          <select
-            className='select select-bordered w-full max-w-[130px] mr-1'
-            {...register('year', { required: true })}>
-            <option disabled>(년)</option>
-            {years.map((year) => (
-              <option key={year}>{year}</option>
-            ))}
-          </select>
-          <select
-            className='select select-bordered w-full max-w-[130px] mr-1'
-            {...register('month', { required: true })}>
-            <option disabled>(월)</option>
-            {months.map((month) => (
-              <option key={`${month}month`}>{month}</option>
-            ))}
-          </select>
-          <select
-            className='select select-bordered w-full max-w-[130px]'
-            {...register('day', { required: true })}>
-            <option disabled>(일)</option>
-            {days.map((day) => (
-              <option key={`${day}day`}>{day}</option>
-            ))}
-          </select>
-        </div>
-        <div className='flex items-center'>
-          <div className='w-[150px] text-sm'>성별</div>
-          <label className='label cursor-pointer space-x-1'>
-            <span className='label-text'>여자</span>
-            <input
-              {...register('gender')}
-              type='radio'
-              name='gender'
-              value='female'
-              className='radio'
-              defaultChecked
-            />
-          </label>
-          <label className='label cursor-pointer space-x-1 mr-3'>
-            <span className='label-text'>남자</span>
-            <input
-              type='radio'
-              value='male'
-              className='radio'
-              {...register('gender')}
-            />
-          </label>
-        </div>
-
-        <div className='flex'>
-          <div className='w-[150px] text-sm'>주소</div>
-          <div className='flex flex-col gap-1'>
-            <div className='flex'>
-              <input
-                type='text'
-                {...register('zonecode')}
-                className='input input-bordered w-[400px]'
-                placeholder='우편번호'
-                value={address?.zonecode}
-              />
-              <DaumPostcodePopup setAddress={setAddress} />
-            </div>
-
-            <input
-              type='text'
-              placeholder='주소'
-              {...register('address1', { required: true })}
-              className='input input-bordered w-[500px]'
-              value={address?.address}
-            />
-
-            <input
-              type='text'
-              placeholder='상세 주소'
-              {...register('address2')}
-              className='input input-bordered w-[500px]'
-            />
-          </div>
-        </div>
-        <div className='flex items-center'>
-          <div className='w-[150px] text-sm'>알림</div>
-
-          <div className='form-control'>
-            <label className='label cursor-pointer'>
-              <span className='label-text mr-3 text-slate-500'>
-                번역활동에 관련된 메일 및 문자 받는 것을 동의합니다.
-              </span>
-              <input
-                type='checkbox'
-                className='checkbox'
-                {...register('is_subscribed')}
-              />
-            </label>
-          </div>
-        </div>
-        <div className='flex items-center'>
-          <div className='w-[150px] text-sm'>알림 방식</div>
-
-          <div className='form-control'>
-            <label className='label cursor-pointer'>
-              <label className='label cursor-pointer space-x-1 mr-3'>
-                <span className='label-text'>E-mail</span>
-                <input
-                  type='radio'
-                  className='radio'
-                  value='email'
-                  {...register('subscribed')}
-                  defaultChecked
-                />
-              </label>
-              <label className='label cursor-pointer space-x-1 mr-3'>
-                <span className='label-text'>카카오톡</span>
-                <input
-                  type='radio'
-                  {...register('subscribed')}
-                  className='radio'
-                  value='kakao'
-                />
-              </label>
-            </label>
-          </div>
-        </div>
-        <div className='flex items-center'>
           <div className='w-[150px] text-sm'>정보 제공</div>
 
           <div className='form-control'>
@@ -396,20 +275,7 @@ export default function page({}: Props) {
             </label>
           </div>
         </div>
-        <div className='flex items-center'>
-          <div className='w-[150px] text-sm'>가입승인 코드</div>
-          <input
-            type='text'
-            {...register('code', { required: '필수 입력입니다' })}
-            placeholder='관리자에게 받은 승인 코드'
-            className='input input-bordered w-full max-w-xs'
-          />
-          {errors.code && (
-            <p className='text-red-500 ml-2'>
-              {errors.code.message as React.ReactNode}
-            </p>
-          )}
-        </div>
+
         <button
           className='btn btn-neutral btn-wide relative top-5'
           disabled={!emailConfirmed}>
@@ -420,37 +286,3 @@ export default function page({}: Props) {
     </PageLayout>
   );
 }
-
-const DaumPostcodePopup = ({ setAddress }: any) => {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src =
-      '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-    script.onload = () => {
-      console.log('다음 주소 API 스크립트 로드 완료');
-    };
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-
-  const handleOpenPostcode = (e: any) => {
-    e.preventDefault();
-    // @ts-ignore
-    new window.daum.Postcode({
-      oncomplete: function (data: any) {
-        setAddress(data);
-      },
-    }).open();
-  };
-
-  return (
-    <div
-      onClick={(e) => handleOpenPostcode(e)}
-      className='bg-slate-50 hover:bg-slate-200 transition-colors border-2 border-slate-500 text-slate-600 rounded-md w-[100px] px-4 py-1 cursor-pointer flex items-center justify-center'>
-      주소 검색
-    </div>
-  );
-};

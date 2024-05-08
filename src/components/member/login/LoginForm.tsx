@@ -27,6 +27,7 @@ export default function LoginForm({}: Props) {
         toast.error('데이터를 가져오는 데 실패했습니다.');
         return;
       }
+      console.log(data);
       setLoginState(data);
       if (data.is_staff) {
         router.push('/admin/tasks/');

@@ -99,12 +99,30 @@ export default function page({}: Props) {
             </select>
           </li>
           <li className='flex items-center'>
-            <h5 className='w-[200px] shrink-0'>아마존 링크</h5>
+            <h5 className='w-[200px] shrink-0'>도서 링크</h5>
             <input
               type='text'
               className='input input-bordered w-full'
               placeholder='https:// 를 반드시 입력해주세요'
               {...register('link')}
+            />
+          </li>
+          <li className='flex items-center'>
+            <h5 className='w-[200px] shrink-0'>도서 링크2</h5>
+            <input
+              type='text'
+              className='input input-bordered w-full'
+              placeholder='https:// 를 반드시 입력해주세요'
+              {...register('link2')}
+            />
+          </li>
+          <li className='flex items-center'>
+            <h5 className='w-[200px] shrink-0'>도서 링크3</h5>
+            <input
+              type='text'
+              className='input input-bordered w-full'
+              placeholder='https:// 를 반드시 입력해주세요'
+              {...register('link3')}
             />
           </li>
           <li className='flex items-center gap-2'>

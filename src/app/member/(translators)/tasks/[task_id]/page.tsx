@@ -5,6 +5,7 @@ import MemberComments from '@/components/member/tasks/MemberComments';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import formatDateTime from '@/utils/formatDateTime';
+import { formatLink } from '@/utils/formatLink';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
@@ -24,6 +25,10 @@ type TaskDetail = {
   created_at: string;
   updated_at: string;
   content: string;
+  link: string;
+  link2: string;
+  link3: string;
+
   comments: CommentType[];
   status: 'open' | 'testing' | 'closed' | 'completed';
   comment_start_time: string;
@@ -66,15 +71,37 @@ export default function page({}) {
         <h2 className='text-semibold text-2xl'>{data?.title}</h2>{' '}
         <p>{formatDate(data?.created_at)}</p>
       </div>
-      <div className='flex flex-col gap-2 py-1 '>
-        <div>도서링크1</div>
-        <div>도서링크2</div>
-        <div>
-          신청 가능 시각:
-          <span className='bg-orange-50 text-orange-600 rounded-md px-2 py-1'>
-            {formatDateTime(data?.comment_start_time)}
-          </span>
-        </div>
+      <div className='py-2'>
+        신청 가능 시각:
+        <span className='bg-orange-50 text-orange-600 rounded-md px-2 py-1'>
+          {formatDateTime(data?.comment_start_time)}
+        </span>
+      </div>
+      <div className='flex gap-2 py-1 '>
+        {data?.link && (
+          <Link
+            target='_blank'
+            className='btn btn-sm'
+            href={formatLink(data?.link)}>
+            도서 정보1
+          </Link>
+        )}
+        {data?.link2 && (
+          <Link
+            target='_blank'
+            className='btn btn-sm'
+            href={formatLink(data?.link2)}>
+            도서 정보2
+          </Link>
+        )}
+        {data?.link3 && (
+          <Link
+            target='_blank'
+            className='btn btn-sm'
+            href={formatLink(data?.link3)}>
+            도서 정보3
+          </Link>
+        )}
       </div>
       <div className='border-b border-b-slate-700 py-10'>
         {formatTextField(data?.content)}

@@ -35,6 +35,8 @@ export type TaskDetail = {
   comments: CommentType[];
   language: 'jp' | 'en';
   link: string;
+  link2: string;
+  link3: string;
   status: 'closed' | 'completed' | 'open' | 'testing';
   comment_start_time: string;
 };
@@ -103,6 +105,12 @@ export default function page({}: Props) {
       </div>
       <div className='flex gap-3 px-3 py-3 items-center'>
         <StatusBadge status={data?.status} />
+
+        <span className='text-orange-700 rounded-md bg-orange-50 px-2 py-1'>
+          [댓글] {formatDateTime(data?.comment_start_time)}
+        </span>
+      </div>
+      <div className='flex gap-2'>
         {data?.link && (
           <Link
             href={formatLink(data.link)}
@@ -111,10 +119,22 @@ export default function page({}: Props) {
             도서 정보
           </Link>
         )}
-
-        <span className='text-orange-700 rounded-md bg-orange-50 px-2 py-1'>
-          [댓글] {formatDateTime(data?.comment_start_time)}
-        </span>
+        {data?.link2 && (
+          <Link
+            href={formatLink(data.link2)}
+            target='_blank'
+            className='btn btn-sm'>
+            도서 정보2
+          </Link>
+        )}
+        {data?.link3 && (
+          <Link
+            href={formatLink(data.link3)}
+            target='_blank'
+            className='btn btn-sm'>
+            도서 정보3
+          </Link>
+        )}
       </div>
       <div className='border-b border-b-slate-700 py-10'>
         {formatTextField(data?.content)}
@@ -174,9 +194,13 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
     onError: (error: AxiosError) => {
       if (error.response?.status === 406) {
         toast.error('이미 신청했습니다.');
+        // @ts-ignore
+        window.document.getElementById('choose_directly')?.close();
         return;
       }
       toast.error(error.message);
+      // @ts-ignore
+      window.document.getElementById('choose_directly')?.close();
     },
   });
   const handleSubmit = async (e: FormEvent) => {
@@ -204,24 +228,26 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
           <button className='join-item btn'>검색</button>
         </form>
         <div className='flex flex-col'>
-          {data?.map(({ id, name, birth_date, email, phone }: any) => {
-            return (
-              <label className='label cursor-pointer' key={id}>
-                <span className='label-text border w-[60px]'>{name} </span>
-                <span className='label-text border w-[150px] overflow-hidden'>
-                  {email}
-                </span>
-                <span className='label-text'>{phone} </span>
-                <span className='label-text'>{birth_date} </span>
-                <input
-                  type='radio'
-                  className='radio checked:bg-blue-500'
-                  value={id}
-                  {...register('user_id')}
-                />
-              </label>
-            );
-          })}
+          {data?.map(
+            ({ id, name, birth_date, email, phone, username }: any) => {
+              return (
+                <label className='label cursor-pointer' key={id}>
+                  <span className='label-text'>
+                    {username}({name})
+                  </span>
+                  <span className='label-text'>{email}</span>
+                  <span className='label-text'>{phone} </span>
+                  <span className='label-text'>{birth_date} </span>
+                  <input
+                    type='radio'
+                    className='radio checked:bg-blue-500'
+                    value={id}
+                    {...register('user_id')}
+                  />
+                </label>
+              );
+            }
+          )}
         </div>
         <form method='dialog' className='flex gap-2 my-3 items-end'>
           <button className='btn btn-outline'>취소</button>
