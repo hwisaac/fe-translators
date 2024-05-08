@@ -6,7 +6,7 @@ import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import formatDateTime from '@/utils/formatDateTime';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
@@ -15,6 +15,8 @@ import AdminComments, {
 } from '@/components/admin/tasks/AdminComments';
 import { formatLink } from '@/utils/formatLink';
 import { toast } from 'react-toastify';
+import { FormEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 type Props = {
   params: {
@@ -83,7 +85,10 @@ export default function page({}: Props) {
           }>
           번역가 직접 지정
         </button>
-        <ChooseDirectlyModal modal_id='choose_directly' />
+        <ChooseDirectlyModal
+          modal_id={`choose_directly`}
+          task_id={task_id as string}
+        />
         <Link href='/admin/tasks/write' className='btn btn-neutral'>
           글쓰기
         </Link>
@@ -124,19 +129,106 @@ export default function page({}: Props) {
 
 interface ChooseDirectlyModalProps {
   modal_id: string;
+  task_id: string;
 }
-function ChooseDirectlyModal({ modal_id }: ChooseDirectlyModalProps) {
+function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
+  const [name, setName] = useState('');
+  const queryClient = useQueryClient();
+  const token = useToken();
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<any>();
+  const { mutateAsync: findUser, data } = useMutation({
+    mutationFn: () =>
+      axios
+        .get(`${BASE_URL}/users/search?name=${name}&/`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((res) => res.data),
+  });
+  const { mutateAsync: assignTranslator } = useMutation({
+    mutationFn: ({ task_id, user_id }: any) => {
+      return axios.post(
+        `${BASE_URL}/tasks/${task_id}/assign-translator/${user_id}/`,
+        {},
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+    },
+    onSuccess: () => {
+      toast.success('담당번역가가 선정되었습니다.');
+      // @ts-ignore
+      window.document.getElementById('choose_directly')?.close();
+      queryClient.invalidateQueries({
+        queryKey: ['adminTaskDetail'],
+      });
+    },
+    onError: (error: AxiosError) => {
+      if (error.response?.status === 406) {
+        toast.error('이미 신청했습니다.');
+        return;
+      }
+      toast.error(error.message);
+    },
+  });
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    await findUser();
+    setName('');
+  };
+
+  const handleConfirm = () => {
+    console.log(watch('user_id'));
+    console.log(`task_id :${task_id}, user_id :${watch('user_id')}`);
+    assignTranslator({ task_id, user_id: watch('user_id') });
+  };
   return (
     <dialog id={modal_id} className='modal'>
       <div className='modal-box'>
-        <h3 className='font-bold text-lg'>번역가 직접 지정</h3>
-        <div className='join'>
+        <h3 className='font-bold text-lg mb-3'>번역가 직접 지정</h3>
+        <form className='join' onSubmit={handleSubmit}>
           <input
             className='join-item input input-bordered'
             placeholder='이름 검색'
+            value={name}
+            onChange={(e) => setName(e.currentTarget.value)}
           />
           <button className='join-item btn'>검색</button>
+        </form>
+        <div className='flex flex-col'>
+          {data?.map(({ id, name, birth_date, email, phone }: any) => {
+            return (
+              <label className='label cursor-pointer' key={id}>
+                <span className='label-text border w-[60px]'>{name} </span>
+                <span className='label-text border w-[150px] overflow-hidden'>
+                  {email}
+                </span>
+                <span className='label-text'>{phone} </span>
+                <span className='label-text'>{birth_date} </span>
+                <input
+                  type='radio'
+                  className='radio checked:bg-blue-500'
+                  value={id}
+                  {...register('user_id')}
+                />
+              </label>
+            );
+          })}
         </div>
+        <form method='dialog' className='flex gap-2 my-3 items-end'>
+          <button className='btn btn-outline'>취소</button>
+          <div className='btn btn-neutral' onClick={handleConfirm}>
+            번역가로 지정
+          </div>
+        </form>
       </div>
 
       <form method='dialog' className='modal-backdrop'>

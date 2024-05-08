@@ -261,12 +261,12 @@ function CommentItem({ comment }: { comment: CommentType }) {
           className='btn btn-outline btn-sm'
           onClick={() =>
             // @ts-ignore
-            document.getElementById(`modal_${comment.id}`).showModal()
+            document.getElementById(`delete_modal_${comment.id}`).showModal()
           }>
           삭제
         </button>
         <dialog
-          id={`modal_${comment.id}`}
+          id={`delete_modal_${comment.id}`}
           className='modal modal-bottom sm:modal-middle'>
           <div className='modal-box'>
             <h3 className='font-bold text-lg'>삭제하기</h3>
