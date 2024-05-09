@@ -2,7 +2,7 @@
 import useMe from '@/app/hooks/useMe';
 import useToken from '@/app/hooks/useToken';
 import PageLayout from '@/layouts/PageLayout';
-import BASE_URL from '@/utils/BASE_URL';
+import BASE_URL, { BASE_URL_WO_API } from '@/utils/BASE_URL';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -95,7 +95,7 @@ export default function AdditionalInformationForm({
       me.interviews.forEach(({ question_id, answer }: any) => {
         setValue(`question_${question_id}`, answer);
       });
-      setImagePreview(`http://127.0.0.1:8000${me.photo}`);
+      setImagePreview(`${BASE_URL_WO_API}${me.photo}`);
     }
   }, [me]);
 

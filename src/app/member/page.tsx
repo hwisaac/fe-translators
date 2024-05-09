@@ -2,11 +2,15 @@
 import { loginAtom } from '@/atoms/loginAtom';
 import PageLayout from '@/layouts/PageLayout';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-type Props = { children?: any; title: string };
-
-export default function page({}: Props) {
+export default function page({}) {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  if (!isClient) return null;
   const loginState = useRecoilValue(loginAtom);
   const router = useRouter();
   if (!loginState) {

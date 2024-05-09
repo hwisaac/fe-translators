@@ -34,7 +34,7 @@ type TaskDetail = {
   comment_start_time: string;
 };
 
-export function formatTextField(text?: string | null): any {
+function formatTextField(text?: string | null): any {
   if (!text) return <p></p>;
   return text
     .split('\n')

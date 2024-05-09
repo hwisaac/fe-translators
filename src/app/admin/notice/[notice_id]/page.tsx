@@ -2,6 +2,7 @@
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
+import { fileUrl } from '@/utils/getImgUrl';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
@@ -30,7 +31,7 @@ type NoticeData = {
     created_at: string;
   };
 };
-export const FILE_URL = 'http://127.0.0.1:8000';
+
 function formatTextField(text?: string | null): any {
   if (!text) return <p></p>;
   return text
@@ -79,7 +80,7 @@ export default function page({}) {
       </div>
       <div className={`flex items-center gap-3  pb-3`}>
         <Link
-          href={`${FILE_URL}${data?.notice?.file}`}
+          href={`${fileUrl}${data?.notice?.file}`}
           target='_blank'
           className={`btn btn-sm btn-ghost ${!data?.notice?.file && 'hidden'}`}>
           {data?.notice?.file?.split('/')[3]}

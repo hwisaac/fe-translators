@@ -1,5 +1,4 @@
 'use client';
-import { FILE_URL } from '@/app/admin/notice/[notice_id]/page';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import getImgUrl from '@/utils/getImgUrl';
@@ -31,7 +30,7 @@ type NoticeData = {
   };
 };
 
-export function formatTextField(text?: string | null): any {
+function formatTextField(text?: string | null): any {
   if (!text) return <p></p>;
   return text
     .split('\n')
