@@ -26,7 +26,7 @@ export default function page({}: Props) {
     setValue,
     formState: { errors },
   } = useForm<any>();
-  const { mutateAsync, isPending } = useMutation({
+  const { mutateAsync: createAccount, isPending } = useMutation({
     mutationFn: ({ postUser }: any) =>
       axios
         .post(`${BASE_URL}/users/`, postUser, {
@@ -79,7 +79,7 @@ export default function page({}: Props) {
     const postUser = { ...data, is_active: true, is_translator: false };
     console.log(postUser);
 
-    mutateAsync({ postUser });
+    createAccount({ postUser });
   };
 
   const { mutateAsync: confirmMail, isPending: mailing } = useMutation({
@@ -186,10 +186,10 @@ export default function page({}: Props) {
           )}
         </div>
         <div className='flex items-center'>
-          <div className='w-[150px] text-sm'>회사명</div>
+          <div className='w-[150px] text-sm'>소속 출판사</div>
           <input
             type='text'
-            placeholder='회사명'
+            placeholder='소속 출판사'
             className='input input-bordered w-full max-w-xs'
             {...register('company', { required: '필수 입력항목입니다.' })}
           />
