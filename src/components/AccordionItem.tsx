@@ -12,14 +12,8 @@ export default function AccordionItem({
   answer,
   question,
 }: any) {
-  const formattedAnswer = answer
-    .split('\n')
-    .map((line: string, index: number) => (
-      <span key={index}>
-        {line}
-        <br />
-      </span>
-    ));
+  if (!answer) return null;
+  console.log(answer);
 
   return (
     <Accordion expanded={expanded === id} onChange={handleChange(id)}>
@@ -33,8 +27,9 @@ export default function AccordionItem({
         </Typography>
         <Typography sx={{ fontSize: '18px' }}>{question}</Typography>
       </AccordionSummary>
-      <AccordionDetails sx={{ color: 'text.secondary' }}>
-        {formattedAnswer}
+      <AccordionDetails
+        sx={{ color: 'text.secondary', whiteSpace: 'pre-wrap' }}>
+        {answer}
       </AccordionDetails>
     </Accordion>
   );

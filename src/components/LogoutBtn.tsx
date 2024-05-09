@@ -19,7 +19,7 @@ export default function LogoutBtn({}: Props) {
   const handleClick = () => {
     console.log(loginState);
     setLoginState(null); // 로그아웃 처리
-    router.push('/member');
+    router.push('/');
   };
 
   if (!show) return null; // show가 false면 null 반환, 버튼 숨김

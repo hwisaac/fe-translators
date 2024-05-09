@@ -26,10 +26,11 @@ export default function page({}: Props) {
     setValue,
     formState: { errors },
   } = useForm<any>();
+  console.log(errors);
   const { mutateAsync: createAccount, isPending } = useMutation({
     mutationFn: ({ postUser }: any) =>
       axios
-        .post(`${BASE_URL}/users/`, postUser, {
+        .post(`${BASE_URL}/users/editor-signup/`, postUser, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -51,18 +52,19 @@ export default function page({}: Props) {
     onSuccess: async (data) => {
       console.log(data, '회원가입시 데이터');
       const user = data.user;
-
-      setLoginState({
-        email: user.email,
-        id: user.id,
-        photo: null,
-        token: data.token,
-        username: user.username,
-        is_staff: false,
-        is_translator: true,
-      });
+      if (user) {
+        setLoginState({
+          email: user.email,
+          id: user.id,
+          photo: null,
+          token: data.token,
+          username: user.username,
+          is_staff: false,
+          is_translator: true,
+        });
+      }
       toast.success('가입에 성공했습니다.');
-      router.push('/member/additional-information');
+      router.push('/translators');
     },
   });
   const phone = watch('phone');
@@ -76,7 +78,12 @@ export default function page({}: Props) {
 
   const onValid: SubmitHandler<any> = async (data) => {
     console.log(data);
-    const postUser = { ...data, is_active: true, is_translator: false };
+    const postUser = {
+      ...data,
+      is_active: true,
+      is_translator: false,
+      birth_date: '1999-01-01',
+    };
     console.log(postUser);
 
     createAccount({ postUser });
@@ -91,7 +98,7 @@ export default function page({}: Props) {
     },
     onError: (err) => {
       console.error(err);
-      toast.error('코드 생성 실패');
+      toast.error(err.message);
     },
   });
   const { mutateAsync: confirmCode } = useMutation({
@@ -208,7 +215,9 @@ export default function page({}: Props) {
                 placeholder='translator@barunmc.com'
                 className='input input-bordered w-full max-w-xs join-item'
                 disabled={emailConfirmed}
-                {...register('email', { required: true })}
+                {...register('email', {
+                  required: true,
+                })}
               />
               <div
                 className={`btn join-item ${emailConfirmed && 'btn-disabled'}`}
