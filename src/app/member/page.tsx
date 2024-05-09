@@ -7,12 +7,12 @@ import { useRecoilValue } from 'recoil';
 
 export default function page({}) {
   const [isClient, setIsClient] = useState(false);
+  const loginState = useRecoilValue(loginAtom);
+  const router = useRouter();
   useEffect(() => {
     setIsClient(true);
   }, []);
   if (!isClient) return null;
-  const loginState = useRecoilValue(loginAtom);
-  const router = useRouter();
   if (!loginState) {
     router.push('/member/login');
   } else if (loginState.is_staff) {
