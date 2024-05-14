@@ -12,14 +12,20 @@ export default function page({}) {
   useEffect(() => {
     setIsClient(true);
   }, []);
+  useEffect(() => {
+    if (isClient) {
+      if (!loginState) {
+        router.push('/member/login');
+      } else if (loginState.is_staff) {
+        router.push('/admin/tasks');
+      } else {
+        router.push('/member/my-page');
+      }
+    }
+  }, [isClient, loginState, router]);
+
   if (!isClient) return null;
-  if (!loginState) {
-    router.push('/member/login');
-  } else if (loginState.is_staff) {
-    router.push('/admin/tasks');
-  } else {
-    router.push('/member/my-page');
-  }
+
 
   return (
     <PageLayout title='번역가방'>

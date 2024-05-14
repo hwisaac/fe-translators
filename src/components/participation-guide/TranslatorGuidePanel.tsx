@@ -44,7 +44,9 @@ export default function TranslatorGuidePanel({ value }: any) {
           src={img.coffeeBg}
           alt='backgroundImage'
           layout='fill'
-          objectFit='cover'
+          style={{
+            objectFit: 'cover',
+          }}
           className=''
           placeholder='blur'
         />
@@ -86,7 +88,9 @@ export default function TranslatorGuidePanel({ value }: any) {
           src={img.coffeeBg2}
           alt='backgroundImage'
           layout='fill'
-          objectFit='cover'
+          style={{
+            objectFit: 'cover',
+          }}
           className=''
           placeholder='blur'
         />

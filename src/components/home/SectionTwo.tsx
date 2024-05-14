@@ -61,7 +61,9 @@ export default async function SectionTwo({}: Props) {
                         alt={book.title}
                         width={200}
                         height={300}
-                        objectFit='cover'
+                        style={{
+                          objectFit: 'cover',
+                        }}
                       />
                     ) : (
                       <FaBook size={90} className='text-slate-200' />

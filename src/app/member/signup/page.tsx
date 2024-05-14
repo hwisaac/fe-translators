@@ -248,6 +248,22 @@ export default function page({}: Props) {
             </p>
           )}
         </div>
+        <div className='flex items-center'>
+          <div className='w-[150px] text-sm'>국내거주</div>
+          <div className='form-control'>
+            <label className='label cursor-pointer'>
+              <span className='label-text mr-3 text-slate-500'>
+                국외에 거주시 체크 해제
+              </span>
+              <input
+                type='checkbox'
+                className='checkbox'
+                defaultChecked
+                {...register('is_domestic')}
+              />
+            </label>
+          </div>
+        </div>
 
         <div className='flex items-center'>
           <div className='w-[150px] text-sm'>생년월일</div>
