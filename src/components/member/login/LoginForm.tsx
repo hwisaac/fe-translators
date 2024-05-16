@@ -13,13 +13,37 @@ import { toast } from 'react-toastify';
 import { useRecoilState } from 'recoil';
 type Props = {};
 
+function getCookie(name: string) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) === name + '=') {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+
+
+
 export default function LoginForm({}: Props) {
   const router = useRouter();
+  const csrftoken = getCookie('csrftoken');
   const [loginState, setLoginState] = useRecoilState(loginAtom);
   const { mutate: login } = useMutation({
     mutationFn: ({ data }: any) =>
       axios
-        .post(`${BASE_URL}/users/login/`, data)
+        .post(`${BASE_URL}/users/login/`, data, {
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+        })
         .then((res) => res.data as LoginDataType),
     onSuccess: (data) => {
       setLoginState(null);
