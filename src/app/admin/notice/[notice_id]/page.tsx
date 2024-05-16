@@ -83,7 +83,7 @@ export default function page({}) {
           href={`${fileUrl}${data?.notice?.file}`}
           target='_blank'
           className={`btn btn-sm btn-ghost ${!data?.notice?.file && 'hidden'}`}>
-          {data?.notice?.file?.split('/')[3]}
+          {data?.notice?.file?.split('/')[data?.notice?.file?.length - 1]}
         </Link>
       </div>
       <div className='bg-stone-50 rounded-md shadow-md px-8 py-10'>
