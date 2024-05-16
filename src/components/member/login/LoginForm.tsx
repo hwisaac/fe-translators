@@ -1,4 +1,5 @@
 'use client';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
@@ -31,13 +32,9 @@ function getCookie(name: string) {
 
 export default function LoginForm({}: Props) {
   const router = useRouter();
-  const [csrftoken, setCsrfToken] = useState<string | null>(null);
+  const csrftoken = useCSRFToken();
   const [loginState, setLoginState] = useRecoilState(loginAtom);
 
-  useEffect(() => {
-    const token = getCookie('csrftoken');
-    setCsrfToken(token);
-  }, []);
   const { mutate: login } = useMutation({
     mutationFn: ({ data }: any) =>
       axios
