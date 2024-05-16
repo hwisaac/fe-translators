@@ -1,6 +1,7 @@
 'use client';
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useLoginData from '@/app/hooks/useLoginData';
 import useToken from '@/app/hooks/useToken';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
@@ -147,6 +148,7 @@ function CommentItem({
   const { task_id } = useParams();
   const queryClient = useQueryClient();
   const token = useToken();
+  const csrftoken = useCSRFToken();
   const [reply, setReply] = useState('');
   const { mutateAsync: addReply } = useMutation({
     mutationKey: ['addReply', comment.id],
@@ -180,6 +182,7 @@ function CommentItem({
         {
           headers: {
             Authorization: token,
+            'X-CSRFToken': csrftoken,
           },
         }
       ),

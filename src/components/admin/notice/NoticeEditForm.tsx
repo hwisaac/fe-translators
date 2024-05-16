@@ -1,5 +1,6 @@
 'use client';
 import { revalidateNoticeDetail } from '@/app/admin/notice/write/revalidateNoticeDetail';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
@@ -35,7 +36,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
     },
   });
   const token = useToken();
-
+  const csrftoken = useCSRFToken();
   const { mutateAsync: postNotice } = useMutation({
     mutationFn: (payload: any) =>
       axios
@@ -43,6 +44,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
           headers: {
             Authorization: token,
             'Content-Type': 'multipart/form-data',
+            'X-CSRFToken': csrftoken,
           },
         })
         .then((res) => res.data),

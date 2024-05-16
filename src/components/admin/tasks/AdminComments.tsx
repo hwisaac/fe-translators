@@ -1,6 +1,7 @@
 'use client';
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
 import TranslatorBadgeBtn from '@/components/admin/tasks/TranslatorBadgeBtn';
 import { ReplyType } from '@/components/member/tasks/MemberComments';
@@ -56,6 +57,7 @@ type Props = {
 export default function AdminComments({ comments }: Props) {
   const { task_id } = useParams();
   const token = useToken();
+  const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const [inputComment, setInputComment] = useState('');
 
@@ -68,6 +70,7 @@ export default function AdminComments({ comments }: Props) {
         {
           headers: {
             Authorization: token,
+            'X-CSRFToken': csrftoken,
           },
         }
       ),
@@ -121,6 +124,7 @@ export default function AdminComments({ comments }: Props) {
 
 function CommentItem({ comment }: { comment: CommentType }) {
   const commentRef = useRef(null);
+  const csrftoken = useCSRFToken();
   const [openReply, setOpenReply] = useState(false);
   const [editable, setEditable] = useState(false);
   const [commentInput, setCommentInput] = useState(comment.content);
@@ -137,6 +141,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
         {
           headers: {
             Authorization: token,
+            'X-CSRFToken': csrftoken,
           },
         }
       ),
@@ -160,6 +165,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
         {
           headers: {
             Authorization: token,
+            'X-CSRFToken': csrftoken,
           },
         }
       ),

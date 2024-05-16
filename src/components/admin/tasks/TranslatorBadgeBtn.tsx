@@ -1,6 +1,7 @@
 'use client';
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
 import TranslatorTagDialog from '@/components/admin/tasks/TranslatorTagDialog';
 import BASE_URL from '@/utils/BASE_URL';
@@ -17,6 +18,7 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
   if (!comment) return null;
   const author = comment.author;
   const queryClient = useQueryClient();
+  const csrftoken = useCSRFToken();
   const handleCopy = (text: string) => {
     navigator.clipboard
       .writeText(text)
@@ -31,7 +33,11 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
   const { mutateAsync: changeStatus } = useMutation({
     mutationFn: (payload: any) =>
       axios
-        .put(`${BASE_URL}/comments/${comment.id}/status/`, payload)
+        .put(`${BASE_URL}/comments/${comment.id}/status/`, payload, {
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+        })
         .then((res) => res.data),
     onSuccess: (data) => {
       toast.success('성공');

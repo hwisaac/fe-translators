@@ -1,4 +1,5 @@
 'use client';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
@@ -14,12 +15,16 @@ import { useRecoilState } from 'recoil';
 type Props = {};
 
 export default function FindPasswordForm({}: Props) {
-  const [text, setText] = useState('');
+  const csrftoken = useCSRFToken();
   const router = useRouter();
   const { mutateAsync: findPassword, isPending } = useMutation({
     mutationFn: (data: any) => {
       return axios
-        .post(`${BASE_URL}/users/find-password/`, data)
+        .post(`${BASE_URL}/users/find-password/`, data, {
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+        })
         .then((res) => res.data as string);
     },
     onSuccess: (data: string) => {

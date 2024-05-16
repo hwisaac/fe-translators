@@ -1,4 +1,5 @@
 'use client';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
@@ -14,6 +15,7 @@ type Props = {};
 export default function page({}: Props) {
   const router = useRouter();
   const token = useToken();
+  const csrftoken = useCSRFToken();
   const {
     register,
     handleSubmit,
@@ -33,6 +35,7 @@ export default function page({}: Props) {
         {
           headers: {
             Authorization: token,
+            'X-CSRFToken': csrftoken,
           },
         }
       ),

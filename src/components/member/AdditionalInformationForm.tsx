@@ -1,4 +1,5 @@
 'use client';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useMe from '@/app/hooks/useMe';
 import useToken from '@/app/hooks/useToken';
 import PageLayout from '@/layouts/PageLayout';
@@ -36,6 +37,7 @@ export default function AdditionalInformationForm({
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string>('');
   const token = useToken();
+  const csrftoken = useCSRFToken();
   const { data: me } = useMe();
   const {
     register,
@@ -65,6 +67,7 @@ export default function AdditionalInformationForm({
         headers: {
           Authorization: token,
           'Content-Type': 'multipart/form-data',
+          'X-CSRFToken': csrftoken,
         },
       }),
     onSuccess: () => {

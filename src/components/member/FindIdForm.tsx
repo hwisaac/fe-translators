@@ -1,4 +1,5 @@
 'use client';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
@@ -13,11 +14,16 @@ type Props = {};
 export default function FindIdForm({}: Props) {
   const [id, setId] = useState('');
   const router = useRouter();
+  const csrftoken = useCSRFToken();
   const { mutateAsync: findId } = useMutation({
     mutationFn: (data: any) => {
       console.log(data);
       return axios
-        .post(`${BASE_URL}/users/find-id/`, data)
+        .post(`${BASE_URL}/users/find-id/`, data, {
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+        })
         .then((res) => res.data as string);
     },
     onSuccess: (data: string) => {

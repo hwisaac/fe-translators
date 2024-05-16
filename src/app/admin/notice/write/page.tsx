@@ -2,6 +2,7 @@
 
 import { revalidateNoticeDetail } from '@/app/admin/notice/write/revalidateNoticeDetail';
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -23,6 +24,7 @@ export default function page({}: Props) {
     formState: { errors },
   } = useForm<any>();
   const token = useToken();
+  const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const { mutateAsync: postNotice } = useMutation({
     mutationFn: (payload: any) =>
@@ -30,6 +32,7 @@ export default function page({}: Props) {
         .post(`${BASE_URL}/notices/`, payload, {
           headers: {
             Authorization: token,
+            'X-CSRFToken': csrftoken,
             'Content-Type': 'multipart/form-data',
           },
         })

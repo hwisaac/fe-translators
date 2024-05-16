@@ -2,6 +2,7 @@
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import { TaskDetail } from '@/app/admin/tasks/[task_id]/page';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import getKoreanDate from '@/utils/getKoreanDate';
@@ -22,6 +23,7 @@ type Props = {
 export default function TaskEditForm({ data, task_id }: Props) {
   const queryClient = useQueryClient();
   const token = useToken();
+  const csrftoken = useCSRFToken();
   const router = useRouter();
   const {
     register,
@@ -53,6 +55,7 @@ export default function TaskEditForm({ data, task_id }: Props) {
           {
             headers: {
               Authorization: token,
+              'X-CSRFToken': csrftoken,
             },
           }
         )

@@ -17,6 +17,7 @@ import { formatLink } from '@/utils/formatLink';
 import { toast } from 'react-toastify';
 import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 
 type Props = {
   params: {
@@ -154,6 +155,7 @@ interface ChooseDirectlyModalProps {
 function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
   const [name, setName] = useState('');
   const queryClient = useQueryClient();
+  const csrftoken = useCSRFToken();
   const token = useToken();
   const {
     register,
@@ -179,6 +181,7 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
         {
           headers: {
             Authorization: token,
+            'X-CSRFToken': csrftoken,
           },
         }
       );

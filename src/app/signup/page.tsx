@@ -12,12 +12,14 @@ import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginAtom } from '@/atoms/loginAtom';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 type Props = {};
 
 export default function page({}: Props) {
   const setLoginState = useSetRecoilState(loginAtom);
   const [emailConfirmed, setEmailConfirmed] = useState(false);
   const [address, setAddress] = useState<any>();
+  const csrftoken = useCSRFToken();
   const router = useRouter();
   const {
     register,
@@ -33,6 +35,7 @@ export default function page({}: Props) {
         .post(`${BASE_URL}/users/editor-signup/`, postUser, {
           headers: {
             'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
           },
         })
         .then((res) => res.data),

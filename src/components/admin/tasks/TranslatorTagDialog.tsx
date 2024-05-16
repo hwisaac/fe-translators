@@ -15,6 +15,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { TiDelete } from 'react-icons/ti';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 
 type Props = {
   author?: AuthorType;
@@ -26,6 +27,7 @@ type ResponseType = {
   id: number;
 }[];
 export default function TranslatorTagDialog({ author, modalId }: Props) {
+  const csrftoken = useCSRFToken();
   if (!author || !modalId) return null;
   const {
     register,
@@ -61,7 +63,11 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
   const { mutateAsync: saveTags } = useMutation({
     mutationFn: (payload: number[]) =>
       axios
-        .put(`${BASE_URL}/users/${author.id}/tags/`, payload)
+        .put(`${BASE_URL}/users/${author.id}/tags/`, payload, {
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+        })
         .then((res) => res.data),
     onSuccess: (data) => {
       console.log(data);
@@ -75,7 +81,11 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
   });
   const { mutateAsync: addTag } = useMutation({
     mutationFn: (payload: any) =>
-      axios.post(`${BASE_URL}/users/${author.id}/tags/`, payload),
+      axios.post(`${BASE_URL}/users/${author.id}/tags/`, payload, {
+        headers: {
+          'X-CSRFToken': csrftoken,
+        },
+      }),
     onSuccess: (data) => {
       console.log(data);
       toast.success('추가됨');
@@ -96,7 +106,13 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
 
   const { mutateAsync: deleteTag } = useMutation({
     mutationFn: (id: any) =>
-      axios.delete(`${BASE_URL}/tags/${id}/`).then((res) => res.data),
+      axios
+        .delete(`${BASE_URL}/tags/${id}/`, {
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+        })
+        .then((res) => res.data),
     onSuccess: () => {
       toast.success('삭제되었습니다.');
       queryClient.invalidateQueries({

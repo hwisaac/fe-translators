@@ -11,16 +11,22 @@ import { toast } from 'react-toastify';
 import { useRecoilState } from 'recoil';
 import { FaUser } from 'react-icons/fa';
 import { FaLock } from 'react-icons/fa6';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 
 type Props = {};
 
 export default function TranslatorDetailWithoutToken({}: Props) {
   const router = useRouter();
+  const csrftoken = useCSRFToken();
   const [loginState, setLoginState] = useRecoilState(loginAtom);
   const { mutate: login } = useMutation({
     mutationFn: ({ data }: any) =>
       axios
-        .post(`${BASE_URL}/users/login/`, data)
+        .post(`${BASE_URL}/users/login/`, data, {
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+        })
         .then((res) => res.data as LoginDataType),
     onSuccess: (data) => {
       setLoginState(null);
