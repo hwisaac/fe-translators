@@ -1,6 +1,7 @@
 'use client';
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import getKoreanDate from '@/utils/getKoreanDate';
@@ -31,6 +32,7 @@ export default function page({}: Props) {
     },
   });
   const token = useToken();
+  const csrftoken = useCSRFToken();
 
   const { mutateAsync: postTask } = useMutation({
     mutationFn: (payload: any) =>
@@ -41,6 +43,7 @@ export default function page({}: Props) {
           {
             headers: {
               Authorization: token,
+              'X-CSRFToken': csrftoken,
             },
           }
         )

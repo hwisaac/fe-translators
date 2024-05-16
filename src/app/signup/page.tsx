@@ -91,10 +91,16 @@ export default function page({}: Props) {
 
     createAccount({ postUser });
   };
-
+  
   const { mutateAsync: confirmMail, isPending: mailing } = useMutation({
     mutationFn: (payload: any) =>
-      axios.post(`${BASE_URL}/gmail/`, payload).then((res) => res.data),
+      axios
+        .post(`${BASE_URL}/gmail/`, payload, {
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+        })
+        .then((res) => res.data),
     onSuccess: (data) => {
       console.log(data);
       toast.success('코드가 생성되었습니다. 이메일을 확인해주세요');

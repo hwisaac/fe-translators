@@ -47,6 +47,7 @@ export default function MemberComments({
 }: Props) {
   const { task_id } = useParams();
   const token = useToken();
+  const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const [inputComment, setInputComment] = useState('');
   const [disabled, setDisabled] = useState(false);
@@ -60,6 +61,7 @@ export default function MemberComments({
         {
           headers: {
             Authorization: token,
+            'X-CSRFToken': csrftoken,
           },
         }
       ),
@@ -159,6 +161,7 @@ function CommentItem({
         {
           headers: {
             Authorization: token,
+            'X-CSRFToken': csrftoken,
           },
         }
       ),
