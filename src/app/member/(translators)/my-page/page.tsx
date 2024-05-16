@@ -60,8 +60,11 @@ export default function page({}: Props) {
             className='btn join-item'>
             비밀번호 변경
           </Link>
+          <Link href='/member/private-information' className='btn join-item'>
+            개인정보 수정
+          </Link>
           <Link href='/member/additional-information' className='btn join-item'>
-            내 정보 수정
+            추가정보 수정
           </Link>
         </div>
       </section>

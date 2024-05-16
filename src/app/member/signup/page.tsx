@@ -13,6 +13,7 @@ import axios, { AxiosError } from 'axios';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginAtom } from '@/atoms/loginAtom';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
+import DaumPostcodePopup from '@/components/member/DaumPostcodePopup';
 type Props = {};
 
 const years = Array.from({ length: 2023 - 1900 + 1 }, (_, i) => 2023 - i);
@@ -262,7 +263,7 @@ export default function page({}: Props) {
           <div className='form-control'>
             <label className='label cursor-pointer'>
               <span className='label-text mr-3 text-slate-500'>
-                국외에 거주시 체크 해제
+                국내에 거주시 체크
               </span>
               <input
                 type='checkbox'
@@ -356,22 +357,6 @@ export default function page({}: Props) {
           </div>
         </div>
         <div className='flex items-center'>
-          <div className='w-[150px] text-sm'>알림</div>
-
-          <div className='form-control'>
-            <label className='label cursor-pointer'>
-              <span className='label-text mr-3 text-slate-500'>
-                번역활동에 관련된 메일 및 문자 받는 것을 동의합니다.
-              </span>
-              <input
-                type='checkbox'
-                className='checkbox'
-                {...register('is_subscribed')}
-              />
-            </label>
-          </div>
-        </div>
-        <div className='flex items-center'>
           <div className='w-[150px] text-sm'>알림 방식</div>
 
           <div className='form-control'>
@@ -393,6 +378,15 @@ export default function page({}: Props) {
                   {...register('subscribed')}
                   className='radio'
                   value='kakao'
+                />
+              </label>
+              <label className='label cursor-pointer space-x-1 mr-3'>
+                <span className='label-text'>수신 거부</span>
+                <input
+                  type='radio'
+                  {...register('subscribed')}
+                  className='radio'
+                  value='none'
                 />
               </label>
             </label>
@@ -446,36 +440,3 @@ export default function page({}: Props) {
   );
 }
 
-const DaumPostcodePopup = ({ setAddress }: any) => {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src =
-      '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-    script.onload = () => {
-      console.log('다음 주소 API 스크립트 로드 완료');
-    };
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-
-  const handleOpenPostcode = (e: any) => {
-    e.preventDefault();
-    // @ts-ignore
-    new window.daum.Postcode({
-      oncomplete: function (data: any) {
-        setAddress(data);
-      },
-    }).open();
-  };
-
-  return (
-    <div
-      onClick={(e) => handleOpenPostcode(e)}
-      className='bg-slate-50 hover:bg-slate-200 transition-colors border-2 border-slate-500 text-slate-600 rounded-md w-[100px] px-4 py-1 cursor-pointer flex items-center justify-center'>
-      주소 검색
-    </div>
-  );
-};

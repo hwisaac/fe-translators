@@ -81,6 +81,7 @@ export default function AdditionalInformationForm({
 
   useEffect(() => {
     if (me) {
+      setValue('subscribed', me.subscribed);
       setValue('pen_name', me.pen_name);
       setValue('major_works', me.major_works);
       setValue('biography', me.biography);
