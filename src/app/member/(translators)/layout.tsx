@@ -23,7 +23,6 @@ export default function MemberLayout({ children }: Props) {
       </div>
     );
   }
-  console.log(data);
   if (data && !data.is_translator) {
     return (
       <div className='w-full h-[500px] flex flex-col gap-3 items-center justify-center'>

@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,12 +8,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Link from 'next/link';
-import formatDate from '@/utils/formatDate';
 import BASE_URL from '@/utils/BASE_URL';
-import { NoticeType } from '@/components/my-page/MyNotices';
 import TasksPagination from '@/components/member/tasks/MemberTasksPagination';
 import SearchForm from '@/components/member/tasks/SearchForm';
 import LanguageBadge from '@/components/member/tasks/LanguageBadge';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import useToken from '@/app/hooks/useToken';
 type Props = {
   searchParams: {
     page: string;
@@ -30,16 +32,27 @@ export type TaskType = {
   link: string;
 };
 
-export default async function TasksPage({
+export default function TasksPage({
   searchParams: { page, query, language, status },
 }: Props) {
-  // console.log(query, page, filter);
+  const token = useToken();
 
-  const data = await fetch(
-    `${BASE_URL}/tasks?page=${page ?? ''}&language=${language ?? ''}&query=${
-      query ?? ''
-    }&status=${status ?? ''}&/`
-  ).then((data) => data.json());
+  const { data } = useQuery({
+    queryKey: ['tasks_list', page, query, language, status],
+    queryFn: () =>
+      axios
+        .get(
+          `${BASE_URL}/tasks?page=${page ?? ''}&language=${
+            language ?? ''
+          }&query=${query ?? ''}&status=${status ?? ''}&/`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((res) => res.data),
+  });
   return (
     <div className='flex flex-col items-center py-10'>
       <SearchForm />
@@ -48,7 +61,7 @@ export default async function TasksPage({
   );
 }
 
-async function TasksTable({ data }: { data: any }) {
+function TasksTable({ data }: { data?: any }) {
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
       <h2 className='text-lg font-semibold pb-8'>번역가 수주 게시판</h2>
@@ -76,7 +89,7 @@ async function TasksTable({ data }: { data: any }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.tasks?.map((task: TaskType, index: number) => (
+            {data?.tasks?.map((task: TaskType, index: number) => (
               <TableRow
                 key={`${index}-rows`}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -112,7 +125,7 @@ async function TasksTable({ data }: { data: any }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <TasksPagination count={data.total_pages} />
+      <TasksPagination count={data?.total_pages ?? 1} />
     </section>
   );
 }

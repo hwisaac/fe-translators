@@ -4,7 +4,7 @@ import useMe from '@/app/hooks/useMe';
 import useToken from '@/app/hooks/useToken';
 import PageLayout from '@/layouts/PageLayout';
 import BASE_URL, { BASE_URL_WO_API } from '@/utils/BASE_URL';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -38,6 +38,7 @@ export default function AdditionalInformationForm({
   const [imagePreview, setImagePreview] = useState<string>('');
   const token = useToken();
   const csrftoken = useCSRFToken();
+  const queryClient = useQueryClient();
   const { data: me } = useMe();
   const {
     register,
@@ -73,6 +74,12 @@ export default function AdditionalInformationForm({
     onSuccess: () => {
       toast.success('저장되었습니다.');
       router.push('/member/my-page');
+      queryClient.invalidateQueries({
+        queryKey: ['my-tasks'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['tasks_list'],
+      });
     },
     onError: (err) => {
       toast.error('변경 에러');
