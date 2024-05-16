@@ -13,7 +13,6 @@ export default function AccordionItem({
   question,
 }: any) {
   if (!answer) return null;
-  console.log(answer);
 
   return (
     <Accordion expanded={expanded === id} onChange={handleChange(id)}>

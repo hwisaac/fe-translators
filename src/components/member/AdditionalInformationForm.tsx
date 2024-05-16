@@ -112,6 +112,7 @@ export default function AdditionalInformationForm({
     formData.append('biography', data.biography);
     formData.append('works', data.works);
     formData.append('is_public', data.is_public);
+    formData.append('subscribed', data.subscribed);
 
     // 다대다 관계 필드 처리
     const languages = checkBoxes.languages
@@ -302,6 +303,21 @@ export default function AdditionalInformationForm({
               {...register('is_public')}
             />
           </label>
+        </div>
+      </div>
+      <div className='flex items-center'>
+        <div className='w-[150px] text-sm'>알림</div>
+
+        <div className='form-control'>
+          <select
+            className='select select-bordered w-full max-w-xs'
+            {...register('subscribed')}>
+            <option selected value='none'>
+              비수신
+            </option>
+            <option value='kakao'>카카오톡</option>
+            <option value='email'>이메일</option>
+          </select>
         </div>
       </div>
       <button className='btn btn-neutral btn-wide relative top-5'>

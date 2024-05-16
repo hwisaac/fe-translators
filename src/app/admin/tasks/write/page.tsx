@@ -140,15 +140,19 @@ export default function page({}: Props) {
             <select
               className='select select-bordered w-[100px]'
               {...register('hour')}>
-              {hoursArr.map((hour) => (
-                <option value={hour}>{hour} 시</option>
+              {hoursArr.map((hour, index) => (
+                <option key={`hour${index}`} value={hour}>
+                  {hour} 시
+                </option>
               ))}
             </select>
             <select
               className='select select-bordered w-[100px]'
               {...register('minute')}>
-              {minutesArr.map((minute) => (
-                <option value={minute}>{minute} 분</option>
+              {minutesArr.map((minute, index) => (
+                <option key={`minute${index}`} value={minute}>
+                  {minute} 분
+                </option>
               ))}
             </select>
           </li>
