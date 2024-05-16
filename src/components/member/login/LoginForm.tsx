@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { on } from 'events';
 import { useRouter } from 'next/navigation';
-import { FormEvent } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaUser } from 'react-icons/fa';
 import { FaLock } from 'react-icons/fa6';
@@ -29,13 +29,15 @@ function getCookie(name: string) {
   return cookieValue;
 }
 
-
-
-
 export default function LoginForm({}: Props) {
   const router = useRouter();
-  const csrftoken = getCookie('csrftoken');
+  const [csrftoken, setCsrfToken] = useState<string | null>(null);
   const [loginState, setLoginState] = useRecoilState(loginAtom);
+
+  useEffect(() => {
+    const token = getCookie('csrftoken');
+    setCsrfToken(token);
+  }, []);
   const { mutate: login } = useMutation({
     mutationFn: ({ data }: any) =>
       axios
@@ -78,7 +80,7 @@ export default function LoginForm({}: Props) {
     console.log(data);
     login({ data });
   };
-  
+
   return (
     <form
       className='flex flex-col gap-3 max-w-lg mt-10 mx-auto'
