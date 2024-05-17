@@ -71,7 +71,7 @@ export default function page({}) {
         <h2 className='text-semibold text-2xl'>{data?.title}</h2>{' '}
         <p>{formatDate(data?.created_at)}</p>
       </div>
-      <div className='py-2'>
+      <div className='p-2'>
         신청 가능 시각:
         <span className='bg-orange-50 text-orange-600 rounded-md px-2 py-1'>
           {formatDateTime(data?.comment_start_time)}
@@ -103,7 +103,7 @@ export default function page({}) {
           </Link>
         )}
       </div>
-      <div className='border-b border-b-slate-700 py-10'>
+      <div className='border-b border-b-slate-700 py-10 px-4'>
         {formatTextField(data?.content)}
       </div>
       <MemberComments

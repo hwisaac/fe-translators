@@ -123,7 +123,7 @@ export default function MemberComments({
           신청하기
         </button>
       </form>
-      <ul className='flex flex-col w-full py-4'>
+      <ul className='flex flex-col w-full py-4 px-2'>
         {comments?.map((comment) => (
           <CommentItem
             comment={comment}
