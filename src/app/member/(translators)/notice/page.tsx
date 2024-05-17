@@ -46,47 +46,35 @@ async function MemberNoticeTable({ data }: any) {
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
       <h2 className='text-lg font-semibold pb-8 px-2'>번역가 공지사항</h2>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 700, width: 100 }} align='center'>
-                번호
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
-                제목
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
-                작성일
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.notices?.map((notice: NoticeType, index: number) => (
-              <TableRow
-                key={`${index}-rows`}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component='th' scope='row' align='center'>
-                  {notice.id}
-                </TableCell>
-                <TableCell align='left'>
-                  <Link
-                    className='link link-neutral hover:font-semibold flex items-center gap-2 group'
-                    href={`/member/notice/${notice.id}`}>
-                    {notice.title}
-                    {notice?.file && (
-                      <FaFile className='inline text-slate-400 group-hover:text-slate-700' />
-                    )}
-                  </Link>
-                </TableCell>
-                <TableCell align='center'>
-                  {formatDate(notice.created_at)}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <table className='table'>
+        <thead>
+          <tr>
+            <th className='w-[50px]'>번호</th>
+            <th>제목</th>
+            <th className='w-[120px]'>작성일</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {data?.notices?.map((notice: NoticeType, index: number) => (
+            <tr>
+              <td>{notice.id}</td>
+              <td>
+                <Link
+                  className='link link-neutral hover:font-semibold flex items-center gap-2 group'
+                  href={`/member/notice/${notice.id}`}>
+                  {notice.title}
+                  {notice?.file && (
+                    <FaFile className='inline text-slate-400 group-hover:text-slate-700' />
+                  )}
+                </Link>
+              </td>
+              <td align='center'>{formatDate(notice.created_at)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <NoticesPagination count={data.total_pages} />
     </section>
   );

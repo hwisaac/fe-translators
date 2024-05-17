@@ -65,14 +65,14 @@ function TasksTable({ data }: { data?: any }) {
   return (
     <section className='py-10 flex flex-col w-full gap-3 px-2'>
       <h2 className='text-lg font-semibold pb-8'>번역가 수주 게시판</h2>
-      <table>
+      <table className='table table-xs lg:table-md'>
         <thead>
           <tr>
             <th className='hidden lg:flex'>번호</th>
             <th>제목</th>
-            <th>링크</th>
-            <th>언어</th>
-            <th>상태</th>
+            <th className='hidden lg:flex'>링크</th>
+            <th className='w-[100px]'>언어</th>
+            <th className=''>상태</th>
           </tr>
         </thead>
         <tbody>
@@ -86,9 +86,12 @@ function TasksTable({ data }: { data?: any }) {
                   {`${task.title}`}
                 </Link>
               </td>
-              <td>
+              <td className='hidden lg:flex'>
                 {task.link && (
-                  <Link href={task.link} target='_blank' className='btn btn-sm'>
+                  <Link
+                    href={task.link}
+                    target='_blank'
+                    className='btn btn-sm hidden lg:flex'>
                     도서정보
                   </Link>
                 )}
