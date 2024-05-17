@@ -151,7 +151,9 @@ export default function PrivateInformationForm({}: Props) {
   };
 
   return (
-    <form className='space-y-5' onSubmit={handleSubmit(onValid)}>
+    <form
+      className='space-y-5 mt-[50px] lg:mt-0 px-2'
+      onSubmit={handleSubmit(onValid)}>
       <div className='flex items-center'>
         <div className='w-[150px] text-sm'>이름</div>
         <input
@@ -238,7 +240,7 @@ export default function PrivateInformationForm({}: Props) {
       <div className='flex items-center'>
         <div className='w-[150px] text-sm'>생년월일</div>
         <select
-          className='select select-bordered w-full max-w-[130px] mr-1'
+          className='select select-bordered w-full max-w-[110px] mr-1'
           {...register('year', { required: true })}>
           <option disabled>(년)</option>
           {years.map((year) => (
@@ -246,7 +248,7 @@ export default function PrivateInformationForm({}: Props) {
           ))}
         </select>
         <select
-          className='select select-bordered w-full max-w-[130px] mr-1'
+          className='select select-bordered w-full max-w-[110px] mr-1'
           {...register('month', { required: true })}>
           <option disabled>(월)</option>
           {months.map((month) => (
@@ -254,7 +256,7 @@ export default function PrivateInformationForm({}: Props) {
           ))}
         </select>
         <select
-          className='select select-bordered w-full max-w-[130px]'
+          className='select select-bordered w-full max-w-[110px]'
           {...register('day', { required: true })}>
           <option disabled>(일)</option>
           {days.map((day) => (
@@ -293,7 +295,7 @@ export default function PrivateInformationForm({}: Props) {
             <input
               type='text'
               {...register('zonecode')}
-              className='input input-bordered w-[400px]'
+              className='input input-bordered w-[100px] lg:w-[400px]'
               placeholder='우편번호'
             />
             <DaumPostcodePopup setValue={setValue} />
@@ -303,14 +305,14 @@ export default function PrivateInformationForm({}: Props) {
             type='text'
             placeholder='주소'
             {...register('address1', { required: true })}
-            className='input input-bordered w-[500px]'
+            className='input input-bordered w-[300px] lg:w-[500px]'
           />
 
           <input
             type='text'
             placeholder='상세 주소'
             {...register('address2')}
-            className='input input-bordered w-[500px]'
+            className='input input-bordered w-[300px] lg:w-[500px]'
           />
         </div>
       </div>
