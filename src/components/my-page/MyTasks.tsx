@@ -95,7 +95,7 @@ export default function MyTasks({}: Props) {
           {data?.map((task: any, index: number) => {
             return (
               <tr key={`${index}-rows`}>
-                <th className='hidden lg:block'>{task.id}</th>
+                <td className='hidden lg:block'>{task.id}</td>
                 <td>
                   <Link href={`/member/tasks/${task.id}`} className='link'>
                     {task.title}
@@ -115,7 +115,7 @@ export default function MyTasks({}: Props) {
                 <td>
                   <LanguageBadge language={task.language} />
                 </td>
-                <td>
+                <td className='flex items-center justify-center'>
                   <EvaluatedStatus task={task} />
                 </td>
               </tr>
@@ -161,85 +161,28 @@ function EvaluatedStatus({ task }: { task: TaskType }) {
   };
   if (evalStatus(task) === '지원 가능') {
     return (
-      <div className='border bg-blue-50 border-blue-700 text-blue-700 flex justify-center items-center'>
+      <div className='border px-2 bg-blue-50 border-blue-700 text-blue-700 flex justify-center items-center'>
         {evalStatus(task)}
       </div>
     );
   } else if (evalStatus(task) === '지원중')
     return (
-      <div className='border bg-green-50 border-green-700 text-green-700 flex justify-center items-center'>
+      <div className='border px-2 bg-green-50 border-green-700 text-green-700 flex justify-center items-center'>
         {evalStatus(task)}
       </div>
     );
   else if (evalStatus(task) === '샘플번역가') {
     return (
-      <div className='border bg-orange-50 border-orange-700 text-orange-700 flex justify-center items-center'>
+      <div className='border px-2 bg-orange-50 border-orange-700 text-orange-700 flex justify-center items-center'>
         {evalStatus(task)}
       </div>
     );
   } else if (evalStatus(task) === '담당번역가') {
     return (
-      <div className='bg-orange-700 text-white flex justify-center items-center'>
+      <div className='px-2 bg-orange-700 text-white flex justify-center items-center'>
         {evalStatus(task)}
       </div>
     );
   }
   return evalStatus(task);
-}
-
-function MuiTable({ data }: any) {
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-        <TableHead>
-          <TableRow>
-            <TableCell sx={{ fontWeight: 700, width: 150 }}>번호</TableCell>
-            <TableCell align='center' sx={{ fontWeight: 700 }}>
-              도서제목
-            </TableCell>
-
-            <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
-              링크
-            </TableCell>
-            <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
-              언어
-            </TableCell>
-            <TableCell align='center' sx={{ fontWeight: 700, width: 230 }}>
-              상태
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data?.map((task: any, index: number) => (
-            <TableRow
-              key={`${index}-rows`}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell component='th' scope='row'>
-                {task.id}
-              </TableCell>
-              <TableCell align='left'>
-                <Link href={`/member/tasks/${task.id}`} className='link'>
-                  {task.title}
-                </Link>
-              </TableCell>
-
-              <TableCell align='center'>
-                {task?.link && (
-                  <Link href={task.link} target='_blank' className='btn btn-sm'>
-                    도서정보
-                  </Link>
-                )}
-              </TableCell>
-              <TableCell align='center'>
-                <LanguageBadge language={task.language} />
-              </TableCell>
-              <TableCell align='center'>
-                <EvaluatedStatus task={task} />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
 }

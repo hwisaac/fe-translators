@@ -67,43 +67,31 @@ export default function MyNotices({}: Props) {
 
   return (
     <section className='py-10 flex flex-col w-full'>
-      <h2 className='text-lg font-semibold pb-8'>번역가 공지사항</h2>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 700 }}>번호</TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
-                제목
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
-                작성일
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {notices?.map((notice, index) => (
-              <TableRow
-                key={`${index}-rows`}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component='th' scope='row'>
-                  {notice.id}
-                </TableCell>
-                <TableCell align='center'>
-                  <Link
-                    className='link link-neutral hover:font-semibold'
-                    href={`/member/notice/${notice.id}`}>
-                    {notice.title}
-                  </Link>
-                </TableCell>
-                <TableCell align='center'>
-                  {formatDate(notice.created_at)}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <h2 className='text-lg font-semibold pb-8 px-2'>번역가 공지사항</h2>
+      <table className='table'>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          {notices?.map((notice, index) => (
+            <tr key={`${index}-rows`}>
+              <td>{notice.id}</td>
+              <td>
+                <Link
+                  className='link link-neutral hover:font-semibold'
+                  href={`/member/notice/${notice.id}`}>
+                  {notice.title}
+                </Link>
+              </td>
+              <td>{formatDate(notice.created_at)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </section>
   );
 }

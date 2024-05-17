@@ -45,7 +45,7 @@ export default async function MemberNoticePage({
 async function MemberNoticeTable({ data }: any) {
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
-      <h2 className='text-lg font-semibold pb-8'>번역가 공지사항</h2>
+      <h2 className='text-lg font-semibold pb-8 px-2'>번역가 공지사항</h2>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
