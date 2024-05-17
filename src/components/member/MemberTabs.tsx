@@ -44,7 +44,7 @@ export default function MemberTabs({}: Props) {
     setValue(valueFromPath(pathname));
   }, [pathname]);
   return (
-    <div className='w-full border-b flex justify-center relative top-[50px]'>
+    <div className='w-full border-b flex justify-center relative mt-[100px]'>
       <Tabs value={value} onChange={handleChange} centered>
         <Tab
           label='마이페이지'

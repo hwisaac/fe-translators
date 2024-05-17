@@ -8,7 +8,7 @@ type Props = {};
 export default function page({}: Props) {
   return (
     <PageLayout title='로그인'>
-      <h2 className='text-2xl border-b pb-10'>
+      <h2 className='text-2xl border-b pb-10 px-4'>
         번역가방은 바른번역 회원님들만 입장 가능합니다.
       </h2>
       <LoginForm />

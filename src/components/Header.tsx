@@ -122,6 +122,7 @@ export default function Header({}: Props) {
             <Image alt='barun-translation-logo' src={logo} />
           </Link>
           <div className='flex items-center gap-10'>
+            <LogoutBtn />
             <Link
               href='/member'
               className='font-semibold bg-black rounded-full text-white flex items-center justify-center py-2 w-[100px] '>
