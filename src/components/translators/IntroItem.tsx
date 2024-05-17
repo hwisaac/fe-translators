@@ -14,11 +14,11 @@ export default function IntroItem({ title, desc }: any) {
     <li className='grid grid-cols-[100px_1fr]'>
       <div className='text-blue-500 font-semibold'>{title}</div>
       <div>
-        {desc?.map((item: string) => (
-          <>
+        {desc?.map((item: string, index: number) => (
+          <p key={`${index}-desc`}>
             {item}
             <br />
-          </>
+          </p>
         ))}
       </div>
     </li>

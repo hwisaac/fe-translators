@@ -168,6 +168,7 @@ export default function page({}: Props) {
         <ul className='gap-5 flex flex-col'>
           {translationRequests.map((process, index) => (
             <ProcessItem
+              key={`${index}-translationRequest`}
               index={index + 1}
               desc={process.desc}
               title={process.title}
@@ -180,6 +181,7 @@ export default function page({}: Props) {
         <ul className='gap-5 flex flex-col'>
           {reviewRequests.map((process, index) => (
             <ProcessItem
+              key={`${index}-reviewRequest`}
               index={index + 1}
               desc={process.desc}
               title={process.title}

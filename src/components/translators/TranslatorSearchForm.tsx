@@ -66,7 +66,9 @@ export default function TranslatorSearchForm({ checkBoxes }: Props) {
       <div className='flex gap-5 items-center'>
         <p className='font-semibold'>언어별</p>
         {checkBoxes?.languages?.map((item: { id: number; name: string }) => (
-          <label key={item.id} className='label cursor-pointer space-x-2'>
+          <label
+            key={`${item.id}${name}`}
+            className='label cursor-pointer space-x-2'>
             <input
               type='checkbox'
               className='checkbox'

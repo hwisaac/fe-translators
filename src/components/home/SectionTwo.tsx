@@ -36,7 +36,7 @@ export default async function SectionTwo({}: Props) {
         backgroundImage: `url(${bgPattern})`,
       }}>
       <div className='w-full max-w-6xl mx-auto flex flex-col'>
-        <div className='flex border-b items-end gap-8 py-4 my-10 relative'>
+        <div className='flex border-b items-end gap-8 py-4 my-10 relative px-2'>
           <h2 className='text-4xl text-slate-900'>신간 안내</h2>
 
           <span className='text-slate-500'>
@@ -44,7 +44,7 @@ export default async function SectionTwo({}: Props) {
           </span>
           <Link
             href={'/new-books'}
-            className='absolute right-0 font-semibold text-sm flex items-center gap-3 cursor-pointer text-slate-700'>
+            className='absolute right-0 font-semibold text-sm flex items-center gap-3 cursor-pointer text-slate-700 px-2'>
             VIEW MORE
             <FaPlusCircle size={20} />
           </Link>
@@ -91,15 +91,5 @@ export default async function SectionTwo({}: Props) {
         </div>
       </div>
     </section>
-  );
-}
-
-function GridItem({ index }: any) {
-  return (
-    <div className='w-full shadow-xl h-[300px] p-10 bg-white text-slate-700'>
-      <h2 className='h-[90%] text-xl'>바른번역 미디어/전문번역 서비스 런칭!</h2>
-
-      <p className='text-slate-400 font-thin'>2022-08-09</p>
-    </div>
   );
 }

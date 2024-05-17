@@ -159,14 +159,18 @@ export default function TaskEditForm({ data, task_id }: Props) {
             className='select select-bordered w-[100px]'
             {...register('hour')}>
             {hoursArr.map((hour) => (
-              <option value={hour}>{hour} 시</option>
+              <option key={`${hour}-hour`} value={hour}>
+                {hour} 시
+              </option>
             ))}
           </select>
           <select
             className='select select-bordered w-[100px]'
             {...register('minute')}>
             {minutesArr.map((minute) => (
-              <option value={minute}>{minute} 분</option>
+              <option key={`${minute}-minute`} value={minute}>
+                {minute} 분
+              </option>
             ))}
           </select>
         </li>

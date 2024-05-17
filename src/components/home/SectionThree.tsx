@@ -11,7 +11,7 @@ export default function SectionThree({}: Props) {
   return (
     <section className='w-full mb-14'>
       <div className='w-full max-w-6xl mx-auto space-y-5'>
-        <ul className='grid grid-cols-3'>
+        <ul className='hidden lg:grid grid-cols-3'>
           <li>
             <Image alt='barun-image1' src={mainPic1} />
           </li>
@@ -22,7 +22,7 @@ export default function SectionThree({}: Props) {
             <Image alt='barun-image1' src={mainPic3} />
           </li>
         </ul>
-        <ul className='grid grid-cols-3'>
+        <ul className='grid grid-cols-1 lg:grid-cols-3'>
           <li className='bg-blue-400 h-[130px] text-white flex flex-col justify-center px-10'>
             <p className=' font-thin'>바른번역</p>
             <div className='flex items-center gap-3 text-2xl'>
