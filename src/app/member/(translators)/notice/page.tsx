@@ -10,7 +10,7 @@ import Link from 'next/link';
 import formatDate from '@/utils/formatDate';
 import BASE_URL from '@/utils/BASE_URL';
 import { NoticeType } from '@/components/my-page/MyNotices';
-
+import { FaFile } from 'react-icons/fa';
 import NoticesPagination from '@/components/my-page/notices/MemberNoticesPagination';
 import MemberNoticeSearchForm from '@/components/member/notice/MemberNoticeSearchForm';
 
@@ -71,9 +71,12 @@ async function MemberNoticeTable({ data }: any) {
                 </TableCell>
                 <TableCell align='left'>
                   <Link
-                    className='link link-neutral hover:font-semibold'
+                    className='link link-neutral hover:font-semibold flex items-center gap-2 group'
                     href={`/member/notice/${notice.id}`}>
                     {notice.title}
+                    {notice?.file && (
+                      <FaFile className='inline text-slate-400 group-hover:text-slate-700' />
+                    )}
                   </Link>
                 </TableCell>
                 <TableCell align='center'>

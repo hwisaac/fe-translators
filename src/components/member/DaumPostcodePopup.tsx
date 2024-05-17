@@ -3,10 +3,10 @@
 import { useEffect } from 'react';
 
 type Props = {
-  setAddress: any;
+  setValue: any;
 };
 
-export default function DaumPostcodePopup({ setAddress }: Props) {
+export default function DaumPostcodePopup({ setValue }: Props) {
   useEffect(() => {
     const script = document.createElement('script');
     script.src =
@@ -26,7 +26,9 @@ export default function DaumPostcodePopup({ setAddress }: Props) {
     // @ts-ignore
     new window.daum.Postcode({
       oncomplete: function (data: any) {
-        setAddress(data);
+        setValue('zonecode', data.zonecode);
+        setValue('address1', data.address);
+        setValue('address2', '');
       },
     }).open();
   };

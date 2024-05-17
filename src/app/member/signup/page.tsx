@@ -335,9 +335,8 @@ export default function page({}: Props) {
                 {...register('zonecode')}
                 className='input input-bordered w-[400px]'
                 placeholder='우편번호'
-                value={address?.zonecode}
               />
-              <DaumPostcodePopup setAddress={setAddress} />
+              <DaumPostcodePopup setValue={setValue} />
             </div>
 
             <input
@@ -345,7 +344,6 @@ export default function page({}: Props) {
               placeholder='주소'
               {...register('address1', { required: true })}
               className='input input-bordered w-[500px]'
-              value={address?.address}
             />
 
             <input

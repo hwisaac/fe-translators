@@ -3,10 +3,10 @@ import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import { fileUrl } from '@/utils/getImgUrl';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 type Props = {};
@@ -40,25 +40,38 @@ function formatTextField(text?: string | null): any {
 }
 
 export default function page({}) {
-  // const data = await fetch(`${BASE_URL}/notices/${notice_id}/`, {
-  //   cache: 'no-cache',
-  // }).then((res) => res.json());
   const { notice_id } = useParams();
   const token = useToken();
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const { data } = useQuery({
     queryKey: ['adminNotice', notice_id],
     queryFn: () =>
       axios
-        .get(`${BASE_URL}/notices/admin/${notice_id}/`, {
-          headers: {
-            Authorization: token,
-          },
+        .get(`${BASE_URL}/notices/${notice_id}/`, {
+          // headers: {
+          //   Authorization: token,
+          // },
         })
         .then((res) => res.data)
         .catch((err) => toast.error(err.message)),
     staleTime: 0,
   });
-
+  const { mutate: removeNotice } = useMutation({
+    mutationFn: () =>
+      axios.delete(`${BASE_URL}/notices/${notice_id}`, {
+        headers: {
+          Authorization: token,
+        },
+      }),
+    onSuccess: () => {
+      toast.success('삭제되었습니다.');
+      router.push('/admin/notice');
+      queryClient.invalidateQueries({
+        queryKey: ['adminNoticesList'],
+      });
+    },
+  });
   return (
     <div className='flex flex-col py-10'>
       <div className='self-end space-x-2'>
@@ -68,7 +81,9 @@ export default function page({}) {
         <Link href={`/admin/notice/${notice_id}/edit`} className='btn'>
           수정
         </Link>
-        <div className='btn'>삭제</div>
+        <div className='btn' onClick={() => removeNotice()}>
+          삭제
+        </div>
 
         <Link href='/admin/notice/write' className='btn btn-neutral'>
           공지사항 등록

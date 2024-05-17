@@ -15,6 +15,7 @@ import { loginAtom } from '@/atoms/loginAtom';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import DaumPostcodePopup from '@/components/member/DaumPostcodePopup';
 import useToken from '@/app/hooks/useToken';
+import useMe from '@/app/hooks/useMe';
 type Props = {};
 
 const years = Array.from({ length: 2023 - 1900 + 1 }, (_, i) => 2023 - i);
@@ -25,9 +26,10 @@ export default function PrivateInformationForm({}: Props) {
   const setLoginState = useSetRecoilState(loginAtom);
   const [emailConfirmed, setEmailConfirmed] = useState(false);
   const csrftoken = useCSRFToken();
-  const [address, setAddress] = useState<any>();
+  //   const [address, setAddress] = useState<any>();
   const token = useToken();
   const router = useRouter();
+  const { data: me } = useMe();
   const {
     register,
     handleSubmit,
@@ -35,10 +37,28 @@ export default function PrivateInformationForm({}: Props) {
     setValue,
     formState: { errors },
   } = useForm<any>();
+  useEffect(() => {
+    if (me) {
+      console.log(me);
+      setValue('name', me.name);
+      setValue('email', me.email);
+      setValue('phone', me.phone);
+      setValue('is_domestic', me.is_domestic);
+      setValue('subscribed', me.subscribed);
+      setValue('address1', me.address1);
+      setValue('address2', me.address2);
+      setValue('zonecode', me.zonecode);
+      setValue('gender', me.gender);
+      const birth_date = me.birth_date.split('-');
+      setValue('year', birth_date[0]);
+      setValue('month', birth_date[1]);
+      setValue('day', birth_date[2]);
+    }
+  }, [me]);
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ({ putUser }: any) =>
       axios
-        .put(`${BASE_URL}/users/`, putUser, {
+        .put(`${BASE_URL}/users/me/`, putUser, {
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken,
@@ -275,9 +295,8 @@ export default function PrivateInformationForm({}: Props) {
               {...register('zonecode')}
               className='input input-bordered w-[400px]'
               placeholder='우편번호'
-              value={address?.zonecode}
             />
-            <DaumPostcodePopup setAddress={setAddress} />
+            <DaumPostcodePopup setValue={setValue} />
           </div>
 
           <input
@@ -285,7 +304,6 @@ export default function PrivateInformationForm({}: Props) {
             placeholder='주소'
             {...register('address1', { required: true })}
             className='input input-bordered w-[500px]'
-            value={address?.address}
           />
 
           <input
