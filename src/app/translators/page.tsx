@@ -1,27 +1,5 @@
 import PageLayout from '@/layouts/PageLayout';
-import Box from '@mui/material/Box';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
-import Checkbox from '@mui/material/Checkbox';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Button from '@mui/material/Button';
-import { FormEvent, useState } from 'react';
-import Pagination from '@mui/material/Pagination';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { BiMessageDetail } from 'react-icons/bi';
 import TranslatorSearchForm from '@/components/translators/TranslatorSearchForm';
 import Link from 'next/link';
 import { formatLink } from '@/utils/formatLink';
@@ -82,53 +60,46 @@ export default async function page({
 function TranslatorTable({ data }: { data: GetUsersType }) {
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 700, width: 200 }} align='center'>
-                번역가
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
-                언어
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
-                분야
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
-                주요 역서
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data?.users?.map((user, index: number) => (
-              <TableRow
-                key={`${index}-rows`}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component='th' scope='row' align='center'>
-                  <Link
-                    href={`/translators/${user.id}`}
-                    className='text-[16px]'>
-                    {user.pen_name ? user.pen_name : user.name}
-                  </Link>
-                </TableCell>
-                <TableCell align='left'>{user.languages.join(', ')}</TableCell>
-                <TableCell align='center'>
-                  {user.specializations.join(', ')}
-                </TableCell>
-                <TableCell align='center'>{user.major_works}</TableCell>
+      <table className='table'>
+        <thead>
+          <tr>
+            <td>번역가</td>
+            <td>언어</td>
+            <td>분야</td>
+            <td>주요 역서</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          {data?.users?.map((user, index: number) => (
+            <tr key={`${index}-rows`}>
+              <td>
+                <Link
+                  href={`/translators/${user.id}`}
+                  className='text-sm lg:text-md'>
+                  {user.pen_name ? user.pen_name : user.name}
+                </Link>
+              </td>
+              <td className='lg:text-md text-sm'>
+                {user.languages.join(', ')}
+              </td>
+              <td className='lg:text-md text-sm'>
+                {user.specializations.join(', ')}
+              </td>
+              <td>
+                <span className='lg:text-md text-sm'>{user.major_works}</span>
+              </td>
+              <td>
+                <Link href={`/translators/${user.id}`} className='btn btn-sm'>
+                  <span className='hidden lg:inline'>자세히</span>
+                  <BiMessageDetail className='lg:hidden' />
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-                <TableCell align='center'>
-                  <Link href={`/translators/${user.id}`} className='btn btn-sm'>
-                    자세히
-                  </Link>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
       <TranslatorPagination count={data.total_pages} />
     </section>
   );

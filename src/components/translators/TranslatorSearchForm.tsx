@@ -64,38 +64,42 @@ export default function TranslatorSearchForm({ checkBoxes }: Props) {
   return (
     <div>
       <div className='flex gap-5 items-center'>
-        <p className='font-semibold'>언어별</p>
-        {checkBoxes?.languages?.map((item: { id: number; name: string }) => (
-          <label
-            key={`${item.id}${name}`}
-            className='label cursor-pointer space-x-2'>
-            <input
-              type='checkbox'
-              className='checkbox'
-              checked={languageFilter[item.name] || false}
-              onChange={() => toggleLanguageFilter(item.name)}
-            />
-            <span className='label-text'>{item.name}</span>
-          </label>
-        ))}
-      </div>
-      <div className='flex items-center gap-5 mb-3'>
-        <p className='font-semibold'>분야별</p>
-        {checkBoxes?.specializations?.map(
-          (item: { id: number; name: string }) => (
+        <p className='font-semibold shrink-0'>언어별</p>
+        <div className='flex flex-wrap'>
+          {checkBoxes?.languages?.map((item: { id: number; name: string }) => (
             <label
-              key={`${item.name}-specialization`}
+              key={`${item.id}${item.name}`}
               className='label cursor-pointer space-x-2'>
               <input
                 type='checkbox'
                 className='checkbox'
-                checked={specializationFilter[item.name] || false}
-                onChange={() => toggleSpecializationFilter(item.name)}
+                checked={languageFilter[item.name] || false}
+                onChange={() => toggleLanguageFilter(item.name)}
               />
               <span className='label-text'>{item.name}</span>
             </label>
-          )
-        )}
+          ))}
+        </div>
+      </div>
+      <div className='flex items-center gap-5 mb-3'>
+        <p className='font-semibold shrink-0'>분야별</p>
+        <div className='flex flex-wrap'>
+          {checkBoxes?.specializations?.map(
+            (item: { id: number; name: string }) => (
+              <label
+                key={`${item.name}-specialization`}
+                className='label cursor-pointer space-x-2'>
+                <input
+                  type='checkbox'
+                  className='checkbox'
+                  checked={specializationFilter[item.name] || false}
+                  onChange={() => toggleSpecializationFilter(item.name)}
+                />
+                <span className='label-text'>{item.name}</span>
+              </label>
+            )
+          )}
+        </div>
       </div>
       <form className='join mx-auto' onSubmit={(e) => handleSubmit(e)}>
         <div>

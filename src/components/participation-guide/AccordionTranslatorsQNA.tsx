@@ -4,15 +4,10 @@ import AccordionItem from '@/components/AccordionItem';
 import BASE_URL from '@/utils/BASE_URL';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 type Props = {};
 
 export default function AccordionTranslatorsQNA() {
-  const [data, setData] = useRecoilState(testAtom);
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   const [expanded, setExpanded] = useState<number | false>(0);
   const { data: qnas } = useQuery<any[]>({
     queryKey: ['translator-qna'],
