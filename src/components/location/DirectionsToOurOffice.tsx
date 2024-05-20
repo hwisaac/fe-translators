@@ -6,8 +6,8 @@ export default function DirectionsToOurOffice({}: Props) {
   return (
     <Container>
       <section className='flex flex-col'>
-        <div className='flex'>
-          <div className='flex items-center gap-4 w-[300px] '>
+        <div className='flex flex-col lg:flex-row gap-4 lg:gap-0'>
+          <div className='flex items-center gap-4 w-[300px]'>
             <div className='text-white bg-red-800 rounded-full w-10 h-10 flex items-center justify-center text-xl'>
               6
             </div>
@@ -31,7 +31,7 @@ export default function DirectionsToOurOffice({}: Props) {
       <div className='w-full h-[1px] bg-slate-300 my-10' />
 
       <section className='flex flex-col'>
-        <div className='flex'>
+        <div className='flex flex-col lg:flex-row gap-4 lg:gap-0'>
           <div className='flex items-center gap-4 w-[300px] shrink-0 '>
             <div className='flex gap-1 '>
               <div className='text-white bg-green-600 rounded-full w-10 h-10 flex items-center justify-center text-xl'>
