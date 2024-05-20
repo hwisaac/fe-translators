@@ -30,7 +30,58 @@ export default function AdminTasksTable({ data }: any) {
           글쓰기
         </Link>
       </div>
-      <TableContainer component={Paper}>
+      <table className='table'>
+        <thead>
+          <tr>
+            <th className='hidden lg:table-cell'>번호</th>
+            <th>제목</th>
+            <th>지원자</th>
+            <th>링크</th>
+            <th>언어</th>
+            <th>상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data?.tasks?.map((task: TaskType, index: number) => (
+            <tr key={`${index}-rows`}>
+              <td className='hidden lg:table-cell'>{task.id}</td>
+              <td>
+                <Link
+                  className='link link-neutral hover:font-semibold '
+                  href={`/admin/tasks/${task.id}`}>
+                  {task.title}
+                </Link>
+              </td>
+              <td>
+                <span
+                  className={`${
+                    task?.count_comments === 0 && 'text-slate-300'
+                  }`}>
+                  {task?.count_comments}
+                </span>
+              </td>
+              <td>
+                {task.link && (
+                  <Link
+                    href={formatLink(task.link)}
+                    target='_blank'
+                    className='btn btn-xs text-nowrap'>
+                    도서정보
+                  </Link>
+                )}
+              </td>
+              <td>
+                <LanguageBadge language={task.language} />
+              </td>
+
+              <td>
+                <StatusBadge status={task.status} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {/* <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <TableHead>
             <TableRow>
@@ -99,7 +150,7 @@ export default function AdminTasksTable({ data }: any) {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
       <AdminTasksPagination count={data?.total_pages ?? 1} />
     </section>
   );

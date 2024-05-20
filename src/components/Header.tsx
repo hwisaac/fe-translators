@@ -142,7 +142,7 @@ export default function Header({}: Props) {
           <div className='w-full h-full grid grid-cols-2 p-4 bg-slate-50 shadow py-[50px]'>
             <div>
               <div>
-                <h3 className='text-slate-500'>바른번역 소개</h3>
+                <h3 className='text-slate-500 text-xs'>바른번역 소개</h3>
                 <ul className='flex flex-col'>
                   <Link
                     href='/introduction/history'
@@ -167,7 +167,7 @@ export default function Header({}: Props) {
                 </ul>
               </div>
               <div>
-                <h3 className='text-slate-500 mt-4'>번역 의뢰</h3>
+                <h3 className='text-slate-500 mt-4 text-xs'>번역 의뢰</h3>
                 <ul className='flex flex-col'>
                   <Link
                     href='/request/process'

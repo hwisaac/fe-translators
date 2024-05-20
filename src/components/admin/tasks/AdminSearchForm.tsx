@@ -104,7 +104,7 @@ export default function AdminSearchForm({}: Props) {
         <div>
           <div className='relative flex items-center'>
             <input
-              className='input input-bordered join-item w-[400px]'
+              className='input input-bordered join-item w-full lg:w-[400px]'
               placeholder='Search'
               value={query}
               onChange={(e) => setQuery(e.currentTarget.value)}

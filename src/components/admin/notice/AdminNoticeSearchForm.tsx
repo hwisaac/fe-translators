@@ -25,7 +25,7 @@ export default function AdminNoticeSearchForm({}: Props) {
       <div>
         <div>
           <input
-            className='input input-bordered join-item w-[400px]'
+            className='input input-bordered join-item lg:w-[400px]'
             placeholder='Search'
             {...register('query')}
           />
