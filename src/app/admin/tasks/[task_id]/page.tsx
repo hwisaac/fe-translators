@@ -137,7 +137,7 @@ export default function page({}: Props) {
           </Link>
         )}
       </div>
-      <div className='border-b border-b-slate-700 py-10'>
+      <div className='border-b border-b-slate-700 py-10 px-4'>
         {formatTextField(data?.content)}
       </div>
       <AdminComments comments={data?.comments} />

@@ -148,7 +148,9 @@ export default function AdditionalInformationForm({
   };
 
   return (
-    <form className='space-y-5 w-[600px]' onSubmit={handleSubmit(onValid)}>
+    <form
+      className='space-y-5 px-2 mt-[70px] w-[500px]'
+      onSubmit={handleSubmit(onValid)}>
       <h2 className='text-2xl my-4'>추가 정보</h2>
       <div className='flex items-center '>
         <div className='w-[150px] text-sm'>필명</div>
@@ -285,9 +287,7 @@ export default function AdditionalInformationForm({
                 2,
                 '0'
               )}. ${question}`}</h4>
-              <p className='text-sm text-slate-500 mb-4'>
-                {description} ({id})
-              </p>
+              <p className='text-sm text-slate-500 mb-4'>{description}</p>
               <input
                 type='textarea'
                 className='textarea textarea-bordered textarea-lg w-full'

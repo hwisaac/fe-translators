@@ -57,7 +57,7 @@ async function MemberNoticeTable({ data }: any) {
 
         <tbody>
           {data?.notices?.map((notice: NoticeType, index: number) => (
-            <tr>
+            <tr key={`${index}-tr`}>
               <td>{notice.id}</td>
               <td>
                 <Link

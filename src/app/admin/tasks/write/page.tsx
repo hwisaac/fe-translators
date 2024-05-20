@@ -5,7 +5,7 @@ import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import getKoreanDate from '@/utils/getKoreanDate';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -33,6 +33,7 @@ export default function page({}: Props) {
   });
   const token = useToken();
   const csrftoken = useCSRFToken();
+  const queryClient = useQueryClient();
 
   const { mutateAsync: postTask } = useMutation({
     mutationFn: (payload: any) =>
@@ -50,8 +51,10 @@ export default function page({}: Props) {
         .then((res) => res.data),
     onSuccess: (res) => {
       toast.success('등록에 성공했습니다.');
-      revalidateTaskDetail(res.id);
       router.push(`/admin/tasks/${res.id}`);
+      queryClient.invalidateQueries({
+        queryKey: ['adminTasksList'],
+      });
     },
     onError: (error) => toast.error(error.message),
   });

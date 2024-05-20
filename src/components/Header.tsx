@@ -94,8 +94,8 @@ export default function Header({}: Props) {
               </ul>
               <LogoutBtn />
               <Link href='/member'>
-                <button className='border border-white text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3'>
-                  <FaPenNib />
+                <button className='border border-white text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3 xs:text-red-500'>
+                  <FaPenNib className='hidden lg:inline' />
                   번역가방
                 </button>
               </Link>
@@ -125,7 +125,7 @@ export default function Header({}: Props) {
             <LogoutBtn />
             <Link
               href='/member'
-              className='font-semibold bg-black rounded-full text-white flex items-center justify-center py-2 w-[100px] '>
+              className='font-semibold bg-black rounded-full text-white flex items-center justify-center py-2 w-[100px] text-xs lg:text-md'>
               번역가방
             </Link>
             <GiHamburgerMenu
@@ -136,29 +136,29 @@ export default function Header({}: Props) {
           </div>
         </div>
         {openHamburger && (
-          <div className='w-full h-full grid grid-cols-2 p-4'>
+          <div className='w-full h-full grid grid-cols-2 p-4 bg-slate-50 shadow py-[50px]'>
             <div>
               <div>
                 <h3 className='text-slate-500'>바른번역 소개</h3>
                 <ul className='flex flex-col'>
                   <Link
                     href='/introduction/history'
-                    className='pl-4 font-semibold text-slate-700'>
+                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
                     설립취지&역사
                   </Link>
                   <Link
                     href='/introduction/difference'
-                    className='pl-4 font-semibold text-slate-700'>
+                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
                     바른번역이 좋은 이유
                   </Link>
                   <Link
                     href='/introduction/partnership'
-                    className='pl-4 font-semibold text-slate-700'>
+                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
                     바른번역이 원하는 파트너십
                   </Link>
                   <Link
                     href='/introduction/location'
-                    className='pl-4 font-semibold text-slate-700'>
+                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
                     연락처 및 약도
                   </Link>
                 </ul>
@@ -168,37 +168,38 @@ export default function Header({}: Props) {
                 <ul className='flex flex-col'>
                   <Link
                     href='/request/process'
-                    className='pl-4 font-semibold text-slate-700'>
+                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
                     의뢰 프로세스
                   </Link>
                   <Link
                     href='/request/qna'
-                    className='pl-4 font-semibold text-slate-700'>
+                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
                     Q&A
                   </Link>
                 </ul>
               </div>
             </div>
-            <div>
-              <div>
-                <Link href='/new-book' className='font-semibold text-slate-700'>
+            <div className='w-full'>
+              <ul className='flex flex-col'>
+                <Link
+                  href='/new-book'
+                  className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
                   신간 안내
                 </Link>
-              </div>
-              <div>
                 <Link
                   href='/translators'
-                  className='font-semibold text-slate-700'>
+                  className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
                   번역가 소개
                 </Link>
-              </div>
-              <div>
                 <Link
                   href='/participation-guide'
-                  className='font-semibold text-slate-700'>
+                  className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
                   번역가 참여 안내
                 </Link>
-              </div>
+              </ul>
+              <div className='w-full'></div>
+              <div></div>
+              <div></div>
             </div>
           </div>
         )}

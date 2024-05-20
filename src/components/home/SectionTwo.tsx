@@ -49,7 +49,7 @@ export default async function SectionTwo({}: Props) {
             <FaPlusCircle size={20} />
           </Link>
         </div>
-        <div>
+        <div className='overflow-hidden'>
           <div className='carousel rounded-box max-w-6xl overflow-x-scroll'>
             {data.new_books.map((book) => (
               <div className='carousel-item mr-3 py-1'>
