@@ -62,7 +62,7 @@ export default function page({}: Props) {
           파일 다운로드
         </Link>
       </div>
-      <div className='border-b border-b-slate-700 py-10 whitespace-pre'>
+      <div className='border-b border-b-slate-700 py-10 whitespace-pre px-2'>
         {data?.notice?.content}
       </div>
       <div className='flex my-10 border'>

@@ -182,7 +182,7 @@ export default function Header({}: Props) {
             <div className='w-full'>
               <ul className='flex flex-col'>
                 <Link
-                  href='/new-book'
+                  href='/new-books'
                   className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
                   신간 안내
                 </Link>

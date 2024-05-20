@@ -9,8 +9,8 @@ type Props = {
 export default function PartnershipSection({ title, to, lis }: Props) {
   return (
     <Container>
-      <div className='flex'>
-        <div className='w-[250px] shrink-0'>
+      <div className='flex flex-col lg:flex-row px-2'>
+        <div className='w-[250px] shrink-0 mb-10'>
           <h2 className='text-blue-600 text-lg'>{title}</h2>
           <h3 className='text-3xl font-semibold text-slate-700'>{to}</h3>
         </div>
