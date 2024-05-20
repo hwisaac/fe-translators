@@ -9,8 +9,12 @@ export default function HistorySectionOne({}: Props) {
   return (
     <Container>
       <h1 className='text-slate-900 text-3xl mb-10'>바른번역 설립 취지</h1>
-      <div className='border flex text-slate-800 items-center justify-center gap-[100px] py-10'>
-        <Image alt='image1' src={historyIcon1} className=' shrink-0' />
+      <div className='border flex text-slate-800 items-center justify-center gap-[100px] py-10 px-2'>
+        <Image
+          alt='image1'
+          src={historyIcon1}
+          className=' shrink-0 hidden lg:block'
+        />
         <div className='flex flex-col w-[700px] gap-6'>
           <h3 className='font-semibold text-2xl'>
             출판사에게는 <span className='text-blue-600'>양질의 번역</span>을
@@ -24,8 +28,12 @@ export default function HistorySectionOne({}: Props) {
           </p>
         </div>
       </div>
-      <div className='border border-t-0 flex text-slate-800 items-center justify-center gap-[100px] py-10'>
-        <Image alt='image1' src={historyIcon2} className=' shrink-0' />
+      <div className='border border-t-0 flex text-slate-800 items-center justify-center gap-[100px] py-10 px-2'>
+        <Image
+          alt='image1'
+          src={historyIcon2}
+          className=' shrink-0 hidden lg:block'
+        />
         <div className='flex flex-col w-[700px] gap-6'>
           <h3 className='font-semibold text-2xl'>
             번역가에게는{' '}
@@ -39,8 +47,12 @@ export default function HistorySectionOne({}: Props) {
           </p>
         </div>
       </div>
-      <div className='border border-t-0 flex text-slate-800 items-center justify-center gap-[100px] py-10'>
-        <Image alt='image1' src={historyIcon3} className=' shrink-0' />
+      <div className='border border-t-0 flex text-slate-800 items-center justify-center gap-[100px] py-10 px-2'>
+        <Image
+          alt='image1'
+          src={historyIcon3}
+          className=' shrink-0 hidden lg:block'
+        />
         <div className='flex flex-col w-[700px] gap-6'>
           <h3 className='font-semibold text-2xl'>
             번역가들도 <span className='text-blue-600'>분야별 전문 번역</span>을
