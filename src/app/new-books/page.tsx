@@ -73,59 +73,48 @@ function NewBooksTable({
 }) {
   return (
     <section className='my-10'>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell align='left' sx={{ width: 200 }}>
-                사진
-              </TableCell>
-              <TableCell align='center'>제목</TableCell>
-              <TableCell align='center' sx={{ width: 150 }}>
-                출판사
-              </TableCell>
-              <TableCell align='center' sx={{ width: 150 }}>
-                저자
-              </TableCell>
-              <TableCell align='center' sx={{ width: 150 }}>
-                번역가
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {new_books.map((book) => (
-              <TableRow
-                key={book.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component='th' scope='row' align='center'>
-                  <Link href={`/new-books/${book.id}`}>
-                    {getImgUrl(book.thumbnail) ? (
-                      <Image
-                        src={getImgUrl(book.thumbnail)}
-                        alt={book.title}
-                        width={100}
-                        height={150}
-                      />
-                    ) : (
-                      <div className='w-[100px] h-[150px] bg-slate-50 rounded-md flex items-center justify-center'>
-                        <FaBook size={60} className='text-slate-200' />
-                      </div>
-                    )}
-                  </Link>
-                </TableCell>
-                <TableCell align='left'>
-                  <Link href={`/new-books/${book.id}`} className='link'>
-                    {book.title}
-                  </Link>
-                </TableCell>
-                <TableCell align='center'>{book.publisher}</TableCell>
-                <TableCell align='center'>{book.author}</TableCell>
-                <TableCell align='center'>{book.translator}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <table className='table'>
+        <thead>
+          <tr>
+            <th>사진</th>
+            <th>제목</th>
+            <th className='hidden lg:flex'>출판사</th>
+            <th className='hidden lg:flex'>저자</th>
+            <th>번역가</th>
+          </tr>
+        </thead>
+        <tbody>
+          {new_books.map((book) => (
+            <tr key={book.id}>
+              <td>
+                <Link href={`/new-books/${book.id}`}>
+                  {getImgUrl(book.thumbnail) ? (
+                    <Image
+                      src={getImgUrl(book.thumbnail)}
+                      alt={book.title}
+                      width={100}
+                      height={150}
+                    />
+                  ) : (
+                    <div className='w-[100px] h-[150px] bg-slate-50 rounded-md flex items-center justify-center'>
+                      <FaBook size={60} className='text-slate-200' />
+                    </div>
+                  )}
+                </Link>
+              </td>
+              <td>
+                <Link href={`/new-books/${book.id}`} className='link'>
+                  {book.title}
+                </Link>
+              </td>
+              <td className='hidden lg:table-cell'>{book.publisher}</td>
+              <td className='hidden lg:table-cell'>{book.author}</td>
+              <td>{book.translator}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <NewBooksPagination total_pages={total_pages} />
     </section>
   );

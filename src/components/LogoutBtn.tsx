@@ -30,7 +30,9 @@ export default function LogoutBtn({}: Props) {
       } ${loginState?.is_staff ? 'btn-outline btn-primary' : ''}`}
       onClick={handleClick}>
       <IoLogOutOutline />
-      로그아웃({`${loginState?.username}`})
+      <span className='hidden sm:inline'>
+        로그아웃({`${loginState?.username}`})
+      </span>
     </div>
   );
 }

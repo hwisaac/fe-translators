@@ -95,7 +95,7 @@ export default function Header({}: Props) {
               <LogoutBtn />
               <Link href='/member'>
                 <button className='border border-white text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3 xs:text-red-500'>
-                  <FaPenNib className='hidden lg:inline' />
+                  <FaPenNib />
                   번역가방
                 </button>
               </Link>
@@ -121,17 +121,18 @@ export default function Header({}: Props) {
           <Link href='/'>
             <Image alt='barun-translation-logo' src={logo} />
           </Link>
-          <div className='flex items-center gap-10'>
+          <div className='flex items-center gap-2 sm:gap-5'>
             <LogoutBtn />
             <Link
               href='/member'
-              className='font-semibold bg-black rounded-full text-white flex items-center justify-center py-2 w-[100px] text-xs lg:text-md'>
-              번역가방
+              className='font-semibold bg-black rounded-full text-white flex items-center justify-center py-2 px-4 sm:w-[100px] text-xs lg:text-md gap-3'>
+              <FaPenNib />
+              <span className='hidden sm:inline'>번역가방</span>
             </Link>
             <GiHamburgerMenu
               size={25}
               onClick={onHamburger}
-              className=' cursor-pointer'
+              className=' cursor-pointer shrink-0'
             />
           </div>
         </div>
