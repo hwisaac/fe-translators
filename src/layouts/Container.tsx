@@ -4,7 +4,7 @@ type Props = {
 
 export default function Container({ children }: Props) {
   return (
-    <section className='w-full my-10'>
+    <section className='w-full my-10 px-2'>
       <div className='w-full max-w-6xl mx-auto'>{children}</div>
     </section>
   );
