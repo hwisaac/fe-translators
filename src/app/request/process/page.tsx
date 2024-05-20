@@ -164,30 +164,34 @@ export default function page({}: Props) {
         <Tab label='리뷰 의뢰' style={{ fontSize: '1.3rem' }} />
       </Tabs>
       <CustomTabPanel value={value} index={0}>
-        <h2 className='text-3xl text-slate-500 my-10'>번역 의뢰</h2>
-        <ul className='gap-5 flex flex-col'>
+        <h2 className='text-2xl lg:text-3xl text-slate-500 my-10 ml-10 lg:ml-0'>
+          번역 의뢰
+        </h2>
+        <div className='gap-5 flex flex-col'>
           {translationRequests.map((process, index) => (
             <ProcessItem
-              key={`${index}-translationRequest`}
+              key={`${process.title}-translationRequest`}
               index={index + 1}
               desc={process.desc}
               title={process.title}
             />
           ))}
-        </ul>
+        </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <h2 className='text-3xl text-slate-500 my-10'>리뷰 의뢰</h2>
-        <ul className='gap-5 flex flex-col'>
+        <h2 className='text-2xl lg:text-3xl text-slate-500 my-10 ml-10 lg:ml-0'>
+          리뷰 의뢰
+        </h2>
+        <div className='gap-5 flex flex-col'>
           {reviewRequests.map((process, index) => (
             <ProcessItem
-              key={`${index}-reviewRequest`}
+              key={`${process.title}-reviewRequest`}
               index={index + 1}
               desc={process.desc}
               title={process.title}
             />
           ))}
-        </ul>
+        </div>
       </CustomTabPanel>
     </PageLayout>
   );
@@ -195,8 +199,8 @@ export default function page({}: Props) {
 
 function ProcessItem({ index, desc, title }: any) {
   return (
-    <li className='flex bg-white'>
-      <div className='flex items-center justify-center text-blue-400 text-4xl font-black p-10 border-r shrink-0 w-[150px]'>
+    <li className='flex bg-white flex-col lg:flex-row'>
+      <div className='flex items-center justify-center text-blue-400 text-4xl font-black lg:p-10 shrink-0 w-[150px] lg:border-r'>
         {String(index).padStart(2, '0')}
       </div>
       <div className='flex flex-col justify-center px-10 flex-1 py-10 text-slate-700'>

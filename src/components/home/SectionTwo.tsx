@@ -52,7 +52,7 @@ export default async function SectionTwo({}: Props) {
         <div className='overflow-hidden'>
           <div className='carousel rounded-box max-w-6xl overflow-x-scroll'>
             {data.new_books.map((book) => (
-              <div className='carousel-item mr-3 py-1'>
+              <div className='carousel-item mr-3 py-1' key={book.title}>
                 <div className='card card-compact w-[250px] bg-slate-50 shadow h-[400px]'>
                   <figure className='w-full h-2/3 relative shrink-0 overflow-hidden'>
                     {book.thumbnail ? (
