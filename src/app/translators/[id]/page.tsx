@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 type Props = {
   params: {
@@ -41,6 +42,13 @@ export type TranslatorDetailDataType = {
 
 export default function page({ params }: Props) {
   const token = useToken();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    if (!isClient) {
+      setIsClient(true);
+    }
+  }, []);
   const { data, isLoading } = useQuery({
     queryKey: ['translatorDetail', params.id],
     queryFn: () =>
@@ -48,14 +56,14 @@ export default function page({ params }: Props) {
         .get(`${BASE_URL}/users/${params.id}/`)
         .then((res) => res.data as TranslatorDetailDataType),
   });
-  if (!token) return <TranslatorDetailWithoutToken />;
+  if (!token || !isClient) return <TranslatorDetailWithoutToken />;
 
   return (
     <PageLayout title='번역가 소개'>
-      <Link href='/translators' className='btn btn-sm ml-10'>
+      <Link href='/translators' className='btn btn-wide btn-sm mx-auto'>
         목록
       </Link>
-      <div className='flex'>
+      <div className='flex flex-col lg:flex-row'>
         <div className='w-[200px] h-[250px] bg-slate-100 m-10 relative'>
           {getImgUrl(data?.photo) === '' ? null : (
             <Image
@@ -84,7 +92,7 @@ export default function page({ params }: Props) {
         </div>
       </div>
       <InterviewSection interviews={data?.interviews} />
-      <Link href='/translators' className='btn btn-sm my-10'>
+      <Link href='/translators' className='btn btn-sm my-10 btn-wide mx-auto'>
         목록
       </Link>
     </PageLayout>

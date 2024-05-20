@@ -24,11 +24,15 @@ function InterviewItem({ question, answer }: any) {
   return (
     <div className='bg-white flex flex-col shadow px-10 py-8 text-lg gap-3'>
       <div className='font-semibold text-slate-700 flex items-center'>
-        <p className='font-semibold text-blue-700 text-3xl mr-3'>Q</p>
+        <p className='font-semibold text-blue-700 text-md lg:text-3xl mr-3'>
+          Q
+        </p>
         {question}
       </div>
       <div className='text-slate-600 flex items-center'>
-        <p className='font-semibold text-slate-500 text-3xl mr-3'>A</p>
+        <p className='font-semibold text-slate-500 text-md lg:text-3xl mr-3'>
+          A
+        </p>
         {answer}
       </div>
     </div>

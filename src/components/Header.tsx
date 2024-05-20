@@ -6,6 +6,7 @@ import logo from '../../public/barun-blue-logo.png';
 import Link from 'next/link';
 import LogoutBtn from '@/components/LogoutBtn';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { useRouter } from 'next/navigation';
 type Props = {};
 
 const subMenus = {
@@ -53,10 +54,7 @@ export default function Header({}: Props) {
 
   return (
     <>
-      <div
-        className='hidden lg:flex flex-col fixed top-0 w-full z-50'
-        // onMouseLeave={() => setOpenMenu(false)}
-      >
+      <div className='hidden lg:flex flex-col fixed top-0 w-full z-50'>
         <section className='w-full bg-white text-slate-900 py-3 border-b'>
           <div className='w-full max-w-6xl flex justify-between mx-auto items-center'>
             <div>
@@ -66,16 +64,20 @@ export default function Header({}: Props) {
             </div>
             <div className='flex gap-10'>
               <ul className='flex items-center gap-10'>
-                <li
-                  className='hover:text-blue-400 cursor-pointer'
-                  onMouseEnter={() => handleOpenMenu(subMenus.intro)}>
-                  바른번역 소개
-                </li>
-                <li
-                  className='hover:text-blue-400 cursor-pointer'
-                  onMouseEnter={() => handleOpenMenu(subMenus.request)}>
-                  번역 의뢰
-                </li>
+                <Link href='/introduction/history'>
+                  <li
+                    className='hover:text-blue-400 cursor-pointer'
+                    onMouseEnter={() => handleOpenMenu(subMenus.intro)}>
+                    바른번역 소개
+                  </li>
+                </Link>
+                <Link href='/request/process'>
+                  <li
+                    className='hover:text-blue-400 cursor-pointer'
+                    onMouseEnter={() => handleOpenMenu(subMenus.request)}>
+                    번역 의뢰
+                  </li>
+                </Link>
                 <Link href='/new-books'>
                   <li className='hover:text-blue-400 cursor-pointer'>
                     신간 안내
