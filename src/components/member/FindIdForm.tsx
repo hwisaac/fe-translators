@@ -1,6 +1,7 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
+import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
@@ -15,7 +16,7 @@ export default function FindIdForm({}: Props) {
   const [id, setId] = useState('');
   const router = useRouter();
   const csrftoken = useCSRFToken();
-  const { mutateAsync: findId } = useMutation({
+  const { mutateAsync: findId, isPending } = useMutation({
     mutationFn: (data: any) => {
       console.log(data);
       return axios
@@ -64,6 +65,7 @@ export default function FindIdForm({}: Props) {
           <span className='text-lg font-semibold'>{id}</span>
         </p>
       )}
+      <ScreenLoading isLoading={isPending} />
       <label className='input input-bordered flex items-center gap-2'>
         <FaUser size={12} className='text-slate-500' />
         <input

@@ -1,6 +1,7 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
+import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
@@ -19,7 +20,7 @@ export default function LoginForm({}: Props) {
   const csrftoken = useCSRFToken();
   const [loginState, setLoginState] = useRecoilState(loginAtom);
 
-  const { mutate: login } = useMutation({
+  const { mutate: login, isPending } = useMutation({
     mutationFn: ({ data }: any) =>
       axios
         .post(`${BASE_URL}/users/login/`, data, {
@@ -66,6 +67,7 @@ export default function LoginForm({}: Props) {
     <form
       className='flex flex-col gap-3 max-w-lg mt-10 mx-auto'
       onSubmit={handleSubmit(onValid)}>
+      <ScreenLoading isLoading={isPending} />
       <label className='input input-bordered flex items-center gap-2'>
         <FaUser size={12} className='text-slate-500' />
         <input

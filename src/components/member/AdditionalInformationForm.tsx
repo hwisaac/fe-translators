@@ -2,6 +2,7 @@
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useMe from '@/app/hooks/useMe';
 import useToken from '@/app/hooks/useToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import PageLayout from '@/layouts/PageLayout';
 import BASE_URL, { BASE_URL_WO_API } from '@/utils/BASE_URL';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -151,6 +152,7 @@ export default function AdditionalInformationForm({
     <form
       className='space-y-5 px-2 mt-[70px] w-[500px]'
       onSubmit={handleSubmit(onValid)}>
+      <ScreenLoading isLoading={isPending} />
       <h2 className='text-2xl my-4'>추가 정보</h2>
       <div className='flex items-center '>
         <div className='w-[150px] text-sm'>필명</div>

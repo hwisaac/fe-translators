@@ -2,6 +2,7 @@
 import { revalidateNoticeDetail } from '@/app/admin/notice/write/revalidateNoticeDetail';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import { formatTextField } from '@/utils/formatTextField';
@@ -37,7 +38,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
   });
   const token = useToken();
   const csrftoken = useCSRFToken();
-  const { mutateAsync: postNotice } = useMutation({
+  const { mutateAsync: postNotice, isPending } = useMutation({
     mutationFn: (payload: any) =>
       axios
         .put(`${BASE_URL}/notices/admin/${notice_id}/`, payload, {
@@ -81,6 +82,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
 
   return (
     <form action='' className='flex flex-col' onSubmit={handleSubmit(onValid)}>
+      <ScreenLoading isLoading={isPending} />
       <ul className='space-y-2'>
         <li className='flex items-center'>
           <h5 className='w-[200px] shrink-0'>제목</h5>

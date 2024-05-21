@@ -3,6 +3,7 @@
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import TranslatorBadgeBtn from '@/components/admin/tasks/TranslatorBadgeBtn';
 import { ReplyType } from '@/components/member/tasks/MemberComments';
 import BASE_URL from '@/utils/BASE_URL';
@@ -61,7 +62,7 @@ export default function AdminComments({ comments }: Props) {
   const queryClient = useQueryClient();
   const [inputComment, setInputComment] = useState('');
 
-  const { mutate: postComment } = useMutation({
+  const { mutate: postComment, isPending: postingComment } = useMutation({
     mutationKey: ['postComment', task_id],
     mutationFn: (payload: any) =>
       axios.post(
@@ -104,6 +105,7 @@ export default function AdminComments({ comments }: Props) {
   return (
     <>
       <form className='join flex my-10' onSubmit={(event) => addComment(event)}>
+        <ScreenLoading isLoading={postingComment} />
         <input
           value={inputComment}
           onChange={(e) => setInputComment(e.currentTarget.value)}
@@ -132,7 +134,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
   const queryClient = useQueryClient();
   const token = useToken();
   const [reply, setReply] = useState('');
-  const { mutateAsync: addReply } = useMutation({
+  const { mutateAsync: addReply, isPending: addingReply } = useMutation({
     mutationKey: ['comments', task_id],
     mutationFn: (payload: any) =>
       axios.post(
@@ -156,7 +158,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       toast.error(error.message);
     },
   });
-  const { mutateAsync: editComment } = useMutation({
+  const { mutateAsync: editComment, isPending: editingComment } = useMutation({
     mutationKey: ['editComment', comment.id],
     mutationFn: (payload: any) =>
       axios.put(
@@ -180,25 +182,26 @@ function CommentItem({ comment }: { comment: CommentType }) {
     },
   });
 
-  const { mutateAsync: deleteComment } = useMutation({
-    mutationKey: ['deleteComment', task_id],
-    mutationFn: () =>
-      axios.delete(`${BASE_URL}/comments/${comment.id}/`, {
-        headers: {
-          Authorization: token,
-        },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['adminTaskDetail'],
-      });
-      revalidateTaskDetail(task_id);
-      toast.success('삭제 되었습니다.');
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  const { mutateAsync: deleteComment, isPending: deletingComment } =
+    useMutation({
+      mutationKey: ['deleteComment', task_id],
+      mutationFn: () =>
+        axios.delete(`${BASE_URL}/comments/${comment.id}/`, {
+          headers: {
+            Authorization: token,
+          },
+        }),
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['adminTaskDetail'],
+        });
+        revalidateTaskDetail(task_id);
+        toast.success('삭제 되었습니다.');
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
 
   const handleSubmitReply = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -226,11 +229,14 @@ function CommentItem({ comment }: { comment: CommentType }) {
   return (
     <li className='flex flex-col w-full'>
       {/* <p className='badge badge-neutral'>샘플번역가</p> */}
+      <ScreenLoading
+        isLoading={addingReply || editingComment || deletingComment}
+      />
       <CommentStatusBadge status={comment.status} />
-      <div className='flex justify-between'>
+      <div className='flex flex-col lg:flex-row justify-between'>
         <TranslatorBadgeBtn comment={comment} />
 
-        <span className='text-slate-500'>
+        <span className='text-slate-500 text-xs lg:text-md'>
           {`${formatDateTimeWithMilliseconds(
             comment.created_at
           )} / ${formatDateTime(comment.updated_at)}`}
@@ -321,7 +327,7 @@ const Replies = ({ replies }: { replies: ReplyType[] }) => {
 
 const ReplyItem = ({ reply }: { reply: ReplyType }) => {
   const queryClient = useQueryClient();
-  const { mutateAsync: deleteReply } = useMutation({
+  const { mutateAsync: deleteReply, isPending: deletingReply } = useMutation({
     mutationFn: () =>
       axios.delete(
         `${BASE_URL}/comments/${reply.comment_id}/reply/${reply.reply_id}/`,
@@ -337,6 +343,7 @@ const ReplyItem = ({ reply }: { reply: ReplyType }) => {
   });
   return (
     <li className='rounded-md p-3 flex flex-col'>
+      <ScreenLoading isLoading={deletingReply} />
       <div className='flex justify-between'>
         <span
           className={`flex items-center gap-3 ${

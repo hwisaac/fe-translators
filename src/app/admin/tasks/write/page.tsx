@@ -3,6 +3,7 @@
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import getKoreanDate from '@/utils/getKoreanDate';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -35,7 +36,7 @@ export default function page({}: Props) {
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
 
-  const { mutateAsync: postTask } = useMutation({
+  const { mutateAsync: postTask, isPending } = useMutation({
     mutationFn: (payload: any) =>
       axios
         .post(
@@ -70,6 +71,7 @@ export default function page({}: Props) {
   };
   return (
     <section>
+      <ScreenLoading isLoading={isPending} />
       <h1 className='text-2xl my-10'>글쓰기</h1>
       <form
         action=''

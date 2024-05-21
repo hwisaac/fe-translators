@@ -4,6 +4,7 @@ import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import { TaskDetail } from '@/app/admin/tasks/[task_id]/page';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import getKoreanDate from '@/utils/getKoreanDate';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -46,7 +47,7 @@ export default function TaskEditForm({ data, task_id }: Props) {
     },
   });
 
-  const { mutateAsync: putTask } = useMutation({
+  const { mutateAsync: putTask, isPending: editing } = useMutation({
     mutationFn: (payload: any) =>
       axios
         .put(
@@ -90,6 +91,7 @@ export default function TaskEditForm({ data, task_id }: Props) {
 
   return (
     <form action='' className='flex flex-col' onSubmit={handleSubmit(onValid)}>
+      <ScreenLoading isLoading={editing} />
       <ul className='space-y-2'>
         <li className='flex items-center'>
           <h5 className='w-[200px] shrink-0'>진행상태</h5>

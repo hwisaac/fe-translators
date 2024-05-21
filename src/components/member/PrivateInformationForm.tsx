@@ -16,6 +16,7 @@ import useCSRFToken from '@/app/hooks/useCSRFToken';
 import DaumPostcodePopup from '@/components/member/DaumPostcodePopup';
 import useToken from '@/app/hooks/useToken';
 import useMe from '@/app/hooks/useMe';
+import ScreenLoading from '@/components/ScreenLoading';
 type Props = {};
 
 const years = Array.from({ length: 2023 - 1900 + 1 }, (_, i) => 2023 - i);
@@ -55,7 +56,7 @@ export default function PrivateInformationForm({}: Props) {
       setValue('day', birth_date[2]);
     }
   }, [me]);
-  const { mutateAsync, isPending } = useMutation({
+  const { mutateAsync, isPending: puttingUser } = useMutation({
     mutationFn: ({ putUser }: any) =>
       axios
         .put(`${BASE_URL}/users/me/`, putUser, {
@@ -125,7 +126,7 @@ export default function PrivateInformationForm({}: Props) {
       toast.error('코드 생성 실패');
     },
   });
-  const { mutateAsync: confirmCode } = useMutation({
+  const { mutateAsync: confirmCode, isPending: confirmingCode } = useMutation({
     mutationFn: ({ email, code }: any) =>
       axios
         .delete(`${BASE_URL}/gmail?email=${email}&code=${code}&/`)
@@ -154,6 +155,7 @@ export default function PrivateInformationForm({}: Props) {
     <form
       className='space-y-5 mt-[50px] lg:mt-0 px-2'
       onSubmit={handleSubmit(onValid)}>
+      <ScreenLoading isLoading={confirmingCode || mailing || puttingUser} />
       <div className='flex items-center'>
         <div className='w-[150px] text-sm'>이름</div>
         <input
@@ -355,7 +357,7 @@ export default function PrivateInformationForm({}: Props) {
       <button
         className='btn btn-neutral btn-wide relative top-5'
         disabled={!emailConfirmed}>
-        {isPending && <span className='loading loading-spinner loading-xs' />}
+        {puttingUser && <span className='loading loading-spinner loading-xs' />}
         {!emailConfirmed ? '이메일 인증을 해야합니다' : `수정하기`}
       </button>
     </form>

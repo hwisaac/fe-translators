@@ -12,6 +12,7 @@ import { useRecoilState } from 'recoil';
 import { FaUser } from 'react-icons/fa';
 import { FaLock } from 'react-icons/fa6';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
+import ScreenLoading from '@/components/ScreenLoading';
 
 type Props = {};
 
@@ -19,7 +20,7 @@ export default function TranslatorDetailWithoutToken({}: Props) {
   const router = useRouter();
   const csrftoken = useCSRFToken();
   const [loginState, setLoginState] = useRecoilState(loginAtom);
-  const { mutate: login } = useMutation({
+  const { mutate: login, isPending } = useMutation({
     mutationFn: ({ data }: any) =>
       axios
         .post(`${BASE_URL}/users/login/`, data, {
@@ -64,6 +65,7 @@ export default function TranslatorDetailWithoutToken({}: Props) {
 
   return (
     <PageLayout title='회원가입을 해야 볼 수 있습니다.'>
+      <ScreenLoading isLoading={isPending} />
       <h2 className='text-2xl border-b pb-10'>
         번역가 정보는 회원에게만 공개 됩니다.
       </h2>

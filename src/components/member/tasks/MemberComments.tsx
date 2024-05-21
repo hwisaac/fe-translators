@@ -4,6 +4,7 @@ import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useLoginData from '@/app/hooks/useLoginData';
 import useToken from '@/app/hooks/useToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
 import BASE_URL from '@/utils/BASE_URL';
 import { COMMENT_LIMIT } from '@/utils/commons';
@@ -52,7 +53,7 @@ export default function MemberComments({
   const [inputComment, setInputComment] = useState('');
   const [disabled, setDisabled] = useState(false);
 
-  const { mutate: postComment } = useMutation({
+  const { mutate: postComment, isPending: postingComment } = useMutation({
     mutationKey: ['add comment', task_id],
     mutationFn: (payload: any) =>
       axios.post(
@@ -112,6 +113,7 @@ export default function MemberComments({
       <form
         className={`join flex my-10 ${status === 'open' ? '' : 'hidden'}`}
         onSubmit={(event) => addComment(event)}>
+        <ScreenLoading isLoading={postingComment} />
         <input
           value={inputComment}
           onChange={(e) => setInputComment(e.currentTarget.value)}
@@ -152,7 +154,7 @@ function CommentItem({
   const token = useToken();
   const csrftoken = useCSRFToken();
   const [reply, setReply] = useState('');
-  const { mutateAsync: addReply } = useMutation({
+  const { mutateAsync: addReply, isPending: addingReply } = useMutation({
     mutationKey: ['addReply', comment.id],
     mutationFn: (payload: any) =>
       axios.post(
@@ -176,7 +178,7 @@ function CommentItem({
       toast.error(error.message);
     },
   });
-  const { mutateAsync: editComment } = useMutation({
+  const { mutateAsync: editComment, isPending: editingComment } = useMutation({
     mutationKey: ['editComment', comment.id],
     mutationFn: (payload: any) =>
       axios.put(
@@ -200,24 +202,25 @@ function CommentItem({
     },
   });
 
-  const { mutateAsync: deleteComment } = useMutation({
-    mutationKey: ['delete', comment.id],
-    mutationFn: () =>
-      axios.delete(`${BASE_URL}/comments/${comment.id}/`, {
-        headers: {
-          Authorization: token,
-        },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['taskDetail', task_id],
-      });
-      toast.success('댓글이 삭제 되었습니다.');
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  const { mutateAsync: deleteComment, isPending: deletingComment } =
+    useMutation({
+      mutationKey: ['delete', comment.id],
+      mutationFn: () =>
+        axios.delete(`${BASE_URL}/comments/${comment.id}/`, {
+          headers: {
+            Authorization: token,
+          },
+        }),
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['taskDetail', task_id],
+        });
+        toast.success('댓글이 삭제 되었습니다.');
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
 
   const handleSubmitReply = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -255,6 +258,9 @@ function CommentItem({
   return (
     <li className='flex flex-col w-full'>
       {/* <p className='badge badge-neutral'>샘플번역가</p> */}
+      <ScreenLoading
+        isLoading={deletingComment || editingComment || addingReply}
+      />
       <CommentStatusBadge status={comment.status} />
       <div className='flex justify-between'>
         <span className='text-slate-800'>{`${comment.name}`}</span>

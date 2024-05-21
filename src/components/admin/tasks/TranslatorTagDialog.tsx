@@ -16,6 +16,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { TiDelete } from 'react-icons/ti';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
+import ScreenLoading from '@/components/ScreenLoading';
 
 type Props = {
   author?: AuthorType;
@@ -60,7 +61,7 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
     }
   }, [data, setValue]);
 
-  const { mutateAsync: saveTags } = useMutation({
+  const { mutateAsync: saveTags, isPending: savingTags } = useMutation({
     mutationFn: (payload: number[]) =>
       axios
         .put(`${BASE_URL}/users/${author.id}/tags/`, payload, {
@@ -79,7 +80,7 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
       });
     },
   });
-  const { mutateAsync: addTag } = useMutation({
+  const { mutateAsync: addTag, isPending: addingTag } = useMutation({
     mutationFn: (payload: any) =>
       axios.post(`${BASE_URL}/users/${author.id}/tags/`, payload, {
         headers: {
@@ -104,7 +105,7 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
     },
   });
 
-  const { mutateAsync: deleteTag } = useMutation({
+  const { mutateAsync: deleteTag, isPending: deletingTag } = useMutation({
     mutationFn: (id: any) =>
       axios
         .delete(`${BASE_URL}/tags/${id}/`, {
@@ -146,6 +147,7 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
   };
   return (
     <dialog id={modalId} className='modal'>
+      <ScreenLoading isLoading={deletingTag || addingTag || savingTags} />
       <div className='modal-box'>
         <h3 className='font-bold text-lg'>
           {author.username}({author.name})

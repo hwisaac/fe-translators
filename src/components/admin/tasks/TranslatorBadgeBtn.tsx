@@ -2,6 +2,7 @@
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
 import TranslatorTagDialog from '@/components/admin/tasks/TranslatorTagDialog';
 import BASE_URL from '@/utils/BASE_URL';
@@ -30,7 +31,7 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
       });
   };
 
-  const { mutateAsync: changeStatus } = useMutation({
+  const { mutateAsync: changeStatus, isPending: changingStatus } = useMutation({
     mutationFn: (payload: any) =>
       axios
         .put(`${BASE_URL}/comments/${comment.id}/status/`, payload, {
@@ -74,6 +75,7 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
   };
   return (
     <div className='dropdown'>
+      <ScreenLoading isLoading={changingStatus} />
       <div className='flex items-center'>
         <div
           tabIndex={0}
@@ -81,11 +83,11 @@ export default function TranslatorBadgeBtn({ comment }: Props) {
           className={`btn btn-sm btn-ghost ${
             author.gender === 'male' ? 'text-blue-800' : 'text-pink-700'
           }`}>{`${author.username}(${author.name})`}</div>
-        <ul className='flex gap-1'>
+        <ul className='flex gap-1 flex-wrap'>
           {author?.tags?.map((tags, index) => (
             <li
               key={`${index}${author.name}${comment.id}-tag`}
-              className='text-sm rounded-full px-2 py-1 border'>
+              className='text-xs lg:text-sm rounded-full px-2 py-1 border'>
               # {tags.name}
             </li>
           ))}

@@ -1,5 +1,6 @@
 'use client';
 import useToken from '@/app/hooks/useToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import { fileUrl } from '@/utils/getImgUrl';
@@ -44,7 +45,7 @@ export default function page({}) {
   const token = useToken();
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['adminNotice', notice_id],
     queryFn: () =>
       axios
@@ -57,7 +58,7 @@ export default function page({}) {
         .catch((err) => toast.error(err.message)),
     staleTime: 0,
   });
-  const { mutate: removeNotice } = useMutation({
+  const { mutate: removeNotice, isPending } = useMutation({
     mutationFn: () =>
       axios.delete(`${BASE_URL}/notices/${notice_id}`, {
         headers: {
@@ -74,6 +75,7 @@ export default function page({}) {
   });
   return (
     <div className='flex flex-col py-10'>
+      <ScreenLoading isLoading={isPending || isLoading} />
       <div className='self-end space-x-2'>
         <Link href='/admin/notice' className='btn'>
           목록
@@ -90,8 +92,12 @@ export default function page({}) {
         </Link>
       </div>
       <div className='flex justify-between items-center border-b border-b-slate-300 px-4 py-2 mb-3'>
-        <h2 className='text-semibold text-2xl'>{data?.notice?.title}</h2>{' '}
-        <p>생성: {formatDate(data?.notice?.created_at)}</p>
+        <h2 className='text-semibold text-xl lg:text-2xl'>
+          {data?.notice?.title}
+        </h2>{' '}
+        <p className='text-xs lg:text-md'>
+          생성: {formatDate(data?.notice?.created_at)}
+        </p>
       </div>
       <div className={`flex items-center gap-3  pb-3`}>
         <Link
@@ -101,7 +107,7 @@ export default function page({}) {
           {data?.notice?.file?.split('/')[data?.notice?.file?.length - 1]}
         </Link>
       </div>
-      <div className='bg-stone-50 rounded-md shadow-md px-8 py-10'>
+      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10'>
         {formatTextField(data?.notice?.content)}
       </div>
       <div className='flex my-10'>

@@ -14,6 +14,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginAtom } from '@/atoms/loginAtom';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import DaumPostcodePopup from '@/components/member/DaumPostcodePopup';
+import ScreenLoading from '@/components/ScreenLoading';
 type Props = {};
 
 const years = Array.from({ length: 2023 - 1900 + 1 }, (_, i) => 2023 - i);
@@ -114,7 +115,7 @@ export default function page({}: Props) {
       toast.error('코드 생성 실패');
     },
   });
-  const { mutateAsync: confirmCode } = useMutation({
+  const { mutateAsync: confirmCode, isPending: confirmingCode } = useMutation({
     mutationFn: ({ email, code }: any) =>
       axios
         .delete(`${BASE_URL}/gmail?email=${email}&code=${code}&/`)
@@ -141,6 +142,7 @@ export default function page({}: Props) {
 
   return (
     <PageLayout title='회원가입'>
+      <ScreenLoading isLoading={confirmingCode || mailing || isPending} />
       <h2 className='w-full border-b pb-3 text-lg mb-10'>
         회원가입 정보 - 모두 필수항목입니다.
       </h2>

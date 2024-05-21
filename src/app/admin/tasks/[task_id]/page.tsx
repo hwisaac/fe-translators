@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
+import ScreenLoading from '@/components/ScreenLoading';
 
 type Props = {
   params: {
@@ -107,7 +108,7 @@ export default function page({}: Props) {
       <div className='flex gap-3 px-3 py-3 items-center'>
         <StatusBadge status={data?.status} />
 
-        <span className='text-orange-700 rounded-md bg-orange-50 px-2 py-1'>
+        <span className='text-orange-700 rounded-md bg-orange-50 px-2 py-1 text-xs lg:text-md'>
           [댓글] {formatDateTime(data?.comment_start_time)}
         </span>
       </div>
@@ -163,7 +164,11 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
     setValue,
     formState: { errors },
   } = useForm<any>();
-  const { mutateAsync: findUser, data } = useMutation({
+  const {
+    mutateAsync: findUser,
+    data,
+    isPending: findingUser,
+  } = useMutation({
     mutationFn: () =>
       axios
         .get(`${BASE_URL}/users/search?name=${name}&/`, {
@@ -173,39 +178,40 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
         })
         .then((res) => res.data),
   });
-  const { mutateAsync: assignTranslator } = useMutation({
-    mutationFn: ({ task_id, user_id }: any) => {
-      return axios.post(
-        `${BASE_URL}/tasks/${task_id}/assign-translator/${user_id}/`,
-        {},
-        {
-          headers: {
-            Authorization: token,
-            'X-CSRFToken': csrftoken,
-          },
-        }
-      );
-    },
-    onSuccess: () => {
-      toast.success('담당번역가가 선정되었습니다.');
-      // @ts-ignore
-      window.document.getElementById('choose_directly')?.close();
-      queryClient.invalidateQueries({
-        queryKey: ['adminTaskDetail'],
-      });
-    },
-    onError: (error: AxiosError) => {
-      if (error.response?.status === 406) {
-        toast.error('이미 신청했습니다.');
+  const { mutateAsync: assignTranslator, isPending: assigningTranslator } =
+    useMutation({
+      mutationFn: ({ task_id, user_id }: any) => {
+        return axios.post(
+          `${BASE_URL}/tasks/${task_id}/assign-translator/${user_id}/`,
+          {},
+          {
+            headers: {
+              Authorization: token,
+              'X-CSRFToken': csrftoken,
+            },
+          }
+        );
+      },
+      onSuccess: () => {
+        toast.success('담당번역가가 선정되었습니다.');
         // @ts-ignore
         window.document.getElementById('choose_directly')?.close();
-        return;
-      }
-      toast.error(error.message);
-      // @ts-ignore
-      window.document.getElementById('choose_directly')?.close();
-    },
-  });
+        queryClient.invalidateQueries({
+          queryKey: ['adminTaskDetail'],
+        });
+      },
+      onError: (error: AxiosError) => {
+        if (error.response?.status === 406) {
+          toast.error('이미 신청했습니다.');
+          // @ts-ignore
+          window.document.getElementById('choose_directly')?.close();
+          return;
+        }
+        toast.error(error.message);
+        // @ts-ignore
+        window.document.getElementById('choose_directly')?.close();
+      },
+    });
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     await findUser();
@@ -219,6 +225,7 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
   };
   return (
     <dialog id={modal_id} className='modal'>
+      <ScreenLoading isLoading={findingUser || assigningTranslator} />
       <div className='modal-box'>
         <h3 className='font-bold text-lg mb-3'>번역가 직접 지정</h3>
         <form className='join' onSubmit={handleSubmit}>

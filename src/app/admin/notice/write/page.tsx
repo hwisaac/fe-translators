@@ -4,6 +4,7 @@ import { revalidateNoticeDetail } from '@/app/admin/notice/write/revalidateNotic
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -26,7 +27,7 @@ export default function page({}: Props) {
   const token = useToken();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
-  const { mutateAsync: postNotice } = useMutation({
+  const { mutateAsync: postNotice, isPending } = useMutation({
     mutationFn: (payload: any) =>
       axios
         .post(`${BASE_URL}/notices/`, payload, {
@@ -62,6 +63,7 @@ export default function page({}: Props) {
   };
   return (
     <section>
+      <ScreenLoading isLoading={isPending} />
       <h1 className='text-2xl my-10'>공지사항 등록</h1>
       <form
         action=''

@@ -1,6 +1,7 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
@@ -24,7 +25,7 @@ export default function page({}: Props) {
     formState: { errors },
   } = useForm<any>();
 
-  const { mutateAsync: changePassword } = useMutation({
+  const { mutateAsync: changePassword, isPending } = useMutation({
     mutationKey: ['password-change'],
     mutationFn: (payload: any) =>
       axios.put(
@@ -63,7 +64,6 @@ export default function page({}: Props) {
   };
 
   useEffect(() => {
-
     if (errors.old_password) {
       toast.error(`기존 패스워드: ${errors.old_password.message}`);
     }
@@ -78,6 +78,7 @@ export default function page({}: Props) {
   return (
     <div className='flex flex-col items-center py-10'>
       <h1 className='text-2xl mb-10'>비밀번호 변경하기</h1>
+      <ScreenLoading isLoading={isPending} />
       <form
         action=''
         className='flex flex-col gap-2'
