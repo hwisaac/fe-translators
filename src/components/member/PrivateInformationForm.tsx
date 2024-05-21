@@ -50,10 +50,12 @@ export default function PrivateInformationForm({}: Props) {
       setValue('address2', me.address2);
       setValue('zonecode', me.zonecode);
       setValue('gender', me.gender);
-      const birth_date = me.birth_date.split('-');
-      setValue('year', birth_date[0]);
-      setValue('month', birth_date[1]);
-      setValue('day', birth_date[2]);
+      if (me?.birth_date) {
+        const birth_date = me?.birth_date.split('-');
+        setValue('year', birth_date[0]);
+        setValue('month', birth_date[1]);
+        setValue('day', birth_date[2]);
+      }
     }
   }, [me]);
   const { mutateAsync, isPending: puttingUser } = useMutation({

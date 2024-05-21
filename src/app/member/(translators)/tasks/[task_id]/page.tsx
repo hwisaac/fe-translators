@@ -103,8 +103,8 @@ export default function page({}) {
           </Link>
         )}
       </div>
-      <div className='border-b border-b-slate-700 py-10 px-4 whitespace-pre'>
-        {formatTextField(data?.content)}
+      <div className='border-b border-b-slate-700 py-10 px-4 whitespace-pre-wrap'>
+        {data?.content}
         {/* {data?.content} */}
       </div>
       <MemberComments

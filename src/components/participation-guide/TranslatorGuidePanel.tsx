@@ -43,7 +43,7 @@ export default function TranslatorGuidePanel({ value }: any) {
         <Image
           src={img.coffeeBg}
           alt='backgroundImage'
-          layout='fill'
+          fill={true}
           style={{
             objectFit: 'cover',
           }}
@@ -89,7 +89,7 @@ export default function TranslatorGuidePanel({ value }: any) {
         <Image
           src={img.coffeeBg2}
           alt='backgroundImage'
-          layout='fill'
+          fill={true}
           style={{
             objectFit: 'cover',
           }}

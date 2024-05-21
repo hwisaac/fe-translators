@@ -39,8 +39,8 @@ export default function AdminLayout({ children }: Props) {
     return (
       <div className='h-[500px] w-full flex justify-center items-center flex-col gap-3'>
         권한이 없습니다
-        <button className='btn ' onClick={() => router.back()}>
-          뒤로가기
+        <button className='btn ' onClick={() => router.push('/')}>
+          홈으로
         </button>
       </div>
     );

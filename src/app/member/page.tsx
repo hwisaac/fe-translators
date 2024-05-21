@@ -26,7 +26,6 @@ export default function page({}) {
 
   if (!isClient) return null;
 
-
   return (
     <PageLayout title='번역가방'>
       <div className='w-full flex justify-center'>

@@ -78,8 +78,8 @@ function NewBooksTable({
           <tr>
             <th>사진</th>
             <th>제목</th>
-            <th className='hidden lg:flex'>출판사</th>
-            <th className='hidden lg:flex'>저자</th>
+            <th className='hidden lg:table-cell'>출판사</th>
+            <th className='hidden lg:table-cell'>저자</th>
             <th>번역가</th>
           </tr>
         </thead>

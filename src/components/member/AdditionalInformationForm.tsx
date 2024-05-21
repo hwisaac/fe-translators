@@ -321,10 +321,9 @@ export default function AdditionalInformationForm({
         <div className='form-control'>
           <select
             className='select select-bordered w-full max-w-xs'
-            {...register('subscribed')}>
-            <option selected value='none'>
-              비수신
-            </option>
+            {...register('subscribed')}
+            defaultValue={'none'}>
+            <option value='none'>비수신</option>
             <option value='kakao'>카카오톡</option>
             <option value='email'>이메일</option>
           </select>
