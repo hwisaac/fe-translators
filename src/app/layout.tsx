@@ -10,7 +10,7 @@ import Providers from '@/app/providers';
 import RecoilContextProvider from '@/app/recoilContextProvider';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { GoogleAnalytics } from '@next/third-parties/google';
+import { GoogleTagManager } from '@next/third-parties/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,6 +30,7 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <head>
+        <GoogleTagManager gtmId='GTM-PJD3MXTH' />
         {/* <meta
           httpEquiv='Content-Security-Policy'
           content='upgrade-insecure-requests'
@@ -47,7 +48,6 @@ export default async function RootLayout({
             <Footer />
           </RecoilContextProvider>
         </AppRouterCacheProvider>
-        <GoogleAnalytics gaId='G-' />
       </body>
     </html>
   );
