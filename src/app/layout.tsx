@@ -10,6 +10,7 @@ import Providers from '@/app/providers';
 import RecoilContextProvider from '@/app/recoilContextProvider';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -46,6 +47,7 @@ export default async function RootLayout({
             <Footer />
           </RecoilContextProvider>
         </AppRouterCacheProvider>
+        <GoogleAnalytics gaId='G-' />
       </body>
     </html>
   );
