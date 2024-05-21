@@ -23,7 +23,7 @@ export default function DifferenceSectionOne({}: Props) {
           <div className='text-xl space-y-2'>
             <p>
               <span className='font-semibold'>번역의 질과 납기를 관리</span>
-              하는데
+              하는 데
             </p>
             <p>도움을 받을 수 있습니다.</p>
           </div>
@@ -33,7 +33,7 @@ export default function DifferenceSectionOne({}: Props) {
           <div className='text-xl space-y-2'>
             <p>
               <span className='font-semibold'>새로운 책을 찾아 기획</span>
-              하는데
+              하는 데
             </p>
             <p>도움을 받을 수 있습니다.</p>
           </div>
@@ -51,7 +51,7 @@ export default function DifferenceSectionOne({}: Props) {
           <span className='font-semibold text-blue-600 text-xl'>05</span>
           <div className='text-xl space-y-2'>
             <p>
-              <span className='font-semibold'>책을 홍보</span>하는데
+              <span className='font-semibold'>책을 홍보</span>하는 데
             </p>
             <p>도움을 받을 수 있습니다.</p>
           </div>
