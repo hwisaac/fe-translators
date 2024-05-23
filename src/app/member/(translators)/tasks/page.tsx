@@ -8,14 +8,8 @@ import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import useToken from '@/app/hooks/useToken';
-type Props = {
-  searchParams: {
-    page: string;
-    query: string;
-    language: string;
-    status: string;
-  };
-};
+import { useSearchParams } from 'next/navigation';
+type Props = {};
 export type TaskType = {
   id: number;
   status: 'open' | 'testing' | 'closed' | 'completed';
@@ -25,10 +19,13 @@ export type TaskType = {
   link: string;
 };
 
-export default function TasksPage({
-  searchParams: { page, query, language, status },
-}: Props) {
+export default function TasksPage({}: Props) {
   const token = useToken();
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page');
+  const query = searchParams.get('query');
+  const status = searchParams.get('status');
+  const language = searchParams.get('language');
 
   const { data } = useQuery({
     queryKey: ['tasks_list', page, query, language, status],
