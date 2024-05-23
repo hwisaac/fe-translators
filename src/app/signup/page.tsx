@@ -113,7 +113,11 @@ export default function page({}: Props) {
   const { mutateAsync: confirmCode } = useMutation({
     mutationFn: ({ email, code }: any) =>
       axios
-        .delete(`${BASE_URL}/gmail?email=${email}&code=${code}&/`)
+        .delete(`${BASE_URL}/gmail?email=${email}&code=${code}&/`, {
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+        })
         .then((res) => res.data),
     onSuccess: (data) => {
       toast.success('코드인증 성공');

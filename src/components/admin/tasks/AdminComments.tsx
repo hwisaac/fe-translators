@@ -189,6 +189,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
         axios.delete(`${BASE_URL}/comments/${comment.id}/`, {
           headers: {
             Authorization: token,
+            'X-CSRFToken': csrftoken,
           },
         }),
       onSuccess: () => {
@@ -327,11 +328,16 @@ const Replies = ({ replies }: { replies: ReplyType[] }) => {
 
 const ReplyItem = ({ reply }: { reply: ReplyType }) => {
   const queryClient = useQueryClient();
+  const csrftoken = useCSRFToken();
   const { mutateAsync: deleteReply, isPending: deletingReply } = useMutation({
     mutationFn: () =>
       axios.delete(
         `${BASE_URL}/comments/${reply.comment_id}/reply/${reply.reply_id}/`,
-        {}
+        {
+          headers: {
+            'X-CSRFToken': csrftoken,
+          },
+        }
       ),
     onSuccess: () => {
       queryClient.invalidateQueries({

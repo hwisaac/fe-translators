@@ -1,4 +1,5 @@
 'use client';
+import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
@@ -43,6 +44,7 @@ function formatTextField(text?: string | null): any {
 export default function page({}) {
   const { notice_id } = useParams();
   const token = useToken();
+  const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const router = useRouter();
   const { data, isLoading } = useQuery({
@@ -63,6 +65,7 @@ export default function page({}) {
       axios.delete(`${BASE_URL}/notices/${notice_id}`, {
         headers: {
           Authorization: token,
+          'X-CSRFToken': csrftoken,
         },
       }),
     onSuccess: () => {
