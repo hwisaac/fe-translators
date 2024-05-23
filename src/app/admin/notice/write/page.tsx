@@ -30,7 +30,7 @@ export default function page({}: Props) {
   const { mutateAsync: postNotice, isPending } = useMutation({
     mutationFn: (payload: any) =>
       axios
-        .post(`${BASE_URL}/notices/`, payload, {
+        .post(`${BASE_URL}/notices/admin/`, payload, {
           headers: {
             Authorization: token,
             'X-CSRFToken': csrftoken,
