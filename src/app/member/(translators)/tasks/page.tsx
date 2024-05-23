@@ -1,12 +1,5 @@
 'use client';
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Link from 'next/link';
 import BASE_URL from '@/utils/BASE_URL';
 import TasksPagination from '@/components/member/tasks/MemberTasksPagination';
@@ -53,6 +46,10 @@ export default function TasksPage({
         )
         .then((res) => res.data),
   });
+  React.useEffect(() => {
+    console.log(data);
+    console.log(page, query, language, status);
+  }, [data, page, query, language, status]);
   return (
     <div className='flex flex-col items-center py-10'>
       <SearchForm />
