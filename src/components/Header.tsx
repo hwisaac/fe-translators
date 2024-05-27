@@ -120,7 +120,11 @@ export default function Header({}: Props) {
       <div className='lg:hidden fixed top-0 w-full z-10 bg-white '>
         <div className='flex justify-between items-center w-full px-2 py-4'>
           <Link href='/'>
-            <Image alt='barun-translation-logo' src={logo} />
+            <Image
+              alt='barun-translation-logo'
+              src={logo}
+              className=' scale-75'
+            />
           </Link>
           <div className='flex items-center gap-2 sm:gap-5'>
             <LogoutBtn />

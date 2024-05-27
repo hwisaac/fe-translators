@@ -37,9 +37,9 @@ export default async function SectionTwo({}: Props) {
       }}>
       <div className='w-full max-w-6xl mx-auto flex flex-col'>
         <div className='flex border-b items-end gap-8 py-4 my-10 relative px-2'>
-          <h2 className='text-4xl text-slate-900'>신간 안내</h2>
+          <h2 className='text-2xl sm:text-4xl text-slate-900'>신간 안내</h2>
 
-          <span className='text-slate-500'>
+          <span className='text-slate-500 hidden sm:inline'>
             우리 번역가가 번역한 도서입니다.
           </span>
           <Link

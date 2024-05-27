@@ -7,7 +7,7 @@ import SectionTwo from '@/components/home/SectionTwo';
 export default function Home() {
   return (
     <main>
-      {/* <CustomSlider /> */}
+
       <CustomSlider2 />
       <SectionOne />
       <SectionTwo />
