@@ -24,7 +24,7 @@ export default function SectionOne({}: Props) {
                       좋은이유
                     </p>
                   </div>
-                  <div className='bg-blue-800 w-[100px] h-[100px] rounded-full'></div>
+                  <div className='bg-[#0e3f9e] w-[100px] h-[100px] rounded-full'></div>
                 </div>
               </Link>
               <Link href='/request/qna' className='text-blue-500 text-xl'>
@@ -41,27 +41,27 @@ export default function SectionOne({}: Props) {
             </div>
             <div className='flex flex-col gap-2'>
               <Link href='/introduction/difference'>
-                <div className='flex justify-between items-center text-white bg-emerald-600 px-10 py-7'>
+                <div className='flex justify-between items-center text-white bg-[#16afa9] px-10 py-7'>
                   <div className='flex flex-col gap-2  font-thin'>
                     <p>바른번역이</p>
                     <p className='text-3xl'>
                       <span className=' font-bold'>번역가</span>에게 좋은이유
                     </p>
                   </div>
-                  <div className='bg-emerald-800 w-[100px] h-[100px] rounded-full'></div>
+                  <div className='bg-[#007d78] w-[100px] h-[100px] rounded-full'></div>
                 </div>
               </Link>
               <Link
                 href='/participation-guide'
                 className='text-emerald-500 text-xl'>
-                <div className='flex items-center justify-between bg-emerald-50 px-10 py-5 font-thin'>
+                <div className='flex items-center justify-between bg-[#d3f2f0] px-10 py-5 font-thin'>
                   <p>
-                    <span className='text-emerald-700 font-semibold'>
+                    <span className='text-[#018983] font-semibold'>
                       회원가입 전에
                     </span>{' '}
                     꼭 읽어주세요
                   </p>
-                  <ChevronRight className='text-emerald-700' />
+                  <ChevronRight className='text-[#018983]' />
                 </div>
               </Link>
             </div>

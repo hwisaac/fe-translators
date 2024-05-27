@@ -40,12 +40,10 @@ const subMenus = {
   ],
 };
 export default function Header({}: Props) {
-  const [openMenu, setOpenMenu] = useState(true);
   const [subMenu, setSubMenu] = useState<any[]>(subMenus.intro);
   const [openHamburger, setOpenHamburger] = useState(false);
 
   const handleOpenMenu = (submenu: any[]) => {
-    setOpenMenu(true);
     setSubMenu([...submenu]);
   };
   const onHamburger = () => {
@@ -55,7 +53,7 @@ export default function Header({}: Props) {
   return (
     <>
       <div className='hidden lg:flex flex-col fixed top-0 w-full z-50'>
-        <section className='w-full bg-white text-slate-900 py-3 border-b'>
+        <section className='w-full bg-white text-slate-900 py-3 border-b h-[70px]'>
           <div className='w-full max-w-6xl flex justify-between mx-auto items-center'>
             <div>
               <Link href='/'>
@@ -104,20 +102,21 @@ export default function Header({}: Props) {
             </div>
           </div>
         </section>
-        {openMenu && (
-          <section className='w-full flex bg-slate-50 text-slate-400 h-[60px] items-center'>
-            <ul className='max-w-6xl w-full flex mx-auto space-x-10 justify-center'>
-              {subMenu.map((menu) => (
-                <Link key={menu.href} href={menu.href}>
-                  <li className='hover:text-blue-400 cursor-pointer transition-colors'>
-                    {menu.text}
-                  </li>
-                </Link>
-              ))}
-            </ul>
-          </section>
-        )}
+
+        <section className='w-full flex bg-slate-50 text-slate-400 h-[60px] items-center'>
+          <ul className='max-w-6xl w-full flex mx-auto space-x-10 justify-center'>
+            {subMenu.map((menu) => (
+              <Link key={menu.href} href={menu.href}>
+                <li className='hover:text-blue-400 cursor-pointer transition-colors'>
+                  {menu.text}
+                </li>
+              </Link>
+            ))}
+          </ul>
+        </section>
       </div>
+
+      {/* 반응형 */}
       <div className='lg:hidden fixed top-0 w-full z-10 bg-white '>
         <div className='flex justify-between items-center w-full px-2 py-4'>
           <Link href='/'>
