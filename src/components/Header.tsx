@@ -66,30 +66,30 @@ export default function Header({}: Props) {
               <ul className='flex items-center gap-10'>
                 <Link href='/introduction/history'>
                   <li
-                    className='hover:text-blue-400 cursor-pointer'
+                    className='hover:text-blue-400 cursor-pointer transition-colors'
                     onMouseEnter={() => handleOpenMenu(subMenus.intro)}>
                     바른번역 소개
                   </li>
                 </Link>
                 <Link href='/request/process'>
                   <li
-                    className='hover:text-blue-400 cursor-pointer'
+                    className='hover:text-blue-400 cursor-pointer transition-colors'
                     onMouseEnter={() => handleOpenMenu(subMenus.request)}>
                     번역 의뢰
                   </li>
                 </Link>
                 <Link href='/new-books'>
-                  <li className='hover:text-blue-400 cursor-pointer'>
+                  <li className='hover:text-blue-400 cursor-pointer transition-colors'>
                     신간 안내
                   </li>
                 </Link>
                 <Link href='/translators'>
-                  <li className='hover:text-blue-400 cursor-pointer'>
+                  <li className='hover:text-blue-400 cursor-pointer transition-colors'>
                     번역가 소개
                   </li>
                 </Link>
                 <Link href='/participation-guide'>
-                  <li className='hover:text-blue-400 cursor-pointer'>
+                  <li className='hover:text-blue-400 cursor-pointer transition-colors'>
                     번역가 참여 안내
                   </li>
                 </Link>
@@ -109,7 +109,7 @@ export default function Header({}: Props) {
             <ul className='max-w-6xl w-full flex mx-auto space-x-10 justify-center'>
               {subMenu.map((menu) => (
                 <Link key={menu.href} href={menu.href}>
-                  <li className='hover:text-blue-400 cursor-pointer'>
+                  <li className='hover:text-blue-400 cursor-pointer transition-colors'>
                     {menu.text}
                   </li>
                 </Link>

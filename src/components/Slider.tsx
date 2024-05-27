@@ -13,11 +13,11 @@ export default function Slider({}: Props) {
           placeholder='blur'
         />
         <div className='absolute text-slate-200/90 w-full xl:w-[40%] flex flex-col gap-3 items-center'>
-          <p className='text-3xl sm:text-4xl lg:text-5xl'>
+          <p className='text-3xl sm:text-4xl lg:text-6xl font-thin'>
             좋은 책 만들기의 시작은
           </p>
-          <p className='text-3xl sm:text-4xl lg:text-5xl'>올바른 번역입니다</p>
-          <span className='text-xs md:text-md text-white/80 relative top-6'>
+          <p className='text-3xl sm:text-4xl lg:text-6xl'>올바른 번역입니다</p>
+          <span className='text-lg md:text-md text-white/80 relative top-6'>
             Making a good book begins with the correct translation
           </span>
         </div>
