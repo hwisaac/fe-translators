@@ -6,7 +6,7 @@ type Props = { children?: any; title: string };
 export default function PageLayout({ children, title }: Props) {
   return (
     <section className='w-full flex flex-col items-center justify-center'>
-      <div className='hidden lg:flex items-center justify-center mb-10'>
+      <div className='hidden lg:flex items-center justify-center'>
         <Image src={img.bgPattern} alt='bgImage' />
         <h1 className='absolute text-white text-4xl'>{title}</h1>
       </div>

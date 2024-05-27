@@ -12,7 +12,7 @@ export default async function Footer({}: Props) {
     <section className='w-full bg-stone-800 pt-10 pb-16 px-2'>
       <div className='w-full max-w-6xl mx-auto space-y-10'>
         <Logo />
-        <div className='text-stone-500 text-xs sm:text-md'>
+        <div className='text-stone-500 text-xs sm:text-lg'>
           <ul>
             <li>
               {barun?.barun_address ||

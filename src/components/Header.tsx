@@ -7,6 +7,7 @@ import Link from 'next/link';
 import LogoutBtn from '@/components/LogoutBtn';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useRouter } from 'next/navigation';
+import HamburgerModal from '@/components/HamburgerModal';
 type Props = {};
 
 const subMenus = {
@@ -48,6 +49,9 @@ export default function Header({}: Props) {
   };
   const onHamburger = () => {
     setOpenHamburger((prev) => !prev);
+  };
+  const closeModal = () => {
+    setOpenHamburger(false);
   };
 
   return (
@@ -141,74 +145,7 @@ export default function Header({}: Props) {
             />
           </div>
         </div>
-        {openHamburger && (
-          <div className='w-full h-full grid grid-cols-2 p-4 bg-slate-50 shadow py-[50px]'>
-            <div>
-              <div>
-                <h3 className='text-slate-500 text-xs'>바른번역 소개</h3>
-                <ul className='flex flex-col'>
-                  <Link
-                    href='/introduction/history'
-                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
-                    설립취지&역사
-                  </Link>
-                  <Link
-                    href='/introduction/difference'
-                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
-                    바른번역이 좋은 이유
-                  </Link>
-                  <Link
-                    href='/introduction/partnership'
-                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
-                    바른번역이 원하는 파트너십
-                  </Link>
-                  <Link
-                    href='/introduction/location'
-                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
-                    연락처 및 약도
-                  </Link>
-                </ul>
-              </div>
-              <div>
-                <h3 className='text-slate-500 mt-4 text-xs'>번역 의뢰</h3>
-                <ul className='flex flex-col'>
-                  <Link
-                    href='/request/process'
-                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
-                    의뢰 프로세스
-                  </Link>
-                  <Link
-                    href='/request/qna'
-                    className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
-                    Q&A
-                  </Link>
-                </ul>
-              </div>
-            </div>
-            <div className='w-full'>
-              <ul className='flex flex-col'>
-                <Link
-                  href='/new-books'
-                  className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
-                  신간 안내
-                </Link>
-                <Link
-                  href='/translators'
-                  className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
-                  번역가 소개
-                </Link>
-                <Link
-                  href='/participation-guide'
-                  className='pl-4 font-semibold text-slate-700 hover:bg-slate-200'>
-                  번역가 참여 안내
-                </Link>
-              </ul>
-              <div className='w-full'></div>
-              <div></div>
-              <div></div>
-            </div>
-          </div>
-        )}
+        <HamburgerModal openHamburger={openHamburger} closeModal={closeModal} />
       </div>
     </>
   );

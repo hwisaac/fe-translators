@@ -61,8 +61,10 @@ const steps = [
 export default function HistorySectionTwo({}: Props) {
   return (
     <Container>
-      <h1 className='text-slate-900 text-3xl mb-10'>바른번역이 걸어온 길</h1>
-      <div className='flex text-slate-800 items-center justify-center gap-[100px] py-10'>
+      <h1 className='text-slate-900 text-2xl sm:text-3xl mb-10 mt-10'>
+        바른번역이 걸어온 길
+      </h1>
+      <div className='flex text-slate-800 items-center justify-center gap-[100px] pb-10'>
         <Stepper orientation='vertical'>
           {steps.map((step, index) => (
             <Step key={step.label} active>

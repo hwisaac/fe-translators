@@ -24,7 +24,7 @@ export default function SectionThree({}: Props) {
             <Image alt='barun-image1' src={mainPic3} />
           </li>
         </ul>
-        <ul className='grid grid-cols-1 gap-1 sm:gap-0 lg:grid-cols-3'>
+        <ul className='grid grid-cols-1 gap-1 sm:gap-0 lg:grid-cols-3 px-4'>
           <Link href='http://www.glbab.com' target='_blank'>
             <li className='bg-blue-400 h-[80px] sm:h-[130px] text-white flex flex-col justify-center relative'>
               <Image
@@ -35,7 +35,7 @@ export default function SectionThree({}: Props) {
               />
               <div className='absolute px-10 flex items-center gap-2 sm:flex-col'>
                 <p className=' font-thin'>바른번역</p>
-                <div className='flex items-center gap-3 text-2xl'>
+                <div className='flex items-center gap-3 text-lg sm:text-2xl'>
                   <p>글밥 아카데미</p>{' '}
                   <ChevronRight className='hidden sm:inline' />
                 </div>
@@ -52,7 +52,7 @@ export default function SectionThree({}: Props) {
               />
               <div className='absolute px-10 flex items-center gap-2 sm:flex-col'>
                 <p className=' font-thin'>네이버카페</p>
-                <div className='flex items-center gap-3 text-2xl'>
+                <div className='flex items-center gap-3 text-lg sm:text-2xl'>
                   <p>글로 먹고 살기</p>{' '}
                   <ChevronRight className='hidden sm:inline' />
                 </div>
@@ -69,7 +69,7 @@ export default function SectionThree({}: Props) {
               />
               <div className='absolute px-10 flex items-center gap-2 sm:flex-col'>
                 <p className=' font-thin'>바른번역</p>
-                <div className='flex items-center gap-3 text-2xl'>
+                <div className='flex items-center gap-3 text-lg sm:text-2xl'>
                   <p>영상번역 및 편집</p>{' '}
                   <ChevronRight className='hidden sm:inline' />
                 </div>

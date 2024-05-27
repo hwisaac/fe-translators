@@ -56,7 +56,7 @@ export default function CustomSlider2({}: Props) {
               <p className='text-3xl sm:text-4xl lg:text-6xl'>
                 올바른 번역입니다
               </p>
-              <span className='text-sm md:text-md text-white/80 relative top-6 font-thin'>
+              <span className='text-sm md:text-md text-white relative top-6 font-thin'>
                 Making a good book begins with the correct translation
               </span>
             </div>
@@ -83,7 +83,7 @@ export default function CustomSlider2({}: Props) {
                 </span>
                 을
               </p>
-              <span className='text-sm md:text-md text-white/80 relative top-6 font-thin'>
+              <span className='text-sm md:text-md text-white relative top-6 font-thin'>
                 Quality translation for publishers and stable work{' '}
                 <br className='sm:hidden' /> environment for translators
               </span>
@@ -92,16 +92,18 @@ export default function CustomSlider2({}: Props) {
         </div>
       </div>
       <div
-        className='absolute bottom-10  transform -translate-y-1/2 text-white p-2 flex gap-3'
+        className='absolute bottom-10 text-white p-2 flex gap-1 sm:gap-3'
         onClick={handleSlide}>
         <div
-          className={`h-3 border-2 border-white rounded-full cursor-pointer transition-all ${
-            left ? 'w-8 bg-white' : 'w-3'
-          }`}></div>
+          className={`h-2 sm:h-3 border sm:border-2 border-white rounded-full cursor-pointer transition-all ${
+            !left ? 'w-2 sm:w-3' : 'bg-white w-6 sm:w-8'
+          }`}
+        />
         <div
-          className={`h-3 border-2 border-white rounded-full cursor-pointer transition-all ${
-            left ? 'w-3' : 'bg-white w-8'
-          }`}></div>
+          className={`h-2 sm:h-3 border sm:border-2 border-white rounded-full cursor-pointer transition-all ${
+            left ? 'w-2 sm:w-3' : 'bg-white w-6 sm:w-8'
+          }`}
+        />
       </div>
     </section>
   );
