@@ -16,6 +16,7 @@ import Link from 'next/link';
 import NewBooksPagination from '@/components/new-books/NewBooksPagination';
 import NewBooksSearchForm from '@/components/new-books/NewBooksSearchForm';
 import Image from 'next/image';
+import BrSM from '@/components/BrSM';
 
 type Props = {
   searchParams: { page: string; query: string; option: string };
@@ -45,6 +46,17 @@ export default async function page({
 
   return (
     <PageLayout title='신간안내'>
+      <div className='w-full h-[80px] lg:hidden ' />
+      <h1 className='lg:hidden text-2xl mb-4'>신간안내</h1>
+      <div className='bg-gray-50 flex flex-col lg:flex-row items-center py-6 gap-3 px-6'>
+        <p className='text-center'>
+          2020년 12월 이후 출간작부터
+          <BrSM /> 업데이트됩니다.
+        </p>
+        <div className='border border-black bg-white font-thin text-gray-400 px-3 py-1 text-sm lg:text-md'>
+          이전 출간작 보러가기
+        </div>
+      </div>
       <NewBooksSearchForm />
       <NewBooksTable
         new_books={data?.new_books ?? []}
@@ -73,7 +85,7 @@ function NewBooksTable({
 }) {
   return (
     <section className='my-10'>
-      <table className='table'>
+      <table className='hidden sm:table'>
         <thead>
           <tr>
             <th>사진</th>
@@ -85,7 +97,7 @@ function NewBooksTable({
         </thead>
         <tbody>
           {new_books.map((book) => (
-            <tr key={book.id}>
+            <tr key={book.id} className=''>
               <td>
                 <Link href={`/new-books/${book.id}`}>
                   {getImgUrl(book.thumbnail) ? (
@@ -103,13 +115,51 @@ function NewBooksTable({
                 </Link>
               </td>
               <td>
-                <Link href={`/new-books/${book.id}`} className='link'>
+                <Link href={`/new-books/${book.id}`} className=''>
                   {book.title}
                 </Link>
               </td>
               <td className='hidden lg:table-cell'>{book.publisher}</td>
               <td className='hidden lg:table-cell'>{book.author}</td>
               <td>{book.translator}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <table>
+        <thead></thead>
+        <tbody>
+          {new_books.map((book) => (
+            <tr key={book.id} className='border-b last:border-b-0 py-1'>
+              <td>
+                <Link href={`/new-books/${book.id}`}>
+                  {getImgUrl(book.thumbnail) ? (
+                    <Image
+                      src={getImgUrl(book.thumbnail)}
+                      alt={book.title}
+                      width={100}
+                      height={150}
+                    />
+                  ) : (
+                    <div className='w-[100px] h-[150px] bg-slate-50 rounded-md flex items-center justify-center'>
+                      <FaBook size={60} className='text-slate-200' />
+                    </div>
+                  )}
+                </Link>
+              </td>
+              <td className='flex flex-col pt-1 px-4'>
+                <Link
+                  href={`/new-books/${book.id}`}
+                  className='text-sm xs:text-md'>
+                  {book.title}
+                </Link>
+                <div className=' font-thin text-sm font-slate-300'>
+                  <p className=''>{book.publisher}</p>
+                  <p className=''>{book.author}</p>
+                  <p>{book.translator}</p>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
