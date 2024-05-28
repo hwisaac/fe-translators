@@ -68,7 +68,7 @@ export default function MyNotices({}: Props) {
   return (
     <section className='py-10 flex flex-col w-full'>
       <h2 className='text-lg font-semibold pb-8 px-2'>번역가 공지사항</h2>
-      <table className='table'>
+      <table className='hidden sm:table'>
         <thead>
           <tr>
             <th>번호</th>
@@ -78,7 +78,7 @@ export default function MyNotices({}: Props) {
         </thead>
         <tbody>
           {notices?.map((notice, index) => (
-            <tr key={`${index}-rows`}>
+            <tr key={`${index}-rows-notice`}>
               <td>{notice.id}</td>
               <td>
                 <Link
@@ -88,6 +88,33 @@ export default function MyNotices({}: Props) {
                 </Link>
               </td>
               <td>{formatDate(notice.created_at)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <table className='sm:hidden'>
+        <thead></thead>
+        <tbody>
+          {notices?.map((notice, index) => (
+            <tr key={`${index}-rows-notice-sm`}>
+              <td className='flex flex-col border-b gap-1 py-3 px-2 '>
+                <div>
+                  <Link
+                    className='hover:text-pink-800 transition-colors'
+                    href={`/member/notice/${notice.id}`}>
+                    {notice.title}
+                  </Link>
+                </div>
+                <div className='flex items-center'>
+                  <p className='text-blue-400 w-[90px] shrink-0 text-sm py-1'>
+                    작성일
+                  </p>
+                  <span className='font-thin'>
+                    {formatDate(notice.created_at)}
+                  </span>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
