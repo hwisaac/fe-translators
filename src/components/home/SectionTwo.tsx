@@ -36,7 +36,7 @@ export default async function SectionTwo({}: Props) {
         backgroundImage: `url(${bgPattern})`,
       }}>
       <div className='w-full max-w-6xl mx-auto flex flex-col'>
-        <div className='flex border-b items-end gap-8 py-4 my-10 relative px-2'>
+        <div className='flex border-b items-end gap-8 py-4 my-10 relative px-4'>
           <h2 className='text-2xl sm:text-4xl text-slate-900'>신간 안내</h2>
 
           <span className='text-slate-500 hidden sm:inline'>

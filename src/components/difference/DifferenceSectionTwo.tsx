@@ -5,7 +5,7 @@ type Props = {};
 
 export default function DifferenceSectionTwo({}: Props) {
   return (
-    <Container>
+    <div className='mt-12'>
       <h2 className='text-2xl font-semibold text-slate-700 mb-10'>
         <span className='font-thin'>바른번역이</span> <BrSM />
         <span className='text-blue-600'>번역가</span>에게 좋은 이유
@@ -55,6 +55,6 @@ export default function DifferenceSectionTwo({}: Props) {
           </div>
         </div>
       </div>
-    </Container>
+    </div>
   );
 }

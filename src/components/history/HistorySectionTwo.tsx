@@ -60,7 +60,7 @@ const steps = [
 
 export default function HistorySectionTwo({}: Props) {
   return (
-    <Container>
+    <div>
       <h1 className='text-slate-900 text-2xl sm:text-3xl mb-10 mt-10'>
         바른번역이 걸어온 길
       </h1>
@@ -76,6 +76,6 @@ export default function HistorySectionTwo({}: Props) {
           ))}
         </Stepper>
       </div>
-    </Container>
+    </div>
   );
 }

@@ -159,15 +159,16 @@ export default function page({}: Props) {
 
   return (
     <PageLayout title='의뢰 프로세스'>
+      <div className='lg:hidden h-[80px] w-full' />
       <Tabs value={value} onChange={handleChange} centered>
         <Tab label='번역 의뢰' style={{ fontSize: '1.3rem' }} />
         <Tab label='리뷰 의뢰' style={{ fontSize: '1.3rem' }} />
       </Tabs>
       <CustomTabPanel value={value} index={0}>
-        <h2 className='text-2xl lg:text-3xl text-slate-500 my-10 ml-10 lg:ml-0'>
+        <h2 className='text-2xl lg:text-3xl text-slate-700 my-10 ml-0 lg:ml-0'>
           번역 의뢰
         </h2>
-        <div className='gap-5 flex flex-col'>
+        <div className='gap-2 sm:gap-5 flex flex-col'>
           {translationRequests.map((process, index) => (
             <ProcessItem
               key={`${process.title}-translationRequest`}
@@ -179,7 +180,7 @@ export default function page({}: Props) {
         </div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <h2 className='text-2xl lg:text-3xl text-slate-500 my-10 ml-10 lg:ml-0'>
+        <h2 className='text-2xl lg:text-3xl text-slate-700 my-10 ml-0 lg:ml-0'>
           리뷰 의뢰
         </h2>
         <div className='gap-5 flex flex-col'>
@@ -199,13 +200,16 @@ export default function page({}: Props) {
 
 function ProcessItem({ index, desc, title }: any) {
   return (
-    <li className='flex bg-white flex-col lg:flex-row'>
-      <div className='flex items-center justify-center text-blue-400 text-4xl font-black lg:p-10 shrink-0 w-[150px] lg:border-r'>
-        {String(index).padStart(2, '0')}
+    <li className='flex bg-white border'>
+      <div className='flex flex-col items-center justify-center text-[#5c86d4] text-3xl sm:text-4xl lg:text-7xl lg:p-10 shrink-0 w-1/6 sm:w-[150px] border-r'>
+        <p className='text-sm lg:text-lg'>STEP</p>
+        <p className='lg:font-bold'>{String(index).padStart(2, '0')}</p>
       </div>
-      <div className='flex flex-col justify-center px-10 flex-1 py-10 text-slate-700'>
-        <h4 className=' font-semibold text-xl mb-3 text-slate-600'>{title}</h4>
-        {desc}
+      <div className='flex flex-col justify-center px-4 sm:px-10 flex-1 py-5 sm:py-10 text-slate-700 bg-slate-50'>
+        <h4 className=' font-semibold text-md sm:text-xl mb-3 text-slate-800'>
+          {title}
+        </h4>
+        <span className='font-thin text-sm sm:text-lg'>{desc}</span>
       </div>
     </li>
   );

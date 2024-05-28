@@ -7,11 +7,11 @@ type Props = {};
 
 export default function HistorySectionOne({}: Props) {
   return (
-    <div className='mt-[80px]'>
+    <div className='mt-[80px] sm:mt-10'>
       <h1 className='text-slate-900 text-2xl sm:text-3xl mb-4'>
         바른번역 설립 취지
       </h1>
-      <div className='border flex flex-col sm:flex-row text-slate-800 sm:items-center justify-center sm:gap-[100px] py-10 px-2'>
+      <div className='border border-b-0 flex flex-col sm:flex-row text-slate-800 sm:items-center justify-center sm:gap-[100px] py-10 px-2'>
         <Image
           alt='image1'
           src={historyIcon1}
@@ -30,7 +30,7 @@ export default function HistorySectionOne({}: Props) {
           </p>
         </div>
       </div>
-      <div className='border flex flex-col sm:flex-row text-slate-800 sm:items-center justify-center sm:gap-[100px] py-10 px-2'>
+      <div className='border border-b-0 flex flex-col sm:flex-row text-slate-800 sm:items-center justify-center sm:gap-[100px] py-10 px-2'>
         <Image
           alt='image1'
           src={historyIcon2}

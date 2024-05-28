@@ -8,7 +8,7 @@ export default function SectionOne({}: Props) {
   return (
     <section className='w-full'>
       <div className='w-full max-w-6xl mx-auto flex flex-col'>
-        <div className='flex sm:border-b items-end gap-8 py-4 mt-4 sm:my-10 px-2'>
+        <div className='flex sm:border-b items-end gap-8 py-4 mt-4 sm:my-10 px-4'>
           <h2 className='text-2xl lg:text-4xl text-slate-900'>바른번역 소개</h2>
           <span className='text-slate-500 hidden sm:inline'>
             우리는 이렇게 다릅니다
@@ -45,7 +45,7 @@ export default function SectionOne({}: Props) {
             </div>
             <div className='flex flex-col gap-2'>
               <Link href='/introduction/difference'>
-                <div className='flex justify-between items-center text-white bg-[#16afa9] px-10 py-4 sm:py-7'>
+                <div className='flex justify-between items-center text-white bg-[#16afa9] px-10 py-5'>
                   <div className='flex flex-col gap-2  font-thin'>
                     <p>바른번역이</p>
                     <p className='text-lg sm:text-3xl'>

@@ -4,7 +4,7 @@ type Props = {};
 
 export default function DirectionsToOurOffice({}: Props) {
   return (
-    <Container>
+    <div className='mt-5'>
       <section className='flex flex-col'>
         <div className='flex flex-col lg:flex-row gap-4 lg:gap-0'>
           <div className='flex items-center gap-2 sm:gap-4 w-[300px]'>
@@ -63,6 +63,6 @@ export default function DirectionsToOurOffice({}: Props) {
         <li>- 입구는 건물의 측면(공인중개사 사무소 옆)에 있습니다.</li>
         <li>- 주차 공간이 부족하오니 되도록 대중교통을 이용해주세요.</li>
       </ul>
-    </Container>
+    </div>
   );
 }

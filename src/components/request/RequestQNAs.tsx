@@ -5,6 +5,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
+import ChevronUp from '@/icons/ChevronUp';
+import ChevronDown from '@/icons/ChevronDown';
 
 type Props = {};
 
@@ -18,7 +20,7 @@ export default function RequestQNAs({ qnas }: { qnas: any[] }) {
 
   return (
     <div>
-      {qnas.map((item, index) => (
+      {/* {qnas.map((item, index) => (
         <AccordionItem
           key={index}
           id={index}
@@ -26,6 +28,13 @@ export default function RequestQNAs({ qnas }: { qnas: any[] }) {
           answer={item.answer}
           expanded={expanded}
           handleChange={handleChange}
+        />
+      ))} */}
+      {qnas.map((item, index) => (
+        <OldAccordionItem
+          key={index}
+          question={item.question}
+          answer={item.answer}
         />
       ))}
     </div>
@@ -52,3 +61,40 @@ function AccordionItem({ handleChange, expanded, id, answer, question }: any) {
     </Accordion>
   );
 }
+
+const OldAccordionItem = ({ answer, question }: any) => {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <div className='border border-b-0 last:border-b'>
+      <div
+        className='flex py-4 lg:py-10 lg:px-10 cursor-pointer'
+        onClick={() => setOpen((p) => !p)}>
+        <p className='text-[#2e63c8] w-10 lg:w-20 flex justify-center shrink-0 lg:text-3xl'>
+          Q
+        </p>
+        <p className='text-slate-800 w-full text-sm px-2  lg:text-2xl'>
+          {question}
+        </p>
+        <div className='w-10 lg:w-20 shrink-0 flex items-center justify-center'>
+          {open ? (
+            <ChevronUp className='lg:text-[30px]' />
+          ) : (
+            <ChevronDown className='lg:text-[30px]' />
+          )}
+        </div>
+      </div>
+      {open && (
+        <div className='flex bg-stone-100 py-4 lg:py-10 lg:px-10'>
+          <p className='text-slate-500 w-10 lg:w-20 flex justify-center shrink-0 lg:text-3xl'>
+            A
+          </p>
+          <p className=' font-thin text-sm px-2 text-slate-400 whitespace-pre-wrap lg:text-xl'>
+            {answer}
+          </p>
+          <div className='w-10 lg:w-20 shrink-0 flex items-center justify-center'></div>
+        </div>
+      )}
+    </div>
+  );
+};

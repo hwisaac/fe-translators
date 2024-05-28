@@ -8,7 +8,7 @@ type Props = {
 
 export default function PartnershipSection({ title, to, lis }: Props) {
   return (
-    <Container>
+    <div className='mt-[80px] sm:mt-10'>
       <div className='flex flex-col lg:flex-row px-2'>
         <div className='w-[250px] shrink-0 mb-4 sm:mb-10'>
           <h2 className='text-blue-600 text-xs sm:text-lg font-thin mb-2'>
@@ -22,6 +22,6 @@ export default function PartnershipSection({ title, to, lis }: Props) {
           ))}
         </ul>
       </div>
-    </Container>
+    </div>
   );
 }

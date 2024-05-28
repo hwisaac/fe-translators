@@ -6,7 +6,7 @@ type Props = {};
 
 export default function MapSection({}: Props) {
   return (
-    <Container>
+    <div className='mt-[80px] sm:mt-10'>
       <div className='flex flex-col'>
         <div className='bg-slate-100 w-full h-[400px]'>
           <Image
@@ -30,6 +30,6 @@ export default function MapSection({}: Props) {
           </ul>
         </div>
       </div>
-    </Container>
+    </div>
   );
 }
