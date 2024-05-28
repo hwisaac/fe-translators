@@ -1,6 +1,7 @@
 'use client';
 import { testAtom } from '@/atoms/testAtom';
 import AccordionItem from '@/components/AccordionItem';
+import OldAccordionItem from '@/components/OldAccordionItem';
 import BASE_URL from '@/utils/BASE_URL';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -22,7 +23,7 @@ export default function AccordionTranslatorsQNA() {
     };
   return (
     <>
-      {qnas?.map((item, index) => {
+      {/* {qnas?.map((item, index) => {
         return (
           <AccordionItem
             key={index}
@@ -33,7 +34,14 @@ export default function AccordionTranslatorsQNA() {
             handleChange={handleChange}
           />
         );
-      })}
+      })} */}
+      {qnas?.map((item, index) => (
+        <OldAccordionItem
+          answer={item.answer}
+          question={item.question}
+          key={index}
+        />
+      ))}
     </>
   );
 }
