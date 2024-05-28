@@ -60,9 +60,7 @@ export default function page({ params }: Props) {
 
   return (
     <PageLayout title='번역가 소개'>
-      <Link href='/translators' className='btn btn-wide btn-sm mx-auto'>
-        목록
-      </Link>
+      <div className='mt-[80px] lg:hidden' />
       <div className='flex flex-col lg:flex-row'>
         <div className='w-[200px] h-[250px] bg-slate-100 m-10 relative'>
           {getImgUrl(data?.photo) === '' ? null : (
@@ -75,7 +73,7 @@ export default function page({ params }: Props) {
             />
           )}
         </div>
-        <div className='m-10'>
+        <div className='sm:m-10'>
           <h3 className='text-3xl mb-10'>
             {data?.pen_name ? data?.pen_name : data?.name}
           </h3>
@@ -92,9 +90,13 @@ export default function page({ params }: Props) {
         </div>
       </div>
       <InterviewSection interviews={data?.interviews} />
-      <Link href='/translators' className='btn btn-sm my-10 btn-wide mx-auto'>
-        목록
-      </Link>
+      <div className='flex w-full justify-center'>
+        <Link
+          href='/translators'
+          className='btn btn-sm my-10 btn-wide items-center'>
+          목록
+        </Link>
+      </div>
     </PageLayout>
   );
 }
