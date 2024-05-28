@@ -74,7 +74,7 @@ export default function page({ params }: Props) {
           )}
         </div>
         <div className='sm:m-10'>
-          <h3 className='text-3xl mb-10'>
+          <h3 className='text-xl sm:text-3xl my-10'>
             {data?.pen_name ? data?.pen_name : data?.name}
           </h3>
           <ul className=' space-y-6'>

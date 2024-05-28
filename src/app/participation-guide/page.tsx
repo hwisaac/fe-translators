@@ -22,6 +22,7 @@ export default function page({}: Props) {
 
   return (
     <PageLayout title='번역가 참여안내'>
+      <div className='h-[80px] lg:hidden' />
       <Tabs value={value} onChange={handleChange} centered>
         <Tab label='번역가 참여안내' style={{ fontSize: '1.3rem' }} />
         <Tab label='Q&A' style={{ fontSize: '1.3rem' }} />

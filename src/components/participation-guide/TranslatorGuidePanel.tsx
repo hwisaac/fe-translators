@@ -4,6 +4,8 @@ import { FaCircleExclamation } from 'react-icons/fa6';
 import React, { SyntheticEvent, useState } from 'react';
 import Image from 'next/image';
 import img from '@/utils/img';
+import BrSM from '@/components/BrSM';
+import Link from 'next/link';
 
 type Props = {};
 export interface TabPanelProps {
@@ -30,12 +32,12 @@ function CustomTabPanel(props: TabPanelProps) {
 export default function TranslatorGuidePanel({ value }: any) {
   return (
     <CustomTabPanel value={value} index={0}>
-      <div className='flex flex-col items-center text-lg lg:text-3xl text-slate-700 mt-20 mb-32'>
+      <div className='flex flex-col items-start sm:items-center text-lg font-thin sm:font-normal lg:text-3xl text-slate-700 my-10 sm:mt-20 sm:mb-32'>
         <p>이제 번역가는 번역에만 충실할 수 있습니다.</p>
         <p>'바른번역'의 문은 언제나 열려 있습니다.</p>
         <p>
-          이곳은 번역가들이 모여 만드는 곳입니다. 실력있는 번역가들은 언제나
-          환영합니다.
+          이곳은 번역가들이 모여 만드는 곳입니다.
+          <BrSM /> 실력있는 번역가들은 언제나 환영합니다.
         </p>
       </div>
 
@@ -52,7 +54,7 @@ export default function TranslatorGuidePanel({ value }: any) {
         />
         <div className='h-full backdrop-brightness-50 flex flex-col justify-end'>
           <div className='z-10 '>
-            <h3 className='text-slate-300 px-5 lg:px-20 text-lg lg:text-4xl'>
+            <h3 className='text-slate-100 px-5 lg:px-20 text-lg lg:text-4xl'>
               기성 번역가이십니까?
             </h3>
             <p className='text-slate-300 drop-shadow px-5 lg:px-20 mt-7 mb-10 text-xs lg:text-lg'>
@@ -62,7 +64,7 @@ export default function TranslatorGuidePanel({ value }: any) {
             </p>
           </div>
           <div className='flex flex-col lg:flex-row items-center gap-4 text-slate-300 border-t border-t-white/15 py-4 z-10'>
-            <p className='font-semibold text-lg lg:text-2xl px-20'>
+            <p className='font-semibold text-lg lg:text-2xl px-20 text-slate-100'>
               프로필과 원고 보내실 곳
             </p>
             <p className='text:sm lg:text-2xl'>
@@ -72,9 +74,9 @@ export default function TranslatorGuidePanel({ value }: any) {
         </div>
       </section>
 
-      <section className='flex px-3 gap-3 mt-10 mb-20'>
-        <FaCircleExclamation className='relative top-1 text-slate-600' />
-        <div className='text-slate-600'>
+      <section className='flex px-3 gap-3 mt-10 mb-20 bg-slate-100 items-start py-4'>
+        <FaCircleExclamation className=' text-slate-600' />
+        <div className='text-slate-600 text-sm font-thin sm:text-md '>
           <p>일어는 입부 입회를 받지 않습니다.</p>
           <p>
             입회를 희망하시는 영어, 독일어, 프랑스어, 중국어 번역가는 위 내용
@@ -98,7 +100,7 @@ export default function TranslatorGuidePanel({ value }: any) {
         />
         <div className='h-full backdrop-brightness-50 flex flex-col justify-end'>
           <div className='z-10 '>
-            <h3 className='text-slate-300 px-5 lg:px-20 text-lg lg:text-4xl'>
+            <h3 className='text-slate-100 px-5 lg:px-20 text-lg lg:text-4xl'>
               번역가 지망생입니까?
             </h3>
             <p className='text-slate-300 drop-shadow px-5 lg:px-20 mt-7 mb-10 text-xs lg:text-lg'>
@@ -109,10 +111,12 @@ export default function TranslatorGuidePanel({ value }: any) {
             </p>
           </div>
           <div className='flex flex-col lg:flex-row items-center  gap-4 text-slate-300 border-t border-t-white/15 py-4 z-10'>
-            <p className='font-semibold text-lg lg:text-2xl px-20'>
+            <p className='font-semibold text-lg lg:text-2xl px-20 text-slate-100'>
               글밥 아카데미 방문하기
             </p>
-            <p className='text:sm lg:text-2xl'>www.glbab.com</p>
+            <Link href='http://www.glbab.com' className='text:sm lg:text-2xl'>
+              www.glbab.com
+            </Link>
           </div>
         </div>
       </section>
