@@ -60,7 +60,7 @@ export default async function page({
 function TranslatorTable({ data }: { data: GetUsersType }) {
   return (
     <section className='py-10 flex flex-col w-full gap-3'>
-      <table className='table'>
+      <table className='hidden sm:table'>
         <thead>
           <tr>
             <td>번역가</td>
@@ -100,6 +100,38 @@ function TranslatorTable({ data }: { data: GetUsersType }) {
         </tbody>
       </table>
 
+      <table className='sm:hidden '>
+        <thead></thead>
+        <tbody>
+          {data?.users?.map((user, index: number) => (
+            <tr
+              key={`${index}-rows`}
+              className='w-full border-b hover:bg-gray-50 cursor-pointer'>
+              <Link href={`/translators/${user.id}`} className='w-full block'>
+                <td className=' font-thin text-sm space-y-1 w-full px-2 py-2'>
+                  <p className='font-normal text-lg'>
+                    {user.pen_name ? user.pen_name : user.name}
+                  </p>
+                  <div className='flex'>
+                    <p className='text-blue-400 w-[90px] shrink-0'>언어</p>
+                    <span>{user.languages.join(', ')}</span>
+                  </div>
+                  <div className='flex'>
+                    <p className='text-blue-400 w-[90px] shrink-0'>주요 분야</p>
+                    <span>{user.specializations.join(', ')}</span>
+                  </div>
+                  <div className='flex'>
+                    <p className='text-blue-400 w-[90px] shrink-0'>주요 역서</p>
+                    <span className='lg:text-md text-sm'>
+                      {user.major_works}
+                    </span>
+                  </div>
+                </td>
+              </Link>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <TranslatorPagination count={data.total_pages} />
     </section>
   );

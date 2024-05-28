@@ -63,7 +63,8 @@ export default function TranslatorSearchForm({ checkBoxes }: Props) {
 
   return (
     <div>
-      <div className='flex gap-5 items-center'>
+      <div className='h-[80px] lg:hidden w-full' />
+      <div className='flex flex-col items-start sm:flex-row gap-2 sm:gap-5 sm:items-center'>
         <p className='font-semibold shrink-0'>언어별</p>
         <div className='flex flex-wrap'>
           {checkBoxes?.languages?.map((item: { id: number; name: string }) => (
@@ -81,7 +82,7 @@ export default function TranslatorSearchForm({ checkBoxes }: Props) {
           ))}
         </div>
       </div>
-      <div className='flex items-center gap-5 mb-3'>
+      <div className='flex flex-col items-start sm:flex-row gap-2 sm:gap-5 sm:items-center mt-4'>
         <p className='font-semibold shrink-0'>분야별</p>
         <div className='flex flex-wrap'>
           {checkBoxes?.specializations?.map(
@@ -103,9 +104,9 @@ export default function TranslatorSearchForm({ checkBoxes }: Props) {
       </div>
       <form className='join mx-auto' onSubmit={(e) => handleSubmit(e)}>
         <div>
-          <div className='relative flex items-center'>
+          <div className='relative flex items-center w-full'>
             <input
-              className='input input-bordered join-item w-[400px]'
+              className='input input-bordered join-item w-full sm:w-[400px]'
               placeholder='Search'
               value={query}
               onChange={(e) => setQuery(e.currentTarget.value)}
