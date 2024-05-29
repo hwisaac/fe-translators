@@ -79,15 +79,15 @@ export default function MyNotices({}: Props) {
         <tbody>
           {notices?.map((notice, index) => (
             <tr key={`${index}-rows-notice`}>
-              <td>{notice.id}</td>
+              <td className='font-thin'>{notice.id}</td>
               <td>
                 <Link
-                  className='link link-neutral hover:font-semibold'
+                  className='font-thin text-lg hover:font-normal'
                   href={`/member/notice/${notice.id}`}>
                   {notice.title}
                 </Link>
               </td>
-              <td>{formatDate(notice.created_at)}</td>
+              <td className='font-thin'>{formatDate(notice.created_at)}</td>
             </tr>
           ))}
         </tbody>

@@ -24,7 +24,7 @@ export default function page({}: Props) {
         to='편집자님께'
         lis={lis_1}
       />
-      <div className='hidden sm:block h-[1px] w-full max-w-6xl bg-slate-300 sm:mt-10' />
+      <div className='hidden lg:block h-[1px] w-full max-w-6xl bg-slate-300 sm:mt-10' />
       <PartnershipSection
         title='바른번역이 원하는 파트너십'
         to='번역가님께'

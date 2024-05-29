@@ -78,11 +78,11 @@ export default function MyTasks({}: Props) {
       <table className='hidden sm:table'>
         <thead>
           <tr>
-            <th className='hidden lg:block'>번호</th>
+            <th className='hidden lg:block text-center'>번호</th>
             <th>도서제목</th>
             <th>도서정보</th>
-            <th>언어</th>
-            <th>상태</th>
+            <th className='text-center'>언어</th>
+            <th className='text-center'>상태</th>
           </tr>
         </thead>
         <tbody>
@@ -108,10 +108,10 @@ export default function MyTasks({}: Props) {
                     </Link>
                   )}
                 </td>
-                <td>
+                <td className='flex justify-center'>
                   <LanguageBadge language={task.language} />
                 </td>
-                <td className='flex items-center justify-center'>
+                <td className=''>
                   <EvaluatedStatus task={task} />
                 </td>
               </tr>
@@ -206,7 +206,8 @@ const evalStatus = (task: TaskType): string => {
 };
 
 function EvaluatedStatus({ task }: { task: TaskType }) {
-  const commonStyle = 'border px-2 flex justify-center items-center rounded';
+  const commonStyle =
+    'border px-2 flex justify-center items-center rounded self-center';
   if (evalStatus(task) === '지원 가능') {
     return (
       <div

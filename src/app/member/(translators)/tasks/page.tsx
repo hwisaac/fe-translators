@@ -75,7 +75,7 @@ function TasksTable({ data }: { data?: any }) {
               <td className='hidden lg:flex'>{task.id}</td>
               <td>
                 <Link
-                  className='link link-neutral hover:font-semibold '
+                  className='font-thin hover:text-blue-400 sm:text-lg'
                   href={`/member/tasks/${task.id}`}>
                   {`${task.title}`}
                 </Link>

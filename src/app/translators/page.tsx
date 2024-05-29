@@ -76,21 +76,23 @@ function TranslatorTable({ data }: { data: GetUsersType }) {
               <td>
                 <Link
                   href={`/translators/${user.id}`}
-                  className='text-sm lg:text-md'>
+                  className='text-sm lg:text-lg hover:text-blue-400 transition-colors'>
                   {user.pen_name ? user.pen_name : user.name}
                 </Link>
               </td>
-              <td className='lg:text-md text-sm'>
+              <td className='lg:text-lg text-sm  font-thin '>
                 {user.languages.join(', ')}
               </td>
-              <td className='lg:text-md text-sm'>
+              <td className='lg:text-lg text-sm font-thin '>
                 {user.specializations.join(', ')}
               </td>
               <td>
-                <span className='lg:text-md text-sm'>{user.major_works}</span>
+                <span className='lg:text-lg text-sm font-thin '>
+                  {user.major_works}
+                </span>
               </td>
               <td>
-                <Link href={`/translators/${user.id}`} className='btn btn-sm'>
+                <Link href={`/translators/${user.id}`} className='btn btn-sm '>
                   <span className='hidden lg:inline'>자세히</span>
                   <BiMessageDetail className='lg:hidden' />
                 </Link>

@@ -53,9 +53,13 @@ export default async function page({
           2020년 12월 이후 출간작부터
           <BrSM /> 업데이트됩니다.
         </p>
-        <div className='border border-black bg-white font-thin text-gray-400 px-3 py-1 text-sm lg:text-md'>
-          이전 출간작 보러가기
-        </div>
+        <Link
+          href={`https://cafe.naver.com/glbab?iframe_url=/ArticleList.nhn%3Fsearch.clubid=21911446%26search.menuid=28`}
+          target='_blank'>
+          <div className='border border-black bg-white font-thin text-gray-400 px-3 py-1 text-sm lg:text-md'>
+            이전 출간작 보러가기
+          </div>
+        </Link>
       </div>
       <NewBooksSearchForm />
       <NewBooksTable
@@ -131,9 +135,11 @@ function NewBooksTable({
         <thead></thead>
         <tbody>
           {new_books.map((book) => (
-            <tr key={book.id} className='border-b last:border-b-0 py-1'>
-              <td>
-                <Link href={`/new-books/${book.id}`}>
+            <tr className='border-b last:border-b-0 py-1' key={book.id}>
+              <Link
+                href={`/new-books/${book.id}`}
+                className='flex hover:bg-slate-50'>
+                <td className='shrink-0 w-[100px] h-[150px]'>
                   {getImgUrl(book.thumbnail) ? (
                     <Image
                       src={getImgUrl(book.thumbnail)}
@@ -142,24 +148,24 @@ function NewBooksTable({
                       height={150}
                     />
                   ) : (
-                    <div className='w-[100px] h-[150px] bg-slate-50 rounded-md flex items-center justify-center'>
+                    <div className='w-[100px] h-[150px] bg-slate-50 rounded-md flex items-center justify-center shrink-0'>
                       <FaBook size={60} className='text-slate-200' />
                     </div>
                   )}
-                </Link>
-              </td>
-              <td className='flex flex-col pt-1 px-4'>
-                <Link
-                  href={`/new-books/${book.id}`}
-                  className='text-sm xs:text-md'>
-                  {book.title}
-                </Link>
-                <div className=' font-thin text-sm font-slate-300'>
-                  <p className=''>{book.publisher}</p>
-                  <p className=''>{book.author}</p>
-                  <p>{book.translator}</p>
-                </div>
-              </td>
+                </td>
+                <td className='flex flex-col pt-1 px-4'>
+                  <Link
+                    href={`/new-books/${book.id}`}
+                    className='text-sm xs:text-md'>
+                    {book.title}
+                  </Link>
+                  <div className=' font-thin text-sm font-slate-300'>
+                    <p className=''>{book.publisher}</p>
+                    <p className=''>{book.author}</p>
+                    <p>{book.translator}</p>
+                  </div>
+                </td>
+              </Link>
             </tr>
           ))}
         </tbody>

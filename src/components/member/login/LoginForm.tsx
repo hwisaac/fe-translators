@@ -82,11 +82,11 @@ export default function LoginForm({}: Props) {
         <input
           type='password'
           className='grow'
-          placeholder='password'
+          placeholder='Password'
           {...register('password')}
         />
       </label>
-      <button className='btn btn-primary'>로그인</button>
+      <button className='btn btn-primary text-lg'>로그인</button>
     </form>
   );
 }

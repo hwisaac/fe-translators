@@ -26,32 +26,32 @@ export default async function page({ params: { id } }: Props) {
   ).then((res) => res.json());
   return (
     <PageLayout title='신간 안내'>
-      <Link href='/new-books' className='btn'>
-        목록
-      </Link>
-      <h1 className='text-3xl py-5 mb-10 border-b border-b-slate-700'>
+      <div className='mt-[80px] lg:hidden'></div>
+
+      <h1 className='text-lg lg:text-3xl py-5 mb-10 border-b border-b-slate-700'>
         {data.title}
       </h1>
-      <section className='flex gap-20'>
+      <section className='flex flex-col sm:flex-row gap-20'>
         <div>
           <img src={getImgUrl(data.thumbnail)} />
         </div>
-        <ul className=' space-y-3'>
+        <ul className='space-y-3 bg-slate-50 sm:bg-transparent w-full px-2 py-4 flex flex-col justify-center'>
           <li className='flex'>
-            <span className='w-[100px] text-blue-500'>출판사</span>
+            <span className='w-[100px] text-blue-500 font-thin'>출판사</span>
             <p className='text-slate-500'>{data.publisher}</p>
           </li>
           <li className='flex'>
-            <span className='w-[100px] text-blue-500'>저자</span>
+            <span className='w-[100px] text-blue-500 font-thin'>저자</span>
             <p className='text-slate-500'>{data.author}</p>
           </li>
           <li className='flex'>
-            <span className='w-[100px] text-blue-500'>번역가</span>
+            <span className='w-[100px] text-blue-500 font-thin'>번역가</span>
             <p className='text-slate-500'>{data.translator}</p>
           </li>
         </ul>
       </section>
-      <section className='bg-slate-50 shadow-md px-20 py-10 mt-5'>
+
+      <section className='bg-slate-50 shadow-md px-2 sm:px-10 lg:px-20 py-4 sm:py-10 mt-5 font-thin'>
         {formatTextField(data.description)}
       </section>
       <Link href='/new-books' className='btn mt-10'>

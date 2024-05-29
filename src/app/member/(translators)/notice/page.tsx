@@ -58,18 +58,23 @@ async function MemberNoticeTable({ data }: any) {
         <tbody>
           {data?.notices?.map((notice: NoticeType, index: number) => (
             <tr key={`${index}-tr`}>
-              <td>{notice.id}</td>
+              <td className='font-thin text-sm'>{notice.id}</td>
               <td>
                 <Link
-                  className='link link-neutral hover:font-semibold flex items-center gap-2 group'
+                  className='font-thin text-lg hover:text-blue-400 flex items-center gap-2 group'
                   href={`/member/notice/${notice.id}`}>
                   {notice.title}
                   {notice?.file && (
-                    <FaFile className='inline text-slate-400 group-hover:text-slate-700' />
+                    <FaFile
+                      className='inline text-slate-400 group-hover:text-slate-700'
+                      size={12}
+                    />
                   )}
                 </Link>
               </td>
-              <td align='center'>{formatDate(notice.created_at)}</td>
+              <td className='font-thin text-sm'>
+                {formatDate(notice.created_at)}
+              </td>
             </tr>
           ))}
         </tbody>

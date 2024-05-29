@@ -7,7 +7,7 @@ type Props = {};
 
 export default function HistorySectionOne({}: Props) {
   return (
-    <div className='mt-[80px] sm:mt-10'>
+    <div className='mt-[80px] lg:mt-10'>
       <h1 className='text-slate-900 text-2xl sm:text-3xl mb-4'>
         바른번역 설립 취지
       </h1>

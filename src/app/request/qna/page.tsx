@@ -13,7 +13,7 @@ export default async function RequestQNA({}: Props) {
 
   return (
     <PageLayout title='Q&A'>
-      <h1 className='text-slate-500 text-sm sm:text-lg mb-10 mt-[80px] sm:mt-10 font-thin'>
+      <h1 className='text-slate-500 text-sm sm:text-lg mb-10 mt-[80px] lg:mt-10 font-thin'>
         바른번역에 의뢰하실 때 흔히 묻는 질문을 모았습니다. <BrSM /> 꼭 읽어봐
         주세요.
       </h1>

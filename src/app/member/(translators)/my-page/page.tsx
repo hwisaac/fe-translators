@@ -47,7 +47,7 @@ export default function page({}: Props) {
 
   if (!isClient) return null;
   return (
-    <div className='flex flex-col items-center py-10'>
+    <div className='flex flex-col items-center'>
       <section className='sm:border-8 border-slate-200 px-2 sm:px-10 sm:py-5 flex flex-col gap-2 lg:flex-row justify-center lg:justify-between items-center w-full'>
         <h2 className=''>
           <span className='font-semibold'>{loginData?.username}</span>
