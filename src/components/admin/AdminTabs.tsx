@@ -31,7 +31,7 @@ export default function AdminTabs({}: Props) {
   // URL 변경 시 탭 상태 업데이트
 
   return (
-    <div className='w-full border-b flex justify-center relative mt-[100px] lg:mt-[50px]'>
+    <div className='w-full border-b flex justify-center relative mt-[80px] lg:mt-[0px] mb-4'>
       <Tabs value={value} onChange={handleChange} centered>
         <Tab
           label='수주게시판'

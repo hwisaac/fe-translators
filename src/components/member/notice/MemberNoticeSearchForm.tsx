@@ -26,20 +26,20 @@ export default function MemberNoticeSearchForm({}: Props) {
       <div>
         <div>
           <input
-            className='input input-bordered join-item w-[400px]'
+            className='input input-sm lg:input-md input-bordered join-item w-full sm:w-[350px]'
             placeholder='Search'
             {...register('query')}
           />
         </div>
       </div>
       <select
-        className='select select-bordered join-item'
+        className='select select-sm lg:select-md select-bordered join-item'
         {...register('option')}>
         <option value={'title'}>제목</option>
         <option value='content'>내용</option>
       </select>
       <div className='indicator'>
-        <button className='btn join-item'>검색</button>
+        <button className='btn btn-sm lg:btn-md join-item'>검색하기</button>
       </div>
     </form>
   );

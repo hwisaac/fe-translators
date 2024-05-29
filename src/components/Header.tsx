@@ -43,7 +43,7 @@ const subMenus = {
 export default function Header({}: Props) {
   const [subMenu, setSubMenu] = useState<any[]>(subMenus.intro);
   const [openHamburger, setOpenHamburger] = useState(false);
-
+  const router = useRouter();
   const handleOpenMenu = (submenu: any[]) => {
     setSubMenu([...submenu]);
   };
@@ -96,13 +96,15 @@ export default function Header({}: Props) {
                   </li>
                 </Link>
               </ul>
-              <LogoutBtn />
-              <Link href='/member'>
-                <button className='border border-white text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3 xs:text-red-500'>
-                  <FaPenNib />
-                  번역가방
-                </button>
-              </Link>
+              <div className='flex gap-2'>
+                <LogoutBtn />
+                <Link href='/member'>
+                  <button className='text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3 xs:text-red-500 box-border'>
+                    <FaPenNib />
+                    번역가방
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -132,12 +134,15 @@ export default function Header({}: Props) {
           </Link>
           <div className='flex items-center gap-2 sm:gap-5'>
             <LogoutBtn />
-            <Link
-              href='/member'
-              className='font-semibold bg-black rounded-full text-white flex items-center justify-center py-2 px-4 sm:w-[100px] text-xs lg:text-md gap-3'>
+            <button
+              onClick={() => {
+                router.push('/member');
+                closeModal();
+              }}
+              className='font-semibold bg-black rounded-full text-white flex items-center justify-center py-2 px-4 sm:w-[100px] text-xs lg:text-md gap-3 cursor-pointer'>
               <FaPenNib />
-              <span className='hidden sm:inline'>번역가방</span>
-            </Link>
+              <span className='hidden sm:inline lg:text-[16px]'>번역가방</span>
+            </button>
             <GiHamburgerMenu
               size={25}
               onClick={onHamburger}

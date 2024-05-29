@@ -15,6 +15,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Link from 'next/link';
 import formatDate from '@/utils/formatDate';
+import { ClassNames } from '@emotion/react';
 
 function createData(
   name: string,
@@ -71,15 +72,21 @@ export default function MyNotices({}: Props) {
       <table className='hidden sm:table'>
         <thead>
           <tr>
-            <th>번호</th>
+            <th className='w-[40px]' align='center'>
+              번호
+            </th>
             <th>제목</th>
-            <th>작성일</th>
+            <th className='w-[150px]' align='center'>
+              작성일
+            </th>
           </tr>
         </thead>
         <tbody>
           {notices?.map((notice, index) => (
             <tr key={`${index}-rows-notice`}>
-              <td className='font-thin'>{notice.id}</td>
+              <td className='font-thin' align='center'>
+                {notice.id}
+              </td>
               <td>
                 <Link
                   className='font-thin text-lg hover:font-normal'
@@ -87,7 +94,9 @@ export default function MyNotices({}: Props) {
                   {notice.title}
                 </Link>
               </td>
-              <td className='font-thin'>{formatDate(notice.created_at)}</td>
+              <td className='font-thin' align='center'>
+                {formatDate(notice.created_at)}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -97,14 +106,22 @@ export default function MyNotices({}: Props) {
         <thead></thead>
         <tbody>
           {notices?.map((notice, index) => (
-            <tr key={`${index}-rows-notice-sm`}>
-              <td className='flex flex-col border-b gap-1 py-3 px-2 '>
+            <tr
+              key={`${index}-rows-notice-sm`}
+              className='first:border-t border-b'>
+              <td className='flex flex-col gap-1 py-3 px-2 hover:bg-slate-50 transition-colors'>
                 <div>
                   <Link
-                    className='hover:text-pink-800 transition-colors'
+                    className='hover:text-blue-800 transition-colors'
                     href={`/member/notice/${notice.id}`}>
                     {notice.title}
                   </Link>
+                </div>
+                <div className='flex items-center'>
+                  <p className='text-blue-400 w-[90px] shrink-0 text-sm py-1'>
+                    No.
+                  </p>
+                  <span className='font-thin'>{notice.id}</span>
                 </div>
                 <div className='flex items-center'>
                   <p className='text-blue-400 w-[90px] shrink-0 text-sm py-1'>

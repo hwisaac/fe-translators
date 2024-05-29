@@ -133,17 +133,17 @@ export default function page({}: Props) {
               {...register('link3')}
             />
           </li>
-          <li className='flex items-center gap-2'>
+          <li className='flex items-center'>
             <h5 className='w-[200px] shrink-0'>신청시작 시각</h5>
 
             <input
               type='text'
-              className='input input-bordered w-[200px]'
+              className='input input-bordered w-[200px] mr-2'
               placeholder='YYYY-MM-DD'
               {...register('date')}
             />
             <select
-              className='select select-bordered w-[100px]'
+              className='select select-bordered w-[100px] mr-2'
               {...register('hour')}>
               {hoursArr.map((hour, index) => (
                 <option key={`hour${index}`} value={hour}>

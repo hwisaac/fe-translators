@@ -1,5 +1,5 @@
 'use client';
-import { IoLogOutOutline } from 'react-icons/io5';
+import { IoLogOutSharp } from 'react-icons/io5';
 import { loginAtom } from '@/atoms/loginAtom';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -24,15 +24,16 @@ export default function LogoutBtn({}: Props) {
 
   if (!show) return null; // show가 false면 null 반환, 버튼 숨김
   return (
-    <div
-      className={`btn btn-sm my-auto mx-2 ${
-        loginState === null ? 'hidden' : ''
-      } ${loginState?.is_staff ? 'btn-outline btn-primary' : ''}`}
+    <button
+      className={`text-white rounded-full flex items-center gap-3 px-4 lg:px-6 py-2 lg:py-3 xs:text-red-500 box-border text-xs lg:text-md ${
+        loginState?.is_staff ? 'bg-red-500 ' : 'bg-blue-500 '
+      }`}
       onClick={handleClick}>
-      <IoLogOutOutline />
-      <span className='hidden sm:inline'>
-        로그아웃({`${loginState?.username}`})
+      <IoLogOutSharp className='lg:text-[18px]' />
+      <span className='hidden sm:inline lg:text-[16px]'>
+        로그아웃
+        {/* ({`${loginState?.username}`}) */}
       </span>
-    </div>
+    </button>
   );
 }

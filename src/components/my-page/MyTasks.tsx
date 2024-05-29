@@ -9,6 +9,7 @@ import * as React from 'react';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import LanguageBadge from '@/components/member/tasks/LanguageBadge';
+import { evalLanguage, evalStatus } from '@/utils/commons';
 
 function createData(
   name: string,
@@ -78,18 +79,28 @@ export default function MyTasks({}: Props) {
       <table className='hidden sm:table'>
         <thead>
           <tr>
-            <th className='hidden lg:block text-center'>번호</th>
+            <th className='hidden lg:table-cell w-[40px]' align='center'>
+              번호
+            </th>
             <th>도서제목</th>
-            <th>도서정보</th>
-            <th className='text-center'>언어</th>
-            <th className='text-center'>상태</th>
+            <th className='w-[100px]' align='center'>
+              도서정보
+            </th>
+            <th className='w-[100px]' align='center'>
+              언어
+            </th>
+            <th className='w-[150px]' align='center'>
+              상태
+            </th>
           </tr>
         </thead>
         <tbody>
           {data?.map((task: any, index: number) => {
             return (
               <tr key={`${index}-rows`}>
-                <td className='hidden lg:block'>{task.id}</td>
+                <td className='hidden lg:block font-thin' align='center'>
+                  {task.id}
+                </td>
                 <td>
                   <Link
                     href={`/member/tasks/${task.id}`}
@@ -98,7 +109,7 @@ export default function MyTasks({}: Props) {
                   </Link>
                 </td>
 
-                <td>
+                <td align='center'>
                   {task?.link && (
                     <Link
                       href={task.link}
@@ -108,10 +119,10 @@ export default function MyTasks({}: Props) {
                     </Link>
                   )}
                 </td>
-                <td className='flex justify-center'>
+                <td className='' align='center'>
                   <LanguageBadge language={task.language} />
                 </td>
-                <td className=''>
+                <td className='' align='center'>
                   <EvaluatedStatus task={task} />
                 </td>
               </tr>
@@ -126,10 +137,10 @@ export default function MyTasks({}: Props) {
           {data?.map((task: any, index: number) => {
             return (
               <tr key={`${index}-rows-sm`}>
-                <td className='flex flex-col border-b gap-1 py-3 px-2 '>
+                <td className='flex flex-col border-b gap-1 py-3 px-2 hover:bg-slate-50 transition-colors first:border-t'>
                   <Link
                     href={`/member/tasks/${task.id}`}
-                    className='hover:text-pink-800 transition-colors'>
+                    className='hover:text-blue-800 transition-colors'>
                     {task.title}
                   </Link>
 
@@ -145,7 +156,7 @@ export default function MyTasks({}: Props) {
                     <p className='text-blue-400 w-[90px] shrink-0 text-sm py-1'>
                       상태
                     </p>
-                    <span className='font-thin'>{evalStatus(task)}</span>
+                    <span className='fonts-thin'>{evalStatus(task)}</span>
                   </div>
                   <div className='flex items-center'>
                     <p className='text-blue-400 w-[90px] shrink-0 text-sm py-1'>
@@ -169,69 +180,35 @@ export default function MyTasks({}: Props) {
     </section>
   );
 }
-const evalLanguage = (lang: 'en' | 'jp'): string => {
-  if (lang === 'en') return '영어';
-  return '일본어';
-};
-const evalStatus = (task: TaskType): string => {
-  const taskStatus = task.status;
-  const comments = task.comments;
-  if (taskStatus === 'open' && comments.length === 0) {
-    return '지원 가능';
-  } else if (taskStatus === 'open' && comments.length !== 0) {
-    return '지원중';
-  }
-  const commentStatus = comments[0].status;
-
-  switch (commentStatus) {
-    case 'assigned_translator':
-      return '담당번역가';
-    case 'sample_translator':
-      return '샘플번역가';
-    case 'assigned_to_other':
-      return '타번역가에 샘플 할당';
-    case 'completed':
-      return '마감';
-  }
-  switch (taskStatus) {
-    case 'closed':
-      return '종료';
-    case 'completed':
-      return '마감 - 타번역가에 번역 할당';
-    case 'testing':
-      return '타번역가에 샘플 할당';
-  }
-  return taskStatus;
-  // taskStatus !== 'open'
-};
 
 function EvaluatedStatus({ task }: { task: TaskType }) {
   const commonStyle =
-    'border px-2 flex justify-center items-center rounded self-center';
+    'border px-2 flex justify-center items-center rounded self-center w-[150px]';
   if (evalStatus(task) === '지원 가능') {
     return (
       <div
-        className={`bg-blue-50 border-blue-700 text-blue-700 ${commonStyle}`}>
+        className={`bg-blue-50 border-blue-500 text-blue-700 ${commonStyle}`}>
         {evalStatus(task)}
       </div>
     );
   } else if (evalStatus(task) === '지원중')
     return (
       <div
-        className={`bg-green-50 border-green-700 text-green-700 ${commonStyle}`}>
+        className={`bg-green-50 border-green-500 text-green-700 ${commonStyle}`}>
         {evalStatus(task)}
       </div>
     );
   else if (evalStatus(task) === '샘플번역가') {
     return (
       <div
-        className={`bg-orange-50 border-orange-700 text-orange-700 ${commonStyle}`}>
+        className={`bg-orange-50 border-orange-500 text-orange-700 ${commonStyle}`}>
         {evalStatus(task)}
       </div>
     );
   } else if (evalStatus(task) === '담당번역가') {
     return (
-      <div className={`bg-orange-700 text-white ${commonStyle}`}>
+      <div
+        className={`bg-orange-50 border-orange-500 text-orange-700 ${commonStyle}`}>
         {evalStatus(task)}
       </div>
     );

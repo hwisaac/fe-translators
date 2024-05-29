@@ -1,13 +1,6 @@
 'use client';
 import * as React from 'react';
 import { FaFile } from 'react-icons/fa';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Link from 'next/link';
 import formatDate from '@/utils/formatDate';
 import BASE_URL from '@/utils/BASE_URL';
@@ -17,7 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import useToken from '@/app/hooks/useToken';
 import { toast } from 'react-toastify';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 type Props = {};
 
 export default function AdminNoticeTable({}) {
@@ -42,8 +35,10 @@ export default function AdminNoticeTable({}) {
     console.log(searchParams.toString());
   }, [searchParams.toString()]);
   return (
-    <section className='py-10 flex flex-col w-full gap-3'>
-      <h2 className='text-lg font-semibold pb-8'>공지사항(관리자용)</h2>
+    <section className='py-10 flex flex-col items-center w-full gap-3'>
+      <h2 className='text-lg font-semibold pb-8 self-start'>
+        공지사항(관리자용)
+      </h2>
       <div className='w-full flex justify-end'>
         <Link href='/admin/notice/write' className='btn btn-neutral'>
           글쓰기
@@ -52,18 +47,26 @@ export default function AdminNoticeTable({}) {
       <table className='table'>
         <thead>
           <tr>
-            <th className='hidden lg:table-cell'>번호</th>
+            <th className='w-[40px] hidden lg:table-cell' align='center'>
+              번호
+            </th>
             <th>제목</th>
-            <th className='hidden lg:table-cell'>작성일</th>
+            <th className='w-[120px] hidden lg:table-cell' align='center'>
+              작성일
+            </th>
           </tr>
         </thead>
         <tbody>
           {data?.notices?.map((notice: NoticeType, index: number) => (
             <tr key={`${index}-rows`}>
-              <td className='hidden lg:table-cell'>{notice.id}</td>
+              <td
+                className='font-thin text-sm hidden lg:table-cell'
+                align='center'>
+                {notice.id}
+              </td>
               <td>
                 <Link
-                  className='link link-neutral hover:font-semibold flex items-center gap-2 group'
+                  className='font-thin text-sm sm:text-lg hover:text-blue-400 flex items-center gap-2 group transition-colors'
                   href={`/admin/notice/${notice.id}`}>
                   {notice?.title}{' '}
                   {notice?.file && (
@@ -71,7 +74,7 @@ export default function AdminNoticeTable({}) {
                   )}
                 </Link>
               </td>
-              <td className='hidden lg:table-cell'>
+              <td className='hidden lg:table-cell font-thin' align='center'>
                 {formatDate(notice.created_at)}
               </td>
             </tr>

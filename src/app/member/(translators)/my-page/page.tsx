@@ -48,7 +48,7 @@ export default function page({}: Props) {
   if (!isClient) return null;
   return (
     <div className='flex flex-col items-center'>
-      <section className='sm:border-8 border-slate-200 px-2 sm:px-10 sm:py-5 flex flex-col gap-2 lg:flex-row justify-center lg:justify-between items-center w-full'>
+      <section className='sm:border-0 border-slate-200 px-2 sm:px-10 py-2  sm:py-5 flex flex-col gap-2 lg:flex-row justify-center lg:justify-between items-center w-full shadow-md rounded'>
         <h2 className=''>
           <span className='font-semibold'>{loginData?.username}</span>
           님, 번역가방에 오신 것을 환영합니다.

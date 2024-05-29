@@ -1,13 +1,14 @@
 type Props = { status?: 'open' | 'closed' | 'testing' | 'completed' };
 
 const commonStyle =
-  'border rounded-md font-semibold lg:w-[180px] py-1 px-2 flex items-center justify-center flex-grow-0 text-[10px] sm:text-xs lg:text-md';
+  'border rounded-md font-semibold text-green-700 border-green-700 bg-green-50 py-1 flex justify-center items-center w-[150px] flex text-xs sm:text-md';
+
 export default function StatusBadge({ status }: Props) {
   switch (status) {
     case 'open':
       return (
         <div
-          className={`${commonStyle} text-green-700 border-green-700 bg-green-50 `}>
+          className={`text-green-700 border-green-700 bg-green-50 ${commonStyle}`}>
           모집 중
         </div>
       );
@@ -32,7 +33,6 @@ export default function StatusBadge({ status }: Props) {
           마감 - 작업중단
         </div>
       );
-    default:
-      return null;
   }
+  return <span>{status}</span>;
 }

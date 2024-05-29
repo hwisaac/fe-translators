@@ -2,6 +2,7 @@ import PageLayout from '@/layouts/PageLayout';
 import BASE_URL from '@/utils/BASE_URL';
 import { formatTextField } from '@/utils/formatTextField';
 import getImgUrl from '@/utils/getImgUrl';
+import Image from 'next/image';
 import Link from 'next/link';
 
 type Props = {
@@ -31,11 +32,16 @@ export default async function page({ params: { id } }: Props) {
       <h1 className='text-lg lg:text-3xl py-5 mb-10 border-b border-b-slate-700'>
         {data.title}
       </h1>
-      <section className='flex flex-col sm:flex-row gap-20'>
+      <section className='flex flex-col sm:flex-row items-center sm:items-start gap-20'>
         <div>
-          <img src={getImgUrl(data.thumbnail)} />
+          <Image
+            src={getImgUrl(data.thumbnail)}
+            alt={`신간 도서-${data.title}`}
+            width={150}
+            height={200}
+          />
         </div>
-        <ul className='space-y-3 bg-slate-50 sm:bg-transparent w-full px-2 py-4 flex flex-col justify-center'>
+        <ul className='space-y-3 bg-slate-50 sm:bg-transparent w-full px-2 py-4 sm:py-2 flex flex-col justify-center'>
           <li className='flex'>
             <span className='w-[100px] text-blue-500 font-thin'>출판사</span>
             <p className='text-slate-500'>{data.publisher}</p>

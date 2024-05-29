@@ -56,7 +56,7 @@ export default async function page({
         <Link
           href={`https://cafe.naver.com/glbab?iframe_url=/ArticleList.nhn%3Fsearch.clubid=21911446%26search.menuid=28`}
           target='_blank'>
-          <div className='border border-black bg-white font-thin text-gray-400 px-3 py-1 text-sm lg:text-md'>
+          <div className='border border-black bg-white font-thin text-gray-400 px-3 py-1 text-sm lg:text-md hover:text-gray-800 hover:font-normal'>
             이전 출간작 보러가기
           </div>
         </Link>
@@ -131,7 +131,7 @@ function NewBooksTable({
         </tbody>
       </table>
 
-      <table>
+      <table className='sm:hidden'>
         <thead></thead>
         <tbody>
           {new_books.map((book) => (

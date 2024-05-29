@@ -23,36 +23,50 @@ type TaskType = {
 
 export default function AdminTasksTable({ data }: any) {
   return (
-    <section className='py-10 flex flex-col w-full gap-3'>
-      <h2 className='text-lg font-semibold pb-8'>관리자 수주 게시판</h2>
+    <section className='py-10 flex flex-col w-full gap-3 items-center'>
+      <h2 className='hidden sm:block text-lg font-semibold pb-8 self-start'>
+        관리자 수주 게시판
+      </h2>
       <div className='w-full flex justify-end'>
         <Link href='/admin/tasks/write' className='btn btn-neutral'>
           글쓰기
         </Link>
       </div>
-      <table className='table'>
+      <table className='hidden sm:table'>
         <thead>
           <tr>
-            <th className='hidden lg:table-cell'>번호</th>
+            <th className='hidden lg:table-cell w-[40px]' align='center'>
+              번호
+            </th>
             <th>제목</th>
-            <th>지원자</th>
-            <th>링크</th>
-            <th>언어</th>
-            <th>상태</th>
+            <th align='center' className='w-[40px]'>
+              지원자
+            </th>
+            <th align='center' className='w-[100px]'>
+              링크
+            </th>
+            <th className='w-[100px]' align='center'>
+              언어
+            </th>
+            <th className='w-[155px]' align='center'>
+              상태
+            </th>
           </tr>
         </thead>
         <tbody>
           {data?.tasks?.map((task: TaskType, index: number) => (
             <tr key={`${index}-rows`}>
-              <td className='hidden lg:table-cell'>{task.id}</td>
+              <td className='hidden lg:table-cell font-thin' align='center'>
+                {task.id}
+              </td>
               <td>
                 <Link
-                  className='link link-neutral hover:font-semibold '
+                  className='hover:text-blue-400 sm:text-lg font-thin'
                   href={`/admin/tasks/${task.id}`}>
                   {task.title}
                 </Link>
               </td>
-              <td>
+              <td align='center'>
                 <span
                   className={`${
                     task?.count_comments === 0 && 'text-slate-300'
@@ -60,7 +74,7 @@ export default function AdminTasksTable({ data }: any) {
                   {task?.count_comments}
                 </span>
               </td>
-              <td>
+              <td align='center'>
                 {task.link && (
                   <Link
                     href={formatLink(task.link)}
@@ -70,87 +84,81 @@ export default function AdminTasksTable({ data }: any) {
                   </Link>
                 )}
               </td>
-              <td>
+              <td align='center'>
                 <LanguageBadge language={task.language} />
               </td>
 
-              <td>
+              <td align='center' className='flex'>
                 <StatusBadge status={task.status} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {/* <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 700, width: 100 }} align='center'>
-                번호
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700 }}>
-                제목
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700, width: 80 }}>
-                지원자
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700, width: 150 }}>
-                링크
-              </TableCell>
-              <TableCell align='center' sx={{ fontWeight: 700, width: 100 }}>
-                언어
-              </TableCell>
 
-              <TableCell align='center' sx={{ fontWeight: 700, width: 230 }}>
-                상태
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data?.tasks?.map((task: TaskType, index: number) => (
-              <TableRow
-                key={`${index}-rows`}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component='th' scope='row' align='center'>
-                  {task.id}
-                </TableCell>
-                <TableCell align='left'>
+      <table className='sm:hidden w-full'>
+        <thead></thead>
+        <tbody>
+          {data?.tasks?.map((task: TaskType, index: number) => (
+            <tr key={`${index}-rows`}>
+              <td className='flex flex-col border-b first:border-t gap-1 py-3 px-2 hover:bg-gray-50'>
+                <div>
                   <Link
-                    className='link link-neutral hover:font-semibold '
-                    href={`/admin/tasks/${task.id}`}>
-                    {task.title}
+                    className='hover:text-blue-800 transition-colors'
+                    href={`/member/tasks/${task.id}`}>
+                    {`${task.title}`}
                   </Link>
-                </TableCell>
-                <TableCell align='center'>
+                </div>
+                <div className='flex items-center'>
+                  <p className='text-blue-400 w-[90px] shrink-0 text-sm py-1'>
+                    지원자
+                  </p>
                   <span
                     className={`${
                       task?.count_comments === 0 && 'text-slate-300'
                     }`}>
                     {task?.count_comments}
                   </span>
-                </TableCell>
-                <TableCell align='center'>
+                </div>
+                <div className='flex items-center'>
+                  <p className='text-blue-400 w-[90px] shrink-0 text-sm py-1'>
+                    도서정보
+                  </p>
                   {task.link && (
                     <Link
-                      href={formatLink(task.link)}
+                      href={task.link}
                       target='_blank'
-                      className='btn btn-sm'>
-                      도서정보
+                      className='btn btn-sm hidden lg:flex'>
+                      링크
                     </Link>
                   )}
-                </TableCell>
-                <TableCell align='center'>
-                  <LanguageBadge language={task.language} />
-                </TableCell>
+                </div>
+                <div className='flex items-center'>
+                  <p className='text-blue-400 w-[90px] shrink-0 text-sm py-1'>
+                    언어
+                  </p>
+                  <span
+                    className={`text-sm font-semibold ${
+                      task.language === 'en'
+                        ? 'text-blue-600'
+                        : 'text-orange-600'
+                    }`}>
+                    {task.language === 'en' ? '영어' : '일본어'}
+                  </span>
+                </div>
 
-                <TableCell align='center'>
+                <div className='flex items-center'>
+                  <p className='text-blue-400 w-[90px] shrink-0 text-sm py-1'>
+                    상태
+                  </p>
                   <StatusBadge status={task.status} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer> */}
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <AdminTasksPagination count={data?.total_pages ?? 1} />
     </section>
   );

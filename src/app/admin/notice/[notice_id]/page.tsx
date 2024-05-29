@@ -94,7 +94,7 @@ export default function page({}) {
           공지사항 등록
         </Link>
       </div>
-      <div className='flex justify-between items-center border-b border-b-slate-300 px-4 py-2 mb-3'>
+      <div className='flex justify-between items-center px-4 py-2 mb-3'>
         <h2 className='text-semibold text-xl lg:text-2xl'>
           {data?.notice?.title}
         </h2>{' '}
@@ -110,27 +110,27 @@ export default function page({}) {
           {data?.notice?.file?.split('/')[data?.notice?.file?.length - 1]}
         </Link>
       </div>
-      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10'>
+      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10  font-thin'>
         {formatTextField(data?.notice?.content)}
       </div>
       <div className='flex my-10'>
         <div className='flex flex-col h-[100px] w-full'>
           <div className='h-1/2 flex gap-10 items-center px-10 border-b border-dotted'>
-            <p className='font-semibold'>다음글</p>
+            <p className='font-thin'>다음글</p>
             {data?.next && (
               <Link
                 href={`/admin/notice/${data?.next?.id}`}
-                className='text-slate-600 link'>
+                className='text-slate-600 hover:text-blue-400 transition-colors'>
                 {data?.next.title}
               </Link>
             )}
           </div>
           <div className='h-1/2 flex gap-10 items-center px-10'>
-            <p className='font-semibold'>이전글</p>
+            <p className='font-thin'>이전글</p>
             {data?.previous && (
               <Link
                 href={`/admin/notice/${data?.previous?.id}`}
-                className='text-slate-600 link'>
+                className='text-slate-600 hover:text-blue-400 transition-colors'>
                 {data?.previous.title}
               </Link>
             )}

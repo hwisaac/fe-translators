@@ -1,11 +1,4 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Link from 'next/link';
 import formatDate from '@/utils/formatDate';
 import BASE_URL from '@/utils/BASE_URL';
@@ -44,24 +37,34 @@ export default async function MemberNoticePage({
 
 async function MemberNoticeTable({ data }: any) {
   return (
-    <section className='py-10 flex flex-col w-full gap-3'>
-      <h2 className='text-lg font-semibold pb-8 px-2'>번역가 공지사항</h2>
+    <section className='py-10 flex flex-col w-full gap-3 items-center'>
+      <h2 className='text-lg font-semibold pb-8 px-2 self-start'>
+        번역가 공지사항
+      </h2>
       <table className='table'>
         <thead>
           <tr>
-            <th className='w-[50px]'>번호</th>
+            <th className='w-[40px] hidden lg:table-cell' align='center'>
+              번호
+            </th>
             <th>제목</th>
-            <th className='w-[120px]'>작성일</th>
+            <th className='w-[120px]  hidden lg:table-cell' align='center'>
+              작성일
+            </th>
           </tr>
         </thead>
 
         <tbody>
           {data?.notices?.map((notice: NoticeType, index: number) => (
             <tr key={`${index}-tr`}>
-              <td className='font-thin text-sm'>{notice.id}</td>
+              <td
+                className='font-thin text-sm hidden lg:table-cell'
+                align='center'>
+                {notice.id}
+              </td>
               <td>
                 <Link
-                  className='font-thin text-lg hover:text-blue-400 flex items-center gap-2 group'
+                  className='font-thin text-sm sm:text-lg hover:text-blue-400 flex items-center gap-2 group'
                   href={`/member/notice/${notice.id}`}>
                   {notice.title}
                   {notice?.file && (
@@ -72,7 +75,9 @@ async function MemberNoticeTable({ data }: any) {
                   )}
                 </Link>
               </td>
-              <td className='font-thin text-sm'>
+              <td
+                className='font-thin text-xs sm:text-sm  hidden lg:table-cell'
+                align='center'>
                 {formatDate(notice.created_at)}
               </td>
             </tr>

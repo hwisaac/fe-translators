@@ -38,72 +38,74 @@ export default function SearchForm({}: Props) {
   return (
     <div>
       <div className='flex gap-10'>
-        <label className='label cursor-pointer space-x-2'>
+        <label className='label cursor-pointer space-x-1 sm:space-x-2'>
           <input
             type='checkbox'
-            className='checkbox'
+            className='checkbox checkbox-xs sm:checkbox-md'
             checked={languageFilter.en}
             onChange={() => toggleFilter('en')}
           />
-          <span className='label-text'>영어</span>
+          <span className='text-xs sm:text-sm lg:text-md'>영어</span>
         </label>
-        <label className='label cursor-pointer space-x-2'>
+        <label className='label cursor-pointer space-x-1 sm:space-x-2'>
           <input
             type='checkbox'
-            className='checkbox'
+            className='checkbox checkbox-xs sm:checkbox-md'
             checked={languageFilter.jp}
             onChange={() => toggleFilter('jp')}
           />
-          <span className='label-text'>일어</span>
+          <span className='text-xs sm:text-sm lg:text-md'>일어</span>
         </label>
       </div>
-      <div className='flex items-center gap-5'>
-        <label className='label cursor-pointer space-x-2'>
+      <div className='flex items-center gap-2 sm:gap-5'>
+        <label className='label cursor-pointer space-x-1 sm:space-x-2'>
           <input
             type='radio'
             name='status_radio'
-            className='radio checked:bg-blue-500'
+            className='radio radio-xs sm:radio-sm lg:radio-md checked:bg-blue-500 '
             checked={status === ''}
             onChange={() => setStatus('')}
           />
-          <span className='label-text'>전체</span>
+          <span className='text-xs sm:text-sm lg:text-md'>전체</span>
         </label>
-        <label className='label cursor-pointer space-x-2'>
+        <label className='label cursor-pointer space-x-1 sm:space-x-2'>
           <input
             type='radio'
             name='status_radio'
-            className='radio checked:bg-blue-500'
+            className='radio radio-xs sm:radio-sm lg:radio-md checked:bg-blue-500'
             checked={status === 'open'}
             onChange={() => setStatus('open')}
           />
-          <span className='label-text'>모집 중</span>
+          <span className='text-xs sm:text-sm lg:text-md'>모집 중</span>
         </label>
-        <label className='label cursor-pointer space-x-2'>
+        <label className='label cursor-pointer space-x-1 sm:space-x-2'>
           <input
             type='radio'
             name='status_radio'
-            className='radio checked:bg-blue-500'
+            className='radio radio-xs sm:radio-sm lg:radio-md checked:bg-blue-500'
             checked={status === 'testing'}
             onChange={() => setStatus('testing')}
           />
-          <span className='label-text'>모집 중단(샘플심사)</span>
+          <span className='text-xs sm:text-sm lg:text-md'>
+            모집 중단(샘플심사)
+          </span>
         </label>
-        <label className='label cursor-pointer space-x-2'>
+        <label className='label cursor-pointer space-x-1 sm:space-x-2'>
           <input
             type='radio'
             name='status_radio'
-            className='radio checked:bg-blue-500'
+            className='radio radio-xs sm:radio-sm lg:radio-md checked:bg-blue-500'
             checked={status === 'closed,completed'}
             onChange={() => setStatus('closed,completed')}
           />
-          <span className='label-text'>마감</span>
+          <span className='text-xs sm:text-sm lg:text-md'>마감</span>
         </label>
       </div>
-      <form className='join mx-auto' onSubmit={(e) => handleSubmit(e)}>
+      <form className='join mx-auto mt-4' onSubmit={(e) => handleSubmit(e)}>
         <div>
           <div className='relative flex items-center'>
             <input
-              className='input input-bordered join-item w-[400px]'
+              className='input input-sm lg:input-md input-bordered join-item w-full sm:w-[350px]'
               placeholder='Search'
               value={query}
               onChange={(e) => setQuery(e.currentTarget.value)}
@@ -119,7 +121,7 @@ export default function SearchForm({}: Props) {
           </div>
         </div>
         <div className='indicator'>
-          <button className='btn join-item'>Search</button>
+          <button className='btn btn-sm lg:btn-md join-item'>검색하기</button>
         </div>
       </form>
     </div>

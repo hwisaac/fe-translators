@@ -66,17 +66,17 @@ export default function HamburgerModal({ openHamburger, closeModal }: Props) {
         </ul>
       </div>
       <div
-        className='border-b p-4 cursor-pointer'
+        className='border-b p-4 cursor-pointer hover:text-blue-500'
         onClick={() => handleRoute('/new-books')}>
         <h3 className='text-xl'>신간 안내</h3>
       </div>
       <div
-        className='border-b p-4 cursor-pointer'
+        className='border-b p-4 cursor-pointer hover:text-blue-500'
         onClick={() => handleRoute('/translators')}>
         <h3 className='text-xl'>번역가 소개 안내</h3>
       </div>
       <div
-        className='p-4 cursor-pointer'
+        className='p-4 cursor-pointer hover:text-blue-500'
         onClick={() => handleRoute('/participation-guide')}>
         <h3 className='text-xl'>번역가 참여안내</h3>
       </div>
