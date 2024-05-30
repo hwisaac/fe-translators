@@ -19,7 +19,6 @@ export default function LogoutBtn({ closeModal }: Props) {
   }, [loginState]); // loginState가 변경될 때마다 useEffect를 실행
 
   const handleClick = () => {
-    console.log(loginState);
     setLoginState(null); // 로그아웃 처리
     closeModal();
     router.push('/');

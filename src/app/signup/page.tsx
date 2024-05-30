@@ -28,7 +28,7 @@ export default function page({}: Props) {
     setValue,
     formState: { errors },
   } = useForm<any>();
-  console.log(errors);
+  
   const { mutateAsync: createAccount, isPending } = useMutation({
     mutationFn: ({ postUser }: any) =>
       axios
@@ -53,7 +53,6 @@ export default function page({}: Props) {
       }
     },
     onSuccess: async (data) => {
-      console.log(data, '회원가입시 데이터');
       const user = data.user;
       if (user) {
         setLoginState({
@@ -80,18 +79,16 @@ export default function page({}: Props) {
   }, [phone]);
 
   const onValid: SubmitHandler<any> = async (data) => {
-    console.log(data);
     const postUser = {
       ...data,
       is_active: true,
       is_translator: false,
       birth_date: '1999-01-01',
     };
-    console.log(postUser);
 
     createAccount({ postUser });
   };
-  
+
   const { mutateAsync: confirmMail, isPending: mailing } = useMutation({
     mutationFn: (payload: any) =>
       axios
@@ -102,7 +99,6 @@ export default function page({}: Props) {
         })
         .then((res) => res.data),
     onSuccess: (data) => {
-      console.log(data);
       toast.success('코드가 생성되었습니다. 이메일을 확인해주세요');
     },
     onError: (err) => {
@@ -135,7 +131,6 @@ export default function page({}: Props) {
   const handleConfirmCode = () => {
     const email = watch('email');
     const code = watch('emailCode');
-    console.log(email, code);
     confirmCode({ email, code });
   };
   return (

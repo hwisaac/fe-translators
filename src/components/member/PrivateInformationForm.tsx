@@ -40,7 +40,6 @@ export default function PrivateInformationForm({}: Props) {
   } = useForm<any>();
   useEffect(() => {
     if (me) {
-      console.log(me);
       setValue('name', me.name);
       setValue('email', me.email);
       setValue('phone', me.phone);
@@ -97,15 +96,12 @@ export default function PrivateInformationForm({}: Props) {
   }, [phone]);
 
   const onValid: SubmitHandler<any> = async (data) => {
-    console.log(data);
-
     const year = data.year;
     const month = data.month;
     const day = data.day;
 
     const birth_date = `${year}-${month.padStart(2, 0)}-${day.padStart(2, 0)}`;
     const putUser = { ...data, birth_date, is_active: true };
-    console.log(putUser);
 
     mutateAsync({ putUser });
   };
@@ -120,7 +116,6 @@ export default function PrivateInformationForm({}: Props) {
         })
         .then((res) => res.data),
     onSuccess: (data) => {
-      console.log(data);
       toast.success('코드가 생성되었습니다. 이메일을 확인해주세요');
     },
     onError: (err) => {
@@ -153,7 +148,6 @@ export default function PrivateInformationForm({}: Props) {
   const handleConfirmCode = () => {
     const email = watch('email');
     const code = watch('emailCode');
-    console.log(email, code);
     confirmCode({ email, code });
   };
 

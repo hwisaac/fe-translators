@@ -71,7 +71,6 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
         })
         .then((res) => res.data),
     onSuccess: (data) => {
-      console.log(data);
       toast.success('저장되었습니다');
 
       closeModal();
@@ -88,7 +87,6 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
         },
       }),
     onSuccess: (data) => {
-      console.log(data);
       toast.success('추가됨');
       queryClient.invalidateQueries({
         queryKey: ['tags'],
@@ -128,7 +126,6 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
     },
   });
   const onValid = () => {
-    console.log(watch());
     const checkedTags = Object.keys(watch())
       .filter((key) => watch(key))
       .map(Number);
@@ -137,7 +134,7 @@ export default function TranslatorTagDialog({ author, modalId }: Props) {
   };
   const handleAddTag = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(tagToAdd);
+
     addTag({
       tag_name: tagToAdd,
     });

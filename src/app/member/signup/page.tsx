@@ -58,7 +58,6 @@ export default function page({}: Props) {
       }
     },
     onSuccess: async (data) => {
-      console.log(data, '회원가입시 데이터');
       const user = data.user;
 
       setLoginState({
@@ -84,15 +83,12 @@ export default function page({}: Props) {
   }, [phone]);
 
   const onValid: SubmitHandler<any> = async (data) => {
-    console.log(data);
-
     const year = data.year;
     const month = data.month;
     const day = data.day;
 
     const birth_date = `${year}-${month.padStart(2, 0)}-${day.padStart(2, 0)}`;
     const postUser = { ...data, birth_date, is_active: true };
-    console.log(postUser);
 
     mutateAsync({ postUser });
   };
@@ -107,7 +103,6 @@ export default function page({}: Props) {
         })
         .then((res) => res.data),
     onSuccess: (data) => {
-      console.log(data);
       toast.success('코드가 생성되었습니다. 이메일을 확인해주세요');
     },
     onError: (err) => {
@@ -140,7 +135,7 @@ export default function page({}: Props) {
   const handleConfirmCode = () => {
     const email = watch('email');
     const code = watch('emailCode');
-    console.log(email, code);
+
     confirmCode({ email, code });
   };
 
