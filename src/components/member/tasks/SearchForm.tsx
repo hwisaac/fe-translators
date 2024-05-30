@@ -121,7 +121,9 @@ export default function SearchForm({}: Props) {
           </div>
         </div>
         <div className='indicator'>
-          <button className='btn btn-sm lg:btn-md join-item'>검색하기</button>
+          <button className='btn btn-neutral btn-sm lg:btn-md join-item'>
+            검색하기
+          </button>
         </div>
       </form>
     </div>

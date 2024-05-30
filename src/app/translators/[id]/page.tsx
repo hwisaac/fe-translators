@@ -1,5 +1,6 @@
 'use client';
 import useToken from '@/app/hooks/useToken';
+import ScreenLoading from '@/components/ScreenLoading';
 import InterviewSection from '@/components/translators/InterviewSection';
 import IntroItem from '@/components/translators/IntroItem';
 import TranslatorDetailWithoutToken from '@/components/translators/TranslatorDetailWithoutToken';
@@ -49,20 +50,22 @@ export default function page({ params }: Props) {
       setIsClient(true);
     }
   }, []);
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isFetched } = useQuery({
     queryKey: ['translatorDetail', params.id],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/users/${params.id}/`)
         .then((res) => res.data as TranslatorDetailDataType),
   });
-  if (!token || !isClient) return <TranslatorDetailWithoutToken />;
+  if (!isClient) return <ScreenLoading isLoading={isLoading} />;
+  if (isFetched && !token) return <TranslatorDetailWithoutToken />;
 
   return (
     <PageLayout title='번역가 소개'>
+      <ScreenLoading isLoading={isLoading} />
       <div className='mt-[80px] lg:hidden' />
       <div className='flex flex-col lg:flex-row'>
-        <div className='w-[200px] h-[250px] bg-slate-100 m-10 relative'>
+        <div className='w-[200px] h-[250px] bg-slate-100 m-10 relative shrink-0'>
           {getImgUrl(data?.photo) === '' ? null : (
             <Image
               src={getImgUrl(data?.photo)}
@@ -90,13 +93,6 @@ export default function page({ params }: Props) {
         </div>
       </div>
       <InterviewSection interviews={data?.interviews} />
-      <div className='flex w-full justify-center'>
-        <Link
-          href='/translators'
-          className='btn btn-sm my-10 btn-wide items-center'>
-          목록
-        </Link>
-      </div>
     </PageLayout>
   );
 }

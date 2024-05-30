@@ -92,11 +92,17 @@ function NewBooksTable({
       <table className='hidden sm:table'>
         <thead>
           <tr>
-            <th>사진</th>
+            <th className='w-[150px]' align='center'>
+              사진
+            </th>
             <th>제목</th>
-            <th className='hidden lg:table-cell'>출판사</th>
-            <th className='hidden lg:table-cell'>저자</th>
-            <th>번역가</th>
+            <th className='hidden lg:table-cell' align='center'>
+              출판사
+            </th>
+            <th className='hidden lg:table-cell' align='center'>
+              저자
+            </th>
+            <th align='center'>번역가</th>
           </tr>
         </thead>
         <tbody>
@@ -110,6 +116,10 @@ function NewBooksTable({
                       alt={book.title}
                       width={100}
                       height={150}
+                      className='shrink-0 w-[100px] h-[150px]'
+                      style={{
+                        objectFit: 'cover',
+                      }}
                     />
                   ) : (
                     <div className='w-[100px] h-[150px] bg-slate-50 rounded-md flex items-center justify-center'>
@@ -123,9 +133,13 @@ function NewBooksTable({
                   {book.title}
                 </Link>
               </td>
-              <td className='hidden lg:table-cell'>{book.publisher}</td>
-              <td className='hidden lg:table-cell'>{book.author}</td>
-              <td>{book.translator}</td>
+              <td className='hidden lg:table-cell' align='center'>
+                {book.publisher}
+              </td>
+              <td className='hidden lg:table-cell' align='center'>
+                {book.author}
+              </td>
+              <td align='center'>{book.translator}</td>
             </tr>
           ))}
         </tbody>

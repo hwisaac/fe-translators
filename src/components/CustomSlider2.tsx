@@ -48,7 +48,7 @@ export default function CustomSlider2({}: Props) {
             placeholder='blur'
             style={{ objectFit: 'cover' }}
           />
-          <div className='text-slate-200/90 w-full xl:w-[40%] flex flex-col gap-3 items-center justify-center absolute px-2'>
+          <div className='text-white w-full xl:w-[40%] flex flex-col gap-3 items-center justify-center absolute px-2'>
             <div className='flex flex-col sm:items-center lg:space-y-[20px]'>
               <p className='text-3xl sm:text-4xl lg:text-6xl font-thin'>
                 좋은 책 만들기의 시작은
@@ -70,7 +70,7 @@ export default function CustomSlider2({}: Props) {
             placeholder='blur'
             style={{ objectFit: 'cover' }}
           />
-          <div className='text-slate-200/90 w-full xl:w-[70%] flex gap-3 items-center justify-center absolute px-2'>
+          <div className='text-white w-full xl:w-[70%] flex gap-3 items-center justify-center absolute px-2'>
             <div className='font-thin  lg:space-y-[20px] flex flex-col sm:items-center'>
               <p className='text-3xl sm:text-4xl lg:text-6xl'>
                 출판사에게는 <span className='font-semibold'>양질의 번역</span>

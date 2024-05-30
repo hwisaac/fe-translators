@@ -67,7 +67,7 @@ export default function page({}: Props) {
         <p>{formatDate(data?.notice?.created_at)}</p>
       </div>
 
-      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin'>
+      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin  whitespace-pre-wrap'>
         {data?.notice?.content}
       </div>
       <div className='flex my-10 '>

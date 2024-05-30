@@ -67,13 +67,13 @@ export default function page({}) {
           목록
         </Link>
       </div>
-      <div className='flex justify-between items-center border-b border-b-slate-700 px-4 py-2'>
+      <div className='flex justify-between items-center px-4 py-2'>
         <h2 className='text-semibold text-2xl'>{data?.title}</h2>{' '}
         <p>{formatDate(data?.created_at)}</p>
       </div>
-      <div className='p-2'>
-        신청 가능 시각:
-        <span className='bg-orange-50 text-orange-600 rounded-md px-2 py-1'>
+      <div className='p-2 font-thin text-sm'>
+        신청 가능 시각{' '}
+        <span className='bg-orange-50 text-orange-600 rounded-md px-2 py-1 text-md font-normal'>
           {formatDateTime(data?.comment_start_time)}
         </span>
       </div>
@@ -103,7 +103,7 @@ export default function page({}) {
           </Link>
         )}
       </div>
-      <div className='border-b border-b-slate-700 py-10 px-4 whitespace-pre-wrap'>
+      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin whitespace-pre-wrap'>
         {data?.content}
         {/* {data?.content} */}
       </div>
@@ -112,6 +112,9 @@ export default function page({}) {
         status={data?.status}
         comment_start_time={data?.comment_start_time}
       />
+      <Link href='/admin/tasks' className='btn'>
+        목록
+      </Link>
     </div>
   );
 }

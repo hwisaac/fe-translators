@@ -32,7 +32,7 @@ function CustomTabPanel(props: TabPanelProps) {
 export default function TranslatorGuidePanel({ value }: any) {
   return (
     <CustomTabPanel value={value} index={0}>
-      <div className='flex flex-col items-start sm:items-center text-lg font-thin sm:font-normal lg:text-3xl text-slate-700 my-10 sm:mt-20 sm:mb-32'>
+      <div className='flex flex-col items-start sm:items-center text-lg font-thin sm:font-normal lg:text-2xl text-slate-700 my-10 sm:mt-20 sm:mb-32'>
         <p>이제 번역가는 번역에만 충실할 수 있습니다.</p>
         <p>'바른번역'의 문은 언제나 열려 있습니다.</p>
         <p>
@@ -54,17 +54,17 @@ export default function TranslatorGuidePanel({ value }: any) {
         />
         <div className='h-full backdrop-brightness-50 flex flex-col justify-end'>
           <div className='z-10 '>
-            <h3 className='text-slate-100 px-5 lg:px-20 text-lg lg:text-4xl'>
+            <h3 className='text-slate-100 px-5 lg:px-20 text-lg lg:text-3xl'>
               기성 번역가이십니까?
             </h3>
-            <p className='text-slate-300 drop-shadow px-5 lg:px-20 mt-7 mb-10 text-xs lg:text-lg'>
+            <p className='text-slate-300 drop-shadow px-5 lg:px-20 mt-7 mb-10 text-xs lg:text-lg font-thin'>
               번역서를 내신 적이 있는 번역가는 번역서를 포함한 간단한 프로필과
               샘플 번역본을 보내주시면 담당자가 연락드리겠습니다. <br />
               현재 바른번역은 역서가 5권 이상인 분만 받아들이고 있습니다.
             </p>
           </div>
           <div className='flex flex-col lg:flex-row items-center gap-4 text-slate-300 border-t border-t-white/15 py-4 z-10'>
-            <p className='font-semibold text-lg lg:text-2xl px-20 text-slate-100'>
+            <p className='opacity-70 text-lg lg:text-2xl px-20 text-slate-100'>
               프로필과 원고 보내실 곳
             </p>
             <p className='text:sm lg:text-2xl'>
@@ -100,10 +100,10 @@ export default function TranslatorGuidePanel({ value }: any) {
         />
         <div className='h-full backdrop-brightness-50 flex flex-col justify-end'>
           <div className='z-10 '>
-            <h3 className='text-slate-100 px-5 lg:px-20 text-lg lg:text-4xl'>
+            <h3 className='text-slate-100 px-5 lg:px-20 text-lg lg:text-3xl'>
               번역가 지망생입니까?
             </h3>
-            <p className='text-slate-300 drop-shadow px-5 lg:px-20 mt-7 mb-10 text-xs lg:text-lg'>
+            <p className='text-slate-300 font-thin drop-shadow px-5 lg:px-20 mt-7 mb-10 text-xs lg:text-lg'>
               바른번역 번역가들은 번역 지망생들을 위해 번역 아카데미를
               개설하였습니다.
               <br />
@@ -111,7 +111,7 @@ export default function TranslatorGuidePanel({ value }: any) {
             </p>
           </div>
           <div className='flex flex-col lg:flex-row items-center  gap-4 text-slate-300 border-t border-t-white/15 py-4 z-10'>
-            <p className='font-semibold text-lg lg:text-2xl px-20 text-slate-100'>
+            <p className='opacity-70 text-lg lg:text-2xl px-20 text-slate-100'>
               글밥 아카데미 방문하기
             </p>
             <Link href='http://www.glbab.com' className='text:sm lg:text-2xl'>

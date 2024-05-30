@@ -12,9 +12,12 @@ interface TabPanelProps {
 export default function TranslatorGuideQNAPanel({ value }: any) {
   return (
     <CustomTabPanel value={value} index={1}>
+      <p className='font-thin mt-10 text-sm sm:text-md lg:text-lg text-slate-400'>
+        바른번역 회원 번역가로 처음 입회하시는 분들이 흔히 묻는 질문을
+        모았습니다. 입회를 결정하기 전에 꼭 읽어봐 주세요.
+      </p>
       <h2 className='text-3xl text-slate-500 my-10'>Q&A</h2>
-
-      <AccordionTranslatorsQNA />
+      <AccordionTranslatorsQNA />잊
     </CustomTabPanel>
   );
 }

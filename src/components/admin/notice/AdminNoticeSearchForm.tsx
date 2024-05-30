@@ -38,7 +38,9 @@ export default function AdminNoticeSearchForm({}: Props) {
         <option value={'content'}>내용</option>
       </select>
       <div className='indicator'>
-        <button className='btn btn-sm lg:btn-md join-item'>검색하기</button>
+        <button className='btn btn-sm btn-neutral lg:btn-md join-item'>
+          검색하기
+        </button>
       </div>
     </form>
   );

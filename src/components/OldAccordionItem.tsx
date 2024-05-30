@@ -19,7 +19,7 @@ export default function OldAccordionItem({ answer, question }: Props) {
         <p className='text-[#2e63c8] w-10 lg:w-20 flex justify-center shrink-0 lg:text-3xl'>
           Q
         </p>
-        <p className='text-slate-800 w-full text-sm px-2  lg:text-2xl'>
+        <p className='text-slate-800 w-full text-sm px-2  lg:text-xl'>
           {question}
         </p>
         <div className='w-10 lg:w-20 shrink-0 flex items-center justify-center'>
@@ -35,7 +35,7 @@ export default function OldAccordionItem({ answer, question }: Props) {
           <p className='text-slate-500 w-10 lg:w-20 flex justify-center shrink-0 lg:text-3xl'>
             A
           </p>
-          <p className=' font-thin text-sm px-2 text-slate-400 whitespace-pre-wrap lg:text-xl'>
+          <p className=' font-thin text-sm px-2 text-slate-400 whitespace-pre-wrap lg:text-lg'>
             {answer}
           </p>
           <div className='w-10 lg:w-20 shrink-0 flex items-center justify-center'></div>

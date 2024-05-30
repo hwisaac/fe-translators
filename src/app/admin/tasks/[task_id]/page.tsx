@@ -97,7 +97,7 @@ export default function page({}: Props) {
           글쓰기
         </Link>
       </div>
-      <div className='flex justify-between items-center border-b border-b-slate-700 px-4 py-2'>
+      <div className='flex justify-between items-center  px-4 py-2'>
         <h2 className='text-semibold text-2xl flex items-center gap-3'>
           {data?.title} <LanguageBadge language={data?.language} />
         </h2>
@@ -109,7 +109,7 @@ export default function page({}: Props) {
         <StatusBadge status={data?.status} />
 
         <span className='text-orange-700 rounded-md bg-orange-50 px-2 py-1 text-xs lg:text-md'>
-          [댓글] {formatDateTime(data?.comment_start_time)}
+          {formatDateTime(data?.comment_start_time)}
         </span>
       </div>
       <div className='flex gap-2'>
@@ -138,7 +138,7 @@ export default function page({}: Props) {
           </Link>
         )}
       </div>
-      <div className='border-b border-b-slate-700 py-10 px-4'>
+      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin whitespace-pre-wrap'>
         {formatTextField(data?.content)}
       </div>
       <AdminComments comments={data?.comments} />

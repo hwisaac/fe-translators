@@ -18,7 +18,7 @@ export default function CustomSlider({}: Props) {
           placeholder='blur'
           style={{ objectFit: 'cover' }}
         />
-        <div className='text-slate-200/90 w-full xl:w-[40%] flex flex-col gap-3 items-center justify-center absolute'>
+        <div className='text-white/90 w-full xl:w-[40%] flex flex-col gap-3 items-center justify-center absolute'>
           <div>
             <p className='text-3xl sm:text-4xl lg:text-6xl font-thin'>
               좋은 책 만들기의 시작은

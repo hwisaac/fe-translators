@@ -21,8 +21,8 @@ export default async function page({ params }: Props) {
 
   return (
     <div className='my-10'>
-      <div className='flex'>
-        <div className='w-[200px] h-[250px] bg-slate-100 m-10 relative'>
+      <div className='flex flex-col lg:flex-row'>
+        <div className='w-[200px] h-[250px] bg-slate-100 m-10 relative shrink-0'>
           {getImgUrl(data.photo) === '' ? null : (
             <Image
               src={getImgUrl(data.photo)}
@@ -33,8 +33,8 @@ export default async function page({ params }: Props) {
             />
           )}
         </div>
-        <div className='m-10'>
-          <h3 className='text-3xl mb-10'>
+        <div className='sm:m-10'>
+          <h3 className='text-xl sm:text-3xl my-10'>
             {data.pen_name ? data.pen_name : data.name}
           </h3>
           <ul className=' space-y-6'>
