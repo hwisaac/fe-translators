@@ -1,4 +1,6 @@
 import ChevronRight from '@/icons/ChevronRight';
+import img from '@/utils/img';
+import Image from 'next/image';
 import Link from 'next/link';
 import { FaRegHandshake } from 'react-icons/fa6';
 
@@ -10,7 +12,7 @@ export default function SectionOne({}: Props) {
       <div className='w-full max-w-6xl mx-auto flex flex-col'>
         <div className='flex sm:border-b items-end gap-8 py-4 mt-4 sm:my-10 px-4'>
           <h2 className='text-2xl lg:text-4xl text-slate-900'>바른번역 소개</h2>
-          <span className='text-slate-500 hidden sm:inline'>
+          <span className='text-slate-500 hidden sm:inline font-thin'>
             우리는 이렇게 다릅니다
           </span>
         </div>
@@ -26,7 +28,11 @@ export default function SectionOne({}: Props) {
                       좋은이유
                     </p>
                   </div>
-                  <div className='bg-[#0e3f9e] size-[50px] sm:size-[100px] rounded-full'></div>
+                  <Image
+                    src={img.iconBooks}
+                    alt='icon-books'
+                    className='size-[50px] sm:size-[88px]'
+                  />
                 </div>
               </Link>
               <Link
@@ -52,7 +58,12 @@ export default function SectionOne({}: Props) {
                       <span className=' font-bold'>번역가</span>에게 좋은이유
                     </p>
                   </div>
-                  <div className='bg-[#007d78] size-[50px] sm:size-[100px] rounded-full'></div>
+
+                  <Image
+                    src={img.iconTranslator}
+                    alt='icon-books'
+                    className='size-[50px] sm:size-[88px]'
+                  />
                 </div>
               </Link>
               <Link

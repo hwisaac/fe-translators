@@ -64,8 +64,6 @@ export default function MyNotices({}: Props) {
         .then((res) => res.data.notices as NoticeType[]),
   });
 
-  console.log(notices);
-
   return (
     <section className='py-10 flex flex-col w-full'>
       <h2 className='text-lg font-semibold pb-8 px-2'>번역가 공지사항</h2>

@@ -31,9 +31,7 @@ export default function AdminNoticeTable({}) {
           toast.error(error.message);
         }),
   });
-  React.useEffect(() => {
-    console.log(searchParams.toString());
-  }, [searchParams.toString()]);
+
   return (
     <section className='py-10 flex flex-col items-center w-full gap-3'>
       <h2 className='text-lg font-semibold pb-8 self-start'>

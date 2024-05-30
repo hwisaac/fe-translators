@@ -45,7 +45,7 @@ export default function FindPasswordForm({}: Props) {
   } = useForm<any>();
 
   const onValid: SubmitHandler<any> = async (data) => {
-    console.log(data);
+
     findPassword(data);
   };
 

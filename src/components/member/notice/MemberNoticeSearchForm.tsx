@@ -16,7 +16,7 @@ export default function MemberNoticeSearchForm({}: Props) {
   } = useForm<any>({});
 
   const onValid = (data: any) => {
-    console.log(data);
+
     const query = data.query;
     const option = data.option;
     router.push(`/member/notice?page=1&query=${query}&option=${option}`);

@@ -23,7 +23,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [deleteFile, setDeleteFile] = useState(false);
-  console.log(data.notice.file);
+
   const {
     register,
     handleSubmit,
@@ -74,7 +74,6 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
 
     try {
       const response = await postNotice(formData);
-      console.log(response);
     } catch (error) {
       console.error(error);
     }

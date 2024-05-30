@@ -12,7 +12,7 @@ export default function DaumPostcodePopup({ setValue }: Props) {
     script.src =
       '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
     script.onload = () => {
-      console.log('다음 주소 API 스크립트 로드 완료');
+      // console.log('다음 주소 API 스크립트 로드 완료');
     };
     document.head.appendChild(script);
 

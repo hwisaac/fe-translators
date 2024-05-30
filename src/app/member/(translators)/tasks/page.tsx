@@ -45,10 +45,7 @@ export default function TasksPage({}: Props) {
         )
         .then((res) => res.data),
   });
-  React.useEffect(() => {
-    console.log(data);
-    console.log(page, query, language, status);
-  }, [data, page, query, language, status]);
+
   return (
     <div className='flex flex-col items-center'>
       <SearchForm />

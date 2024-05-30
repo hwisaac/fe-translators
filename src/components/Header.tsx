@@ -97,7 +97,7 @@ export default function Header({}: Props) {
                 </Link>
               </ul>
               <div className='flex gap-2'>
-                <LogoutBtn />
+                <LogoutBtn closeModal={closeModal} />
                 <Link href='/member'>
                   <button className='text-white bg-black  rounded-full flex items-center gap-3 px-6 py-3 xs:text-red-500 box-border'>
                     <FaPenNib />
@@ -133,7 +133,7 @@ export default function Header({}: Props) {
             />
           </Link>
           <div className='flex items-center gap-2 sm:gap-5'>
-            <LogoutBtn />
+            <LogoutBtn closeModal={closeModal} />
             <button
               onClick={() => {
                 router.push('/member');

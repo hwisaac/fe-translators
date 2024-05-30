@@ -18,7 +18,6 @@ export default function FindIdForm({}: Props) {
   const csrftoken = useCSRFToken();
   const { mutateAsync: findId, isPending } = useMutation({
     mutationFn: (data: any) => {
-      console.log(data);
       return axios
         .post(`${BASE_URL}/users/find-id/`, data, {
           headers: {
@@ -51,7 +50,6 @@ export default function FindIdForm({}: Props) {
   } = useForm<any>();
 
   const onValid: SubmitHandler<any> = async (data) => {
-    console.log(data);
     findId(data);
   };
 

@@ -39,12 +39,12 @@ export default async function SectionTwo({}: Props) {
         <div className='flex border-b items-end gap-8 py-4 my-10 relative px-4'>
           <h2 className='text-2xl sm:text-4xl text-slate-900'>신간 안내</h2>
 
-          <span className='text-slate-500 hidden sm:inline'>
+          <span className='text-slate-500 hidden sm:inline font-thin'>
             우리 번역가가 번역한 도서입니다.
           </span>
           <Link
             href={'/new-books'}
-            className='absolute right-0 font-semibold text-sm flex items-center gap-3 cursor-pointer text-slate-700 px-2'>
+            className='absolute right-0 text-sm flex items-center gap-3 cursor-pointer text-slate-400 hover:text-slate-700 transition-colors px-2'>
             VIEW MORE
             <FaPlusCircle size={20} />
           </Link>

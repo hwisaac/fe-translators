@@ -7,6 +7,8 @@ import mediaBg from '/public/home/mediaBg.png';
 import naverBg from '/public/home/naverBg.png';
 import mainBanner1 from '/public/home/img-main-banner1.png';
 import mainBanner2 from '/public/home/img-main-banner2.png';
+import iconBooks from '/public/home/ico-books-88x88.png';
+import iconTranslator from '/public/home/ico-translator-105x105.png';
 
 const img = {
   bgPattern,
@@ -18,6 +20,8 @@ const img = {
   naverBg,
   mainBanner1,
   mainBanner2,
+  iconBooks,
+  iconTranslator,
 };
 
 export default img;

@@ -1,5 +1,6 @@
 'use client';
 import { loginAtom } from '@/atoms/loginAtom';
+import ScreenLoading from '@/components/ScreenLoading';
 import PageLayout from '@/layouts/PageLayout';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -24,13 +25,5 @@ export default function page({}) {
     }
   }, [isClient, loginState, router]);
 
-  if (!isClient) return null;
-
-  return (
-    <PageLayout title='번역가방'>
-      <div className='w-full flex justify-center'>
-        <span className='loading loading-spinner loading-lg'></span>
-      </div>
-    </PageLayout>
-  );
+  return <ScreenLoading isLoading={true} />;
 }

@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
 
-type Props = {};
+type Props = {
+  closeModal: () => void;
+};
 
-export default function LogoutBtn({}: Props) {
+export default function LogoutBtn({ closeModal }: Props) {
   const [show, setShow] = useState(false);
   const [loginState, setLoginState] = useRecoilState(loginAtom);
   const router = useRouter();
@@ -19,6 +21,7 @@ export default function LogoutBtn({}: Props) {
   const handleClick = () => {
     console.log(loginState);
     setLoginState(null); // 로그아웃 처리
+    closeModal();
     router.push('/');
   };
 

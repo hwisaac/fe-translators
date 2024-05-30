@@ -219,8 +219,7 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
   };
 
   const handleConfirm = () => {
-    console.log(watch('user_id'));
-    console.log(`task_id :${task_id}, user_id :${watch('user_id')}`);
+
     assignTranslator({ task_id, user_id: watch('user_id') });
   };
   return (
