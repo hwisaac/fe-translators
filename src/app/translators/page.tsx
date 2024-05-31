@@ -63,39 +63,32 @@ function TranslatorTable({ data }: { data: GetUsersType }) {
       <table className='hidden sm:table'>
         <thead>
           <tr>
-            <td>번역가</td>
-            <td>언어</td>
-            <td>분야</td>
-            <td>주요 역서</td>
-            <td></td>
+            <td align='center'>번역가</td>
+            <td align='center'>언어</td>
+            <td align='center'>분야</td>
+            <td align='center'>주요 역서</td>
           </tr>
         </thead>
         <tbody>
           {data?.users?.map((user, index: number) => (
             <tr key={`${index}-rows`}>
-              <td>
+              <td align='center'>
                 <Link
                   href={`/translators/${user.id}`}
-                  className='text-sm lg:text-lg hover:text-blue-400 transition-colors'>
+                  className='text-sm lg:text-lg text-blue-400 hover:text-blue-700 transition-colors font-thin'>
                   {user.pen_name ? user.pen_name : user.name}
                 </Link>
               </td>
-              <td className='lg:text-lg text-sm  font-thin '>
+              <td align='center' className='lg:text-lg text-sm  font-thin '>
                 {user.languages.join(', ')}
               </td>
-              <td className='lg:text-lg text-sm font-thin '>
+              <td align='center' className='lg:text-lg text-sm font-thin '>
                 {user.specializations.join(', ')}
               </td>
-              <td>
+              <td align='center'>
                 <span className='lg:text-lg text-sm font-thin '>
                   {user.major_works}
                 </span>
-              </td>
-              <td>
-                <Link href={`/translators/${user.id}`} className='btn btn-sm '>
-                  <span className='hidden lg:inline'>자세히</span>
-                  <BiMessageDetail className='lg:hidden' />
-                </Link>
               </td>
             </tr>
           ))}

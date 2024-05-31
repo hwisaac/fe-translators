@@ -39,6 +39,10 @@ export default async function page({ params: { id } }: Props) {
             alt={`신간 도서-${data.title}`}
             width={150}
             height={200}
+            className='shrink-0 w-[150px] h-[200px]'
+            style={{
+              objectFit: 'cover',
+            }}
           />
         </div>
         <ul className='space-y-3 bg-slate-50 sm:bg-transparent w-full px-2 py-4 sm:py-2 flex flex-col justify-center'>
@@ -58,7 +62,8 @@ export default async function page({ params: { id } }: Props) {
       </section>
 
       <section className='bg-slate-50 shadow-md px-2 sm:px-10 lg:px-20 py-4 sm:py-10 mt-5 font-thin'>
-        {formatTextField(data.description)}
+        {/* {formatTextField(data.description)} */}
+        <div dangerouslySetInnerHTML={{ __html: data.description }} />
       </section>
       <Link href='/new-books' className='btn mt-10'>
         목록
