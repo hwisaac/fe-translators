@@ -293,11 +293,11 @@ export default function PrivateInformationForm({}: Props) {
       <div className='flex'>
         <div className='w-[150px] text-sm'>주소</div>
         <div className='flex flex-col gap-1'>
-          <div className='flex'>
+          <div className='flex join'>
             <input
               type='text'
               {...register('zonecode')}
-              className='input input-bordered w-[100px] lg:w-[400px]'
+              className='input input-bordered w-[100px] lg:w-[400px] join-item'
               placeholder='우편번호'
             />
             <DaumPostcodePopup setValue={setValue} />

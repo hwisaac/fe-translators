@@ -36,7 +36,7 @@ export default function DaumPostcodePopup({ setValue }: Props) {
   return (
     <div
       onClick={(e) => handleOpenPostcode(e)}
-      className='bg-slate-50 hover:bg-slate-200 transition-colors border-2 border-slate-500 text-slate-600 rounded-md w-[100px] px-4 py-1 cursor-pointer flex items-center justify-center'>
+      className='bg-slate-50 hover:bg-slate-200 transition-colors border-2 border-slate-500 text-slate-600 rounded-md w-[100px] px-4 py-1 cursor-pointer flex items-center justify-center join-item'>
       주소 검색
     </div>
   );

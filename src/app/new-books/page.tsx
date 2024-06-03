@@ -1,14 +1,6 @@
 import PageLayout from '@/layouts/PageLayout';
 import { FaBook } from 'react-icons/fa';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { FormEvent, useState } from 'react';
 import dummyImage from '@/utils/dummyImage';
-import Paper from '@mui/material/Paper';
 import { GetNewBooksType, NewBookType } from '@/components/home/SectionTwo';
 import BASE_URL from '@/utils/BASE_URL';
 import getImgUrl from '@/utils/getImgUrl';

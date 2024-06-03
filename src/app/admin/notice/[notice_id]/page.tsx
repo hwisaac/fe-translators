@@ -34,12 +34,6 @@ type NoticeData = {
   };
 };
 
-function formatTextField(text?: string | null): any {
-  if (!text) return <p></p>;
-  return text
-    .split('\n')
-    .map((line: string, index: number) => <p key={index}>{line}</p>);
-}
 
 export default function page({}) {
   const { notice_id } = useParams();
@@ -110,8 +104,8 @@ export default function page({}) {
           {data?.notice?.file?.split('/')[data?.notice?.file?.length - 1]}
         </Link>
       </div>
-      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10  font-thin'>
-        {formatTextField(data?.notice?.content)}
+      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10  font-thin whitespace-pre-wrap'>
+        {data?.notice?.content}
       </div>
       <div className='flex my-10'>
         <div className='flex flex-col h-[100px] w-full'>

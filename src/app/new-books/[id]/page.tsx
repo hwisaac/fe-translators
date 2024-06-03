@@ -1,9 +1,9 @@
 import PageLayout from '@/layouts/PageLayout';
 import BASE_URL from '@/utils/BASE_URL';
-import { formatTextField } from '@/utils/formatTextField';
 import getImgUrl from '@/utils/getImgUrl';
 import Image from 'next/image';
 import Link from 'next/link';
+import { FaBook } from 'react-icons/fa';
 
 type Props = {
   params: { id: number };
@@ -34,16 +34,22 @@ export default async function page({ params: { id } }: Props) {
       </h1>
       <section className='flex flex-col sm:flex-row items-center sm:items-start gap-20'>
         <div>
-          <Image
-            src={getImgUrl(data.thumbnail)}
-            alt={`신간 도서-${data.title}`}
-            width={150}
-            height={200}
-            className='shrink-0 w-[150px] h-[200px]'
-            style={{
-              objectFit: 'cover',
-            }}
-          />
+          {data.thumbnail ? (
+            <Image
+              src={getImgUrl(data.thumbnail)}
+              alt={`신간 도서-${data.title}`}
+              width={150}
+              height={200}
+              className='shrink-0 w-[150px] h-[200px]'
+              style={{
+                objectFit: 'cover',
+              }}
+            />
+          ) : (
+            <div className='w-[100px] h-[150px] bg-slate-50 rounded-md flex items-center justify-center'>
+              <FaBook size={60} className='text-slate-200' />
+            </div>
+          )}
         </div>
         <ul className='space-y-3 bg-slate-50 sm:bg-transparent w-full px-2 py-4 sm:py-2 flex flex-col justify-center'>
           <li className='flex'>
@@ -61,8 +67,7 @@ export default async function page({ params: { id } }: Props) {
         </ul>
       </section>
 
-      <section className='bg-slate-50 shadow-md px-2 sm:px-10 lg:px-20 py-4 sm:py-10 mt-5 font-thin'>
-        {/* {formatTextField(data.description)} */}
+      <section className='shadow-md rounded-md px-2 sm:px-10 lg:px-20 py-4 sm:py-10 mt-5 font-thin'>
         <div dangerouslySetInnerHTML={{ __html: data.description }} />
       </section>
       <Link href='/new-books' className='btn mt-10'>
