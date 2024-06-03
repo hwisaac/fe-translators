@@ -139,7 +139,7 @@ export default function page({}: Props) {
         )}
       </div>
       <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin whitespace-pre-wrap'>
-        {formatTextField(data?.content)}
+        {data?.content}
       </div>
       <AdminComments comments={data?.comments} />
       <Link href='/admin/tasks' className='btn'>

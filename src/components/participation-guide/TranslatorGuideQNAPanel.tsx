@@ -17,7 +17,7 @@ export default function TranslatorGuideQNAPanel({ value }: any) {
         모았습니다. 입회를 결정하기 전에 꼭 읽어봐 주세요.
       </p>
       <h2 className='text-3xl text-slate-500 my-10'>Q&A</h2>
-      <AccordionTranslatorsQNA />잊
+      <AccordionTranslatorsQNA />
     </CustomTabPanel>
   );
 }

@@ -11,6 +11,7 @@ import useToken from '@/app/hooks/useToken';
 import { useSearchParams } from 'next/navigation';
 import StatusBadge from '@/components/StatusBadge';
 import { evalStatus } from '@/utils/commons';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 type Props = {};
 export type TaskType = {
   id: number;
@@ -81,18 +82,20 @@ function TasksTable({ data }: { data?: any }) {
         <tbody>
           {data?.tasks?.map((task: TaskType, index: number) => (
             <tr key={`${index}-rows`}>
-              <td className='hidden lg:table-cell font-thin'>{task.id}</td>
-              <td align='center'>
+              <td className='hidden lg:table-cell font-thin' align='center'>
+                {task.id}
+              </td>
+              <td>
                 <Link
                   className='hover:text-blue-400 sm:text-lg font-thin'
                   href={`/member/tasks/${task.id}`}>
                   {`${task.title}`}
                 </Link>
               </td>
-              <td className='hidden lg:table-cell'>
+              <td className='hidden lg:table-cell' align='center'>
                 {task.link && (
                   <Link href={task.link} target='_blank' className='btn btn-sm'>
-                    도서정보
+                    <FaExternalLinkAlt />
                   </Link>
                 )}
               </td>
