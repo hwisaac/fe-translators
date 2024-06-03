@@ -67,7 +67,7 @@ function TasksTable({ data }: { data?: any }) {
               번호
             </th>
             <th>제목</th>
-            <th className='hidden lg:table-cell w-[100px]' align='center'>
+            <th className='hidden lg:table-cell w-[120px]' align='center'>
               링크
             </th>
             <th className='w-[100px]' align='center'>
@@ -82,7 +82,7 @@ function TasksTable({ data }: { data?: any }) {
           {data?.tasks?.map((task: TaskType, index: number) => (
             <tr key={`${index}-rows`}>
               <td className='hidden lg:table-cell font-thin'>{task.id}</td>
-              <td>
+              <td align='center'>
                 <Link
                   className='hover:text-blue-400 sm:text-lg font-thin'
                   href={`/member/tasks/${task.id}`}>
@@ -100,7 +100,7 @@ function TasksTable({ data }: { data?: any }) {
                 <LanguageBadge language={task.language} />
               </td>
 
-              <td className='flex'>
+              <td className='flex' align='center'>
                 <StatusBadge status={task.status} />
               </td>
             </tr>

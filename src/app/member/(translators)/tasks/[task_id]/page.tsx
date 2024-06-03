@@ -112,7 +112,7 @@ export default function page({}) {
         status={data?.status}
         comment_start_time={data?.comment_start_time}
       />
-      <Link href='/admin/tasks' className='btn'>
+      <Link href='/member/tasks' className='btn'>
         목록
       </Link>
     </div>
