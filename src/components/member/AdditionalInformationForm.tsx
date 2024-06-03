@@ -2,6 +2,7 @@
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useMe from '@/app/hooks/useMe';
 import useToken from '@/app/hooks/useToken';
+import { revalidateTranslatorsList } from '@/app/translators/actions';
 import ScreenLoading from '@/components/ScreenLoading';
 import PageLayout from '@/layouts/PageLayout';
 import BASE_URL, { BASE_URL_WO_API } from '@/utils/BASE_URL';
@@ -81,6 +82,7 @@ export default function AdditionalInformationForm({
       queryClient.invalidateQueries({
         queryKey: ['tasks_list'],
       });
+      revalidateTranslatorsList();
     },
     onError: (err) => {
       toast.error('변경 에러');
