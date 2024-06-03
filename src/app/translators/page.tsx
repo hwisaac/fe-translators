@@ -1,3 +1,4 @@
+'use client';
 import PageLayout from '@/layouts/PageLayout';
 import { BiMessageDetail } from 'react-icons/bi';
 import TranslatorSearchForm from '@/components/translators/TranslatorSearchForm';
@@ -5,6 +6,10 @@ import Link from 'next/link';
 import { formatLink } from '@/utils/formatLink';
 import TranslatorPagination from '@/components/translators/TranslatorPagination';
 import BASE_URL from '@/utils/BASE_URL';
+import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
+import axios from 'axios';
+import ScreenLoading from '@/components/ScreenLoading';
 
 type Props = {
   searchParams: {
@@ -34,23 +39,47 @@ type UserType = {
   specializations: string[];
   tags: string[];
 };
-export default async function page({
-  searchParams: { page, query, language, specialization },
-}: Props) {
-  const data: GetUsersType = await fetch(
-    `${BASE_URL}/users?page=${page || 1}&query=${query || ''}&language=${
-      language || ''
-    }&specialization=${specialization || ''}&/`,
-    {
-      cache: 'no-cache',
-    }
-  ).then((res) => res.json());
-  const checkBoxes = await fetch(`${BASE_URL}/users/check-boxes/`, {
-    cache: 'no-cache',
-  }).then((res) => res.json());
+export default function page({}: // searchParams: { page, query, language, specialization },
+Props) {
+  // const data: GetUsersType = await fetch(
+  //   `${BASE_URL}/users?page=${page || 1}&query=${query || ''}&language=${
+  //     language || ''
+  //   }&specialization=${specialization || ''}&/`,
+  //   {
+  //     cache: 'no-cache',
+  //   }
+  // ).then((res) => res.json());
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page');
+  const query = searchParams.get('query');
+  const language = searchParams.get('language');
+  const specialization = searchParams.get('specialization');
+
+  // const checkBoxes = await fetch(`${BASE_URL}/users/check-boxes/`, {
+  //   cache: 'no-cache',
+  // }).then((res) => res.json());
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['translators', page, query, language],
+    queryFn: () =>
+      axios
+        .get(
+          `${BASE_URL}/users?page=${page || 1}&query=${query || ''}&language=${
+            language || ''
+          }&specialization=${specialization || ''}&/`
+        )
+        .then((res) => res.data),
+  });
+
+  const { data: checkBoxes, isLoading: isFetchingCheckBoxes } = useQuery({
+    queryKey: ['checkBoxes'],
+    queryFn: () =>
+      axios.get(`${BASE_URL}/users/check-boxes/`).then((res) => res.data),
+  });
 
   return (
     <PageLayout title='번역가 소개'>
+      <ScreenLoading isLoading={isLoading || isFetchingCheckBoxes} />
       <TranslatorSearchForm checkBoxes={checkBoxes} />
       <TranslatorTable data={data} />
     </PageLayout>
@@ -127,7 +156,7 @@ function TranslatorTable({ data }: { data: GetUsersType }) {
           ))}
         </tbody>
       </table>
-      <TranslatorPagination count={data.total_pages} />
+      <TranslatorPagination count={data?.total_pages ?? 1} />
     </section>
   );
 }
