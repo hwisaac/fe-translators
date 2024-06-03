@@ -59,6 +59,7 @@ function TranslatorPageContent() {
         )
         .then((res) => res.data),
   });
+  console.log(data, '번역가 데이터');
 
   const { data: checkBoxes, isLoading: isFetchingCheckBoxes } = useQuery({
     queryKey: ['checkBoxes'],
