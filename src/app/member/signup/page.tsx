@@ -88,7 +88,7 @@ export default function page({}: Props) {
     const day = data.day;
 
     const birth_date = `${year}-${month.padStart(2, 0)}-${day.padStart(2, 0)}`;
-    const postUser = { ...data, birth_date, is_active: true };
+    const postUser = { ...data, birth_date };
 
     mutateAsync({ postUser });
   };

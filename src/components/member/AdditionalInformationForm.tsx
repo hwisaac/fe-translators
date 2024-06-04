@@ -141,6 +141,10 @@ export default function AdditionalInformationForm({
       answer: data[`question_${id}`],
     }));
 
+    console.log(languages);
+    console.log(styles);
+    console.log(specializations);
+    console.log(interviews);
     // 배열을 JSON 문자열로 변환하여 전송
     formData.append('languages', JSON.stringify(languages));
     formData.append('styles', JSON.stringify(styles));

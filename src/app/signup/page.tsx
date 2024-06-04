@@ -81,7 +81,6 @@ export default function page({}: Props) {
   const onValid: SubmitHandler<any> = async (data) => {
     const postUser = {
       ...data,
-      is_active: true,
       is_translator: false,
       birth_date: '1999-01-01',
     };

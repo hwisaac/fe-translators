@@ -108,9 +108,10 @@ function TranslatorTable({ data }: { data: GetUsersType }) {
                 {user.specializations.join(', ')}
               </td>
               <td align='center'>
-                <span className='lg:text-lg text-sm font-thin'>
-                  {user.major_works}
-                </span>
+                <span
+                  className='lg:text-lg text-sm font-thin'
+                  dangerouslySetInnerHTML={{ __html: user.major_works }}
+                />
               </td>
             </tr>
           ))}
