@@ -43,7 +43,7 @@ export default function AdminTasksPage() {
   const logout = useLogout();
 
   const { data } = useQuery({
-    queryKey: ['adminTasksList', page, query, status, language],
+    queryKey: ['adminTasksList', page, query, status, language, token],
     queryFn: () =>
       axios
         .get(

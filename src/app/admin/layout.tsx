@@ -14,8 +14,8 @@ type Props = {
 
 export default function AdminLayout({ children }: Props) {
   const [isClient, setIsClient] = useState(false);
-  // const loginState = useRecoilValue(loginAtom);
-  const { data: me } = useMe();
+  const loginState = useRecoilValue(loginAtom);
+
   const router = useRouter();
   useEffect(() => {
     setIsClient(true);
@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: Props) {
     );
   }
 
-  if (me?.is_staff) {
+  if (loginState?.is_staff) {
     return (
       <section className='w-full flex flex-col items-center justify-center pb-20'>
         <AdminTabs />

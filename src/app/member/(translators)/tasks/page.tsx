@@ -31,7 +31,7 @@ export default function TasksPage({}: Props) {
   const language = searchParams.get('language');
 
   const { data } = useQuery({
-    queryKey: ['tasks_list', page, query, language, status],
+    queryKey: ['tasks_list', page, query, language, status, token],
     queryFn: () =>
       axios
         .get(

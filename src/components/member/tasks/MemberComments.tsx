@@ -1,11 +1,16 @@
 'use client';
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
+import useAddReply from '@/app/hooks/member/useAddReply';
+import useDeleteComment from '@/app/hooks/member/useDeleteComment';
+import useEditComment from '@/app/hooks/member/useEditComment';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useLoginData from '@/app/hooks/useLoginData';
+import usePostComment from '@/app/hooks/usePostComment';
 import useToken from '@/app/hooks/useToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
+import Replies from '@/components/member/Replies';
 import BASE_URL from '@/utils/BASE_URL';
 import { COMMENT_LIMIT } from '@/utils/commons';
 import formatDateTime from '@/utils/formatDateTime';
@@ -15,19 +20,17 @@ import axios, { AxiosError } from 'axios';
 import { headers } from 'next/headers';
 import { useParams } from 'next/navigation';
 import { FormEvent, LegacyRef, useEffect, useRef, useState } from 'react';
-import { IoMdReturnRight } from 'react-icons/io';
-import { toast } from 'react-toastify';
 
-export type ReplyType = {
-  reply_id: number;
-  name: string;
-  comment_id: number;
-  content: string;
-  author: string;
-  created_at: string;
-  updated_at: string;
-  author_is_staff: boolean;
-};
+import { toast } from 'react-toastify';
+interface ActionButtonsProps {
+  onEdit: any;
+  comment_id: string | number;
+  comment_replies_length: number;
+  setOpenReply: any;
+  task_id: string | string[];
+  status: any;
+}
+
 type CommentStatusType =
   | 'available'
   | 'applying'
@@ -46,39 +49,13 @@ export default function MemberComments({
   status,
   comment_start_time,
 }: Props) {
+  console.log('member comments', comments?.length, comments);
   const { task_id } = useParams();
-  const token = useToken();
-  const csrftoken = useCSRFToken();
-  const queryClient = useQueryClient();
   const [inputComment, setInputComment] = useState('');
   const [disabled, setDisabled] = useState(false);
 
-  const { mutate: postComment, isPending: postingComment } = useMutation({
-    mutationKey: ['add comment', task_id],
-    mutationFn: (payload: any) =>
-      axios.post(
-        `${BASE_URL}/tasks/${task_id}/comments/`,
-        { ...payload },
-        {
-          headers: {
-            Authorization: token,
-            'X-CSRFToken': csrftoken,
-          },
-        }
-      ),
-    onSuccess: () => {
-      toast.success('신청되었습니다.');
-      queryClient.invalidateQueries({
-        queryKey: ['taskDetail', task_id],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['my-available-tasks', token],
-      });
-    },
-    onError: (err: AxiosError) => {
-      // @ts-ignore
-      toast.error((err?.response?.data.error as string) || '');
-    },
+  const { mutate: postComment, isPending: postingComment } = usePostComment({
+    task_id,
   });
 
   const addComment = (event: FormEvent<HTMLFormElement>) => {
@@ -150,78 +127,23 @@ function CommentItem({
   const [editable, setEditable] = useState(false);
   const [commentInput, setCommentInput] = useState(comment.content);
   const { task_id } = useParams();
-  const queryClient = useQueryClient();
-  const token = useToken();
-  const csrftoken = useCSRFToken();
   const [reply, setReply] = useState('');
-  const { mutateAsync: addReply, isPending: addingReply } = useMutation({
-    mutationKey: ['addReply', comment.id],
-    mutationFn: (payload: any) =>
-      axios.post(
-        `${BASE_URL}/comments/${comment.id}/reply/`,
-        { ...payload },
-        {
-          headers: {
-            Authorization: token,
-            'X-CSRFToken': csrftoken,
-          },
-        }
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['taskDetail', task_id],
-      });
-      toast.success('대댓글이 작성되었습니다.');
-      revalidateTaskDetail(task_id);
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-  const { mutateAsync: editComment, isPending: editingComment } = useMutation({
-    mutationKey: ['editComment', comment.id],
-    mutationFn: (payload: any) =>
-      axios.put(
-        `${BASE_URL}/comments/${comment.id}/`,
-        { ...payload },
-        {
-          headers: {
-            Authorization: token,
-            'X-CSRFToken': csrftoken,
-          },
-        }
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['taskDetail', task_id],
-      });
-      toast.success('댓글이 수정되었습니다.');
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
+
+  const { mutateAsync: addReply, isPending: addingReply } = useAddReply({
+    task_id,
+    comment_id: comment.id,
   });
 
-  const { mutateAsync: deleteComment, isPending: deletingComment } =
-    useMutation({
-      mutationKey: ['delete', comment.id],
-      mutationFn: () =>
-        axios.delete(`${BASE_URL}/comments/${comment.id}/`, {
-          headers: {
-            Authorization: token,
-            'X-CSRFToken': csrftoken,
-          },
-        }),
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['taskDetail', task_id],
-        });
-        toast.success('댓글이 삭제 되었습니다.');
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
+  const { mutateAsync: editComment, isPending: editingComment } =
+    useEditComment({
+      comment_id: comment.id,
+      task_id,
     });
+
+  const { isPending: deletingComment } = useDeleteComment({
+    comment_id: comment.id,
+    task_id,
+  });
 
   const handleSubmitReply = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -249,13 +171,7 @@ function CommentItem({
     setEditable(false);
     editComment({ content: commentInput });
   };
-  const handleDeleteComment = () => {
-    if (comment.replies.length > 0) {
-      toast.error('대댓글이 달린 댓글은 삭제할 수 없습니다.');
-      return;
-    }
-    deleteComment();
-  };
+
   return (
     <li className='flex flex-col w-full'>
       {/* <p className='badge badge-neutral'>샘플번역가</p> */}
@@ -263,12 +179,14 @@ function CommentItem({
         isLoading={deletingComment || editingComment || addingReply}
       />
       <CommentStatusBadge status={comment.status} />
+
       <div className='flex justify-between'>
-        <span className='text-slate-800'>{`${comment.name}`}</span>
+        <span className='text-slate-800'>{`${comment.name}(${comment.author.username})`}</span>
         <span className='text-slate-500'>
           {`${formatDateTime(comment.created_at)}`}
         </span>
       </div>
+
       {!editable ? (
         <p className='rounded-md shadow-md px-4 py-4 my-3 bg-slate-50'>
           {commentInput}
@@ -287,43 +205,15 @@ function CommentItem({
           <button className='btn absolute right-3 btn-sm'>확인</button>
         </form>
       )}
-      <div className={`space-x-2 my-2 ${status !== 'open' && 'hidden'}`}>
-        <button
-          className='btn btn-outline btn-sm'
-          onClick={() => setOpenReply((p) => !p)}>
-          대댓글
-        </button>
-        <button className='btn btn-outline btn-sm' onClick={onEdit}>
-          수정
-        </button>
-        <button
-          className='btn btn-outline btn-sm'
-          onClick={() =>
-            // @ts-ignore
-            document.getElementById(`modal_${comment.id}`).showModal()
-          }>
-          삭제
-        </button>
-        <dialog
-          id={`modal_${comment.id}`}
-          className='modal modal-bottom sm:modal-middle'>
-          <div className='modal-box'>
-            <h3 className='font-bold text-lg'>삭제하기</h3>
-            <p className='py-4'>정말로 삭제하시겠습니까?</p>
-            <div className='modal-action'>
-              <form method='dialog' className='space-x-2'>
-                <button
-                  className='btn btn-neutral'
-                  onClick={() => handleDeleteComment()}>
-                  삭제
-                </button>
-                {/* if there is a button in form, it will close the modal */}
-                <button className='btn'>취소</button>
-              </form>
-            </div>
-          </div>
-        </dialog>
-      </div>
+
+      <ActionButtons
+        onEdit={onEdit}
+        comment_id={comment.id}
+        comment_replies_length={comment.replies.length}
+        setOpenReply={setOpenReply}
+        task_id={task_id}
+        status={status}
+      />
       {openReply && (
         <form
           className='join w-[95%] self-end'
@@ -342,94 +232,69 @@ function CommentItem({
   );
 }
 
-const Replies = ({ replies }: { replies: ReplyType[] }) => {
-  return (
-    <ul className='w-[95%] self-end relative flex flex-col mb-10'>
-      {replies.map((reply) => (
-        <ReplyItem reply={reply} key={`${reply?.reply_id}-reply`} />
-      ))}
-    </ul>
-  );
-};
+function ActionButtons({
+  onEdit,
+  comment_id,
+  comment_replies_length,
+  setOpenReply,
+  task_id,
+  status,
+}: ActionButtonsProps) {
+  const { mutateAsync: deleteComment, isPending: deletingComment } =
+    useDeleteComment({
+      comment_id,
+      task_id,
+    });
 
-const ReplyItem = ({ reply }: { reply: ReplyType }) => {
-  const loginState = useLoginData();
-  const queryClient = useQueryClient();
-  const csrftoken = useCSRFToken();
-  const { mutateAsync: deleteReply } = useMutation({
-    mutationFn: () =>
-      axios.delete(
-        `${BASE_URL}/comments/${reply.comment_id}/reply/${reply.reply_id}/`,
-        {
-          headers: {
-            'X-CSRFToken': csrftoken,
-          },
-        }
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['taskDetail'],
-      });
-      toast.success('삭제되었습니다.');
-    },
-    onError: (error) => toast.error(error.message),
-  });
-  const handleDelete = () => {};
+  const handleDeleteComment = () => {
+    if (comment_replies_length > 0) {
+      toast.error('대댓글이 달린 댓글은 삭제할 수 없습니다.');
+      return;
+    }
+    deleteComment();
+  };
+
   return (
-    <li className='rounded-md p-3 flex flex-col'>
-      <div className='flex justify-between'>
-        <span
-          className={`flex items-center gap-3 ${
-            reply.author_is_staff && 'font-black text-green-800'
-          }`}>
-          <IoMdReturnRight className='text-slate-400' />
-          {`${
-            reply.author_is_staff
-              ? '관리자'
-              : `${reply.name}(${reply.reply_id})`
-          }`}
-        </span>
-        <span className='text-slate-500'>
-          {formatDateTime(reply.created_at)}
-        </span>
-      </div>
-      <div className='w-full rounded-md shadow-md px-4 py-4 my-3 bg-slate-50 flex justify-between'>
-        <div>{reply.content}</div>
-        {reply.author === loginState?.username && (
-          <div
-            className='btn btn-ghost btn-sm'
-            onClick={() =>
-              document
-                .getElementById(`reply_delete_modal_${reply.reply_id}`)!
-                // @ts-ignore
-                .showModal()
-            }>
-            삭제
+    <div className={`space-x-2 my-2 ${status !== 'open' && 'hidden'}`}>
+      <button
+        className='btn btn-outline btn-sm'
+        onClick={() => setOpenReply((p: any) => !p)}>
+        대댓글
+      </button>
+      <button className='btn btn-outline btn-sm' onClick={onEdit}>
+        수정
+      </button>
+      <button
+        className='btn btn-outline btn-sm'
+        onClick={() =>
+          // @ts-ignore
+          document.getElementById(`modal_${comment_id}`).showModal()
+        }>
+        삭제
+      </button>
+      <dialog
+        id={`modal_${comment_id}`}
+        className='modal modal-bottom sm:modal-middle'>
+        <div className='modal-box'>
+          <h3 className='font-bold text-lg'>삭제하기</h3>
+          <p className='py-4'>정말로 삭제하시겠습니까?</p>
+          <div className='modal-action'>
+            <form method='dialog' className='space-x-2'>
+              <button
+                className='btn btn-neutral'
+                onClick={() => handleDeleteComment()}>
+                삭제
+              </button>
+
+              <button className='btn'>취소</button>
+            </form>
           </div>
-        )}
-        <dialog
-          id={`reply_delete_modal_${reply.reply_id}`}
-          className='modal modal-bottom sm:modal-middle'>
-          <div className='modal-box'>
-            <h3 className='font-bold text-lg'>삭제하기</h3>
-            <p className='py-4'>정말로 삭제하시겠습니까?</p>
-            <div className='modal-action'>
-              <form method='dialog' className='space-x-2'>
-                <button
-                  className='btn btn-neutral'
-                  onClick={() => deleteReply()}>
-                  삭제
-                </button>
-                {/* if there is a button in form, it will close the modal */}
-                <button className='btn'>취소</button>
-              </form>
-            </div>
-          </div>
-        </dialog>
-      </div>
-    </li>
+        </div>
+      </dialog>
+    </div>
   );
-};
+}
+
 
 const CommentStatusBadge = ({ status }: { status: CommentStatusType }) => {
   switch (status) {

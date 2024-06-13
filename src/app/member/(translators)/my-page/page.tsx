@@ -1,8 +1,5 @@
 'use client';
-import useLoginData from '@/app/hooks/useLoginData';
-import useLogout from '@/app/hooks/useLogout';
 import useMe from '@/app/hooks/useMe';
-import useToken from '@/app/hooks/useToken';
 import { loginAtom } from '@/atoms/loginAtom';
 import MyNotices from '@/components/my-page/MyNotices';
 import MyTasks from '@/components/my-page/MyTasks';
@@ -19,19 +16,18 @@ type Props = {};
 
 export default function page({}: Props) {
   const [isClient, setIsClient] = useState(false);
+  const loginState = useRecoilValue(loginAtom);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  const { data: me } = useMe();
 
   if (!isClient) return null;
   return (
     <div className='flex flex-col items-center'>
       <section className='sm:border-0 border-slate-200 px-2 sm:px-10 py-2  sm:py-5 flex flex-col gap-2 lg:flex-row justify-center lg:justify-between items-center w-full shadow-md rounded bg-gray-50'>
         <h2 className=''>
-          <span className='font-semibold'>{me?.username}</span>
+          <span className='font-semibold'>{loginState?.username}</span>
           님, 번역가방에 오신 것을 환영합니다.
         </h2>
 

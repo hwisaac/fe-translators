@@ -53,7 +53,7 @@ export default function MyNotices({}: Props) {
   }, []);
 
   const { data: notices } = useQuery({
-    queryKey: ['my-notices'],
+    queryKey: ['my-notices', token],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/notices?page=1&page_size=5&/`, {

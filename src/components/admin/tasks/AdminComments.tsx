@@ -5,7 +5,7 @@ import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import TranslatorBadgeBtn from '@/components/admin/tasks/TranslatorBadgeBtn';
-import { ReplyType } from '@/components/member/tasks/MemberComments';
+import { ReplyType } from '@/components/member/Replies';
 import BASE_URL from '@/utils/BASE_URL';
 import { COMMENT_LIMIT } from '@/utils/commons';
 import formatDateTime from '@/utils/formatDateTime';

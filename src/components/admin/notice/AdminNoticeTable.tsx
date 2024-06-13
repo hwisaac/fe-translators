@@ -18,7 +18,7 @@ export default function AdminNoticeTable({}) {
   const searchParams = useSearchParams();
 
   const { data }: any = useQuery({
-    queryKey: ['adminNoticesList', searchParams.toString()],
+    queryKey: ['adminNoticesList', searchParams.toString(), token],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/notices/admin?${searchParams.toString()}&/`, {

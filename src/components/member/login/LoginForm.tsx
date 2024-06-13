@@ -30,7 +30,6 @@ export default function LoginForm({}: Props) {
         })
         .then((res) => res.data as LoginDataType),
     onSuccess: (data) => {
-      setLoginState(null);
       if (!data) {
         toast.error('데이터를 가져오는 데 실패했습니다.');
         return;

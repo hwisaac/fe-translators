@@ -40,7 +40,7 @@ export default function page({}) {
   const token = useToken();
   const router = useRouter();
   const { data } = useQuery({
-    queryKey: ['taskDetail', task_id],
+    queryKey: ['taskDetail', task_id, token],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/tasks/${task_id}/`, {
