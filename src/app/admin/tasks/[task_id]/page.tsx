@@ -132,9 +132,11 @@ export default function page({}: Props) {
           </Link>
         )}
       </div>
-      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin whitespace-pre-wrap'>
-        {data?.content}
-      </div>
+      <div
+        className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin whitespace-pre-wrap'
+        dangerouslySetInnerHTML={{ __html: data?.content || '' }}
+      />
+
       <AdminComments comments={data?.comments} />
       <Link href='/admin/tasks' className='btn'>
         목록

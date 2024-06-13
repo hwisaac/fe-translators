@@ -8,6 +8,7 @@ import PageLayout from '@/layouts/PageLayout';
 import BASE_URL, { BASE_URL_WO_API } from '@/utils/BASE_URL';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
+import RenderResult from 'next/dist/server/render-result';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -56,9 +57,14 @@ export default function AdditionalInformationForm({
       const file = watchedPhoto[0];
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+        if (reader.result) {
+          setImagePreview(reader.result as string);
+        }
       };
-      reader.readAsDataURL(file);
+      if (file) {
+        console.log(file);
+        reader.readAsDataURL(file);
+      }
     } else {
       setImagePreview('');
     }
@@ -75,7 +81,7 @@ export default function AdditionalInformationForm({
       }),
     onSuccess: () => {
       toast.success('저장되었습니다.');
-      router.push('/member/my-page');
+
       queryClient.invalidateQueries({
         queryKey: ['my-tasks'],
       });
@@ -83,6 +89,7 @@ export default function AdditionalInformationForm({
         queryKey: ['tasks_list'],
       });
       revalidateTranslatorsList();
+      router.push('/member/my-page');
     },
     onError: (err) => {
       toast.error('변경 에러');
@@ -109,7 +116,10 @@ export default function AdditionalInformationForm({
       me.interviews.forEach(({ question_id, answer }: any) => {
         setValue(`question_${question_id}`, answer);
       });
-      setImagePreview(`${BASE_URL_WO_API}${me.photo}`);
+
+      if (me.photo) {
+        setImagePreview(`${BASE_URL_WO_API}${me.photo}`);
+      }
     }
   }, [me]);
 
@@ -177,12 +187,14 @@ export default function AdditionalInformationForm({
           {...register('photo')}
         />
         {imagePreview && (
-          <img
-            src={imagePreview}
-            alt='미리보기'
-            className='ml-2'
-            style={{ maxWidth: '200px', maxHeight: '200px' }}
-          />
+          <>
+            <img
+              src={imagePreview}
+              alt='미리보기'
+              className='ml-2'
+              style={{ maxWidth: '200px', maxHeight: '200px' }}
+            />
+          </>
         )}
       </div>
 

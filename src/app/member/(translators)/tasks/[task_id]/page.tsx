@@ -97,10 +97,9 @@ export default function page({}) {
           </Link>
         )}
       </div>
-      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin whitespace-pre-wrap'>
-        {data?.content}
-        {/* {data?.content} */}
-      </div>
+      <div
+        className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin whitespace-pre-wrap'
+        dangerouslySetInnerHTML={{ __html: data?.content || '' }}></div>
       <MemberComments
         comments={data?.comments}
         status={data?.status}

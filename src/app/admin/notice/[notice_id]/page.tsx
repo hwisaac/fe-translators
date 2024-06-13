@@ -104,9 +104,9 @@ export default function page({}) {
           {data?.notice?.file?.split('/')[data?.notice?.file?.length - 1]}
         </Link>
       </div>
-      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10  font-thin whitespace-pre-wrap'>
-        {data?.notice?.content}
-      </div>
+      <div
+        className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10  font-thin whitespace-pre-wrap'
+        dangerouslySetInnerHTML={{ __html: data?.notice?.content ?? '' }}></div>
       <div className='flex my-10'>
         <div className='flex flex-col h-[100px] w-full'>
           <div className='h-1/2 flex gap-10 items-center px-10 border-b border-dotted'>

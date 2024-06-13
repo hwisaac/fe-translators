@@ -50,10 +50,12 @@ export default function PrivateInformationForm({}: Props) {
       setValue('zonecode', me.zonecode);
       setValue('gender', me.gender);
       if (me?.birth_date) {
+
         const birth_date = me?.birth_date.split('-');
+        console.log('birth_date', birth_date);
         setValue('year', birth_date[0]);
-        setValue('month', birth_date[1]);
-        setValue('day', birth_date[2]);
+        setValue('month', parseInt(birth_date[1], 10));
+        setValue('day', parseInt(birth_date[2], 10));
       }
     }
   }, [me]);

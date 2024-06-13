@@ -1,4 +1,5 @@
 'use client';
+import useMe from '@/app/hooks/useMe';
 import { loginAtom } from '@/atoms/loginAtom';
 import AdminTabs from '@/components/admin/AdminTabs';
 import AdminProtectPageLayout from '@/layouts/AdminProtectPageLayout';
@@ -13,10 +14,9 @@ type Props = {
 
 export default function AdminLayout({ children }: Props) {
   const [isClient, setIsClient] = useState(false);
-  const loginState = useRecoilValue(loginAtom);
+  // const loginState = useRecoilValue(loginAtom);
+  const { data: me } = useMe();
   const router = useRouter();
-
-
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -28,7 +28,7 @@ export default function AdminLayout({ children }: Props) {
     );
   }
 
-  if (loginState?.is_staff) {
+  if (me?.is_staff) {
     return (
       <section className='w-full flex flex-col items-center justify-center pb-20'>
         <AdminTabs />

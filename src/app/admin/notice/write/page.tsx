@@ -1,7 +1,4 @@
 'use client';
-
-import { revalidateNoticeDetail } from '@/app/admin/notice/write/revalidateNoticeDetail';
-import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useToken from '@/app/hooks/useToken';
 import ScreenLoading from '@/components/ScreenLoading';
@@ -13,9 +10,18 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { useState } from 'react';
+
 type Props = {};
 
 export default function page({}: Props) {
+  const [text, setText] = useState<string>('');
+
+  const handleChange = (text: string) => {
+    setText(text);
+  };
   const router = useRouter();
   const {
     register,
@@ -50,7 +56,7 @@ export default function page({}: Props) {
   const onValid = async (data: any) => {
     const formData = new FormData();
     formData.append('title', data.title);
-    formData.append('content', data.content);
+    formData.append('content', text);
     if (data.file.length > 0) {
       formData.append('file', data.file[0]);
     }
@@ -89,12 +95,22 @@ export default function page({}: Props) {
           </li>
           <li className='flex items-center'>
             <h5 className='w-[200px] shrink-0'>내용</h5>
-            <textarea
+            {/* <textarea
               className='textarea textarea-bordered w-full min-h-[500px] '
               {...register('content')}
-            />
+            /> */}
           </li>
+
+          <ReactQuill
+            theme='snow'
+            value={text}
+            onChange={handleChange}
+            className='w-full min-h-[500px]'
+          />
+
+          {/* <Editor /> */}
         </ul>
+
         <div className='space-x-3 self-end my-10'>
           <button className='btn btn-neutral'>등록하기</button>
           <Link href='/admin/notice' className='btn btn-outline'>
@@ -104,4 +120,8 @@ export default function page({}: Props) {
       </form>
     </section>
   );
+}
+
+function Editor() {
+  return null;
 }

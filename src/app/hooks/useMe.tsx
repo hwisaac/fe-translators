@@ -47,6 +47,7 @@ type MeType = {
 export default function useMe() {
   const token = useToken();
   const logout = useLogout();
+
   return useQuery({
     queryKey: ['me', token],
     queryFn: () =>

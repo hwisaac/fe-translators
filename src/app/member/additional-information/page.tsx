@@ -7,13 +7,22 @@ type Props = {};
 export default async function page({}: Props) {
   const checkBoxes = await fetch(`${BASE_URL}/users/check-boxes/`, {
     cache: 'no-cache',
-  }).then((res) => res.json());
+  }).then(async (res) => {
+    const checkBoxes = await res.json();
+
+    return checkBoxes;
+  });
+
   const interviewQuestions = await fetch(
     `${BASE_URL}/users/interview-questions/`,
     {
       cache: 'no-cache',
     }
-  ).then((res) => res.json());
+  ).then(async (res) => {
+    const interviewQ = await res.json();
+
+    return interviewQ;
+  });
 
   return (
     <PageLayout title='추가정보 입력'>

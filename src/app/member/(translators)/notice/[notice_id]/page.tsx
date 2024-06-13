@@ -60,9 +60,9 @@ export default function page({}: Props) {
         <p>{formatDate(data?.notice?.created_at)}</p>
       </div>
 
-      <div className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin  whitespace-pre-wrap'>
-        {data?.notice?.content}
-      </div>
+      <div
+        className='bg-stone-50 rounded-md shadow-md px-2 lg:px-8 py-10 font-thin  whitespace-pre-wrap'
+        dangerouslySetInnerHTML={{ __html: data?.notice?.content ?? '' }}></div>
       <div className='flex my-10 '>
         {/* <Link href='/member/notice'>
           <div className='bg-slate-300 text-2xl flex justify-center items-center h-[100px] w-[120px]'>

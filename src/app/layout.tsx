@@ -5,13 +5,11 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import DummyHeader from '@/components/DummyHeader';
-import BASE_URL from '@/utils/BASE_URL';
 import Providers from '@/app/providers';
 import RecoilContextProvider from '@/app/recoilContextProvider';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google';
-
 
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({
@@ -32,7 +30,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang='ko'>
       <head>
         <GoogleTagManager gtmId='GTM-PJD3MXTH' />
         <GoogleAnalytics gaId='G-EKS7JHLFSC' />
