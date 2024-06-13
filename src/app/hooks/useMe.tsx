@@ -1,3 +1,4 @@
+import useLoginData from '@/app/hooks/useLoginData';
 import useLogout from '@/app/hooks/useLogout';
 import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
@@ -45,16 +46,17 @@ type MeType = {
   company: string;
 };
 export default function useMe() {
-  const token = useToken();
+  const token = useToken(); // 폐기 로그인데이터의 토큰 사용하기
   const logout = useLogout();
+  const loginData = useLoginData();
 
   return useQuery({
-    queryKey: ['me', token],
+    queryKey: ['me', loginData?.token ?? ''],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/users/me`, {
           headers: {
-            Authorization: token,
+            Authorization: loginData?.token,
           },
         })
         .then((res) => {
