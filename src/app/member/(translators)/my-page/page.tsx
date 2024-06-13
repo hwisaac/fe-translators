@@ -17,6 +17,7 @@ type Props = {};
 export default function page({}: Props) {
   const [isClient, setIsClient] = useState(false);
   const loginState = useRecoilValue(loginAtom);
+  const { data: me } = useMe();
 
   useEffect(() => {
     setIsClient(true);
@@ -27,7 +28,10 @@ export default function page({}: Props) {
     <div className='flex flex-col items-center'>
       <section className='sm:border-0 border-slate-200 px-2 sm:px-10 py-2  sm:py-5 flex flex-col gap-2 lg:flex-row justify-center lg:justify-between items-center w-full shadow-md rounded bg-gray-50'>
         <h2 className=''>
-          <span className='font-semibold'>{loginState?.username}</span>
+          <span className='font-semibold'>{me?.username}</span>
+          <span onClick={() => console.log(loginState?.token)}>
+            ({loginState?.username})
+          </span>
           님, 번역가방에 오신 것을 환영합니다.
         </h2>
 

@@ -60,13 +60,15 @@ export default function useMe() {
           },
         })
         .then((res) => {
+          console.log('useMe 에 사용된 토큰', token);
           return res.data as MeType;
         })
         .catch((err: AxiosError) => {
-          if (err.response?.status === 403) {
-            toast.error('Forbidden');
-            logout();
-          }
+          console.error(err);
+          logout();
+          // if (err.response?.status === 403) {
+          //   toast.error('Forbidden');
+          // }
         }),
     staleTime: 0,
   });
