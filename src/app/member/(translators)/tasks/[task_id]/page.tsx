@@ -1,4 +1,5 @@
 'use client';
+import useLoginData from '@/app/hooks/useLoginData';
 import useToken from '@/app/hooks/useToken';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
 import MemberComments from '@/components/member/tasks/MemberComments';
@@ -34,18 +35,18 @@ type TaskDetail = {
   comment_start_time: string;
 };
 
-
 export default function page({}) {
   const { task_id } = useParams();
-  const token = useToken();
+  // const token = useToken();
+  const loginState = useLoginData();
   const router = useRouter();
   const { data } = useQuery({
-    queryKey: ['taskDetail', task_id, token],
+    queryKey: ['taskDetail', task_id, loginState?.token ?? ''],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/tasks/${task_id}/`, {
           headers: {
-            Authorization: token, // member 는 토큰이 필요한 detail 페이지를 가짐
+            Authorization: loginState?.token, // member 는 토큰이 필요한 detail 페이지를 가짐
           },
         })
         .then((res) => {
