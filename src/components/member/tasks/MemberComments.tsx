@@ -122,6 +122,12 @@ function CommentItem({
   comment: CommentType;
   status: 'open' | 'testing' | 'closed' | 'completed' | undefined;
 }) {
+  const loginState = useLoginData();
+  const myUsername = loginState?.username ?? '';
+  const authorUsername = comment.author.username;
+  console.log(loginState, 'loginState');
+  console.log(comment.author.username);
+  console.log(myUsername === authorUsername ? '통과' : '통과x');
   const commentRef = useRef(null);
   const [openReply, setOpenReply] = useState(false);
   const [editable, setEditable] = useState(false);
