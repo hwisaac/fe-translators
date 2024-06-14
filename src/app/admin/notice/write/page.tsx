@@ -24,9 +24,6 @@ type Props = {};
 export default function page({}: Props) {
   const [text, setText] = useState<string>('');
 
-  const handleChange = (text: string) => {
-    setText(text);
-  };
   const router = useRouter();
   const {
     register,
@@ -104,14 +101,13 @@ export default function page({}: Props) {
               className='textarea textarea-bordered w-full min-h-[500px] '
               {...register('content')}
             /> */}
+            <ReactQuill
+              theme='snow'
+              value={text}
+              onChange={(text) => setText(text)}
+              className='w-full h-[500px] mb-4'
+            />
           </li>
-
-          <ReactQuill
-            theme='snow'
-            value={text}
-            onChange={handleChange}
-            className='w-full min-h-[500px]'
-          />
 
           {/* <Editor /> */}
         </ul>

@@ -11,6 +11,13 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import 'react-quill/dist/quill.snow.css';
+import dynamic from 'next/dynamic';
+
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 type Props = {
   data: any;
@@ -20,6 +27,7 @@ type Props = {
 export default function NoticeEditForm({ data, notice_id }: Props) {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const [text, setText] = useState(data.notice.content);
   const [deleteFile, setDeleteFile] = useState(false);
 
   const {
@@ -39,13 +47,17 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
   const { mutateAsync: postNotice, isPending } = useMutation({
     mutationFn: (payload: any) =>
       axios
-        .put(`${BASE_URL}/notices/admin/${notice_id}/`, payload, {
-          headers: {
-            Authorization: token,
-            'Content-Type': 'multipart/form-data',
-            'X-CSRFToken': csrftoken,
-          },
-        })
+        .put(
+          `${BASE_URL}/notices/admin/${notice_id}/`,
+          { ...payload, content: text },
+          {
+            headers: {
+              Authorization: token,
+              'Content-Type': 'multipart/form-data',
+              'X-CSRFToken': csrftoken,
+            },
+          }
+        )
         .then((res) => res.data),
     onSuccess: (res) => {
       toast.success('수정에 성공했습니다.');
@@ -107,9 +119,15 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
         </li>
         <li className='flex items-center'>
           <h5 className='w-[200px] shrink-0'>내용</h5>
-          <textarea
+          {/* <textarea
             className='textarea textarea-bordered w-full min-h-[500px] '
             {...register('content')}
+          /> */}
+          <ReactQuill
+            theme='snow'
+            value={text}
+            onChange={(text) => setText(text)}
+            className='w-full h-[500px] mb-4'
           />
         </li>
       </ul>

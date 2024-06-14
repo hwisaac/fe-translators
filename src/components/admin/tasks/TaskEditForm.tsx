@@ -14,6 +14,10 @@ import { useRouter } from 'next/navigation';
 
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import 'react-quill/dist/quill.snow.css';
+import dynamic from 'next/dynamic';
+import { useState } from 'react';
+
 const hoursArr = Array.from({ length: 24 }, (_, i) => i);
 const minutesArr = Array.from({ length: 12 }, (_, i) => i * 5);
 type Props = {
@@ -21,7 +25,13 @@ type Props = {
   task_id: number;
 };
 
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
+
 export default function TaskEditForm({ data, task_id }: Props) {
+  const [text, setText] = useState<string>(data.content);
   const queryClient = useQueryClient();
   const token = useToken();
   const csrftoken = useCSRFToken();
@@ -74,6 +84,7 @@ export default function TaskEditForm({ data, task_id }: Props) {
     },
     onError: (error) => toast.error(error.message),
   });
+
   const onValid = (data: any) => {
     const date = data.date;
     const hour = data.hour;
@@ -82,8 +93,13 @@ export default function TaskEditForm({ data, task_id }: Props) {
     const dateTime = new Date(
       `${date}T${hour.padStart(2, '0')}:${minute.padStart(2, '0')}:00`
     );
+
     try {
-      putTask({ ...data, comment_start_time: dateTime.toISOString() });
+      putTask({
+        ...data,
+        comment_start_time: dateTime.toISOString(),
+        content: text,
+      });
     } catch (err) {
       toast.error('날짜 형식은 YYYY-MM-DD 여야 합니다.');
     }
@@ -178,9 +194,15 @@ export default function TaskEditForm({ data, task_id }: Props) {
         </li>
         <li className='flex items-center'>
           <h5 className='w-[200px] shrink-0'>의뢰 내용</h5>
-          <textarea
+          {/* <textarea
             className='textarea textarea-bordered w-full min-h-[500px] '
             {...register('content')}
+          /> */}
+          <ReactQuill
+            theme='snow'
+            value={text}
+            onChange={(text) => setText(text)}
+            className='w-full h-[500px] mb-4'
           />
         </li>
       </ul>

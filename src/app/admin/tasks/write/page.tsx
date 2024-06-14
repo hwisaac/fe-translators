@@ -12,6 +12,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import 'react-quill/dist/quill.snow.css';
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
+
+const ReactQuill = dynamic(() => import('react-quill'), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 type Props = {};
 
@@ -19,6 +27,7 @@ const hoursArr = Array.from({ length: 24 }, (_, i) => i);
 const minutesArr = Array.from({ length: 12 }, (_, i) => i * 5);
 
 export default function page({}: Props) {
+  const [text, setText] = useState<string>('');
   const router = useRouter();
   const {
     register,
@@ -41,7 +50,7 @@ export default function page({}: Props) {
       axios
         .post(
           `${BASE_URL}/tasks/`,
-          { ...payload },
+          { ...payload, content: text },
           {
             headers: {
               Authorization: token,
@@ -163,9 +172,15 @@ export default function page({}: Props) {
           </li>
           <li className='flex items-center'>
             <h5 className='w-[200px] shrink-0'>의뢰 내용</h5>
-            <textarea
+            {/* <textarea
               className='textarea textarea-bordered w-full min-h-[500px] '
               {...register('content')}
+            /> */}
+            <ReactQuill
+              theme='snow'
+              value={text}
+              onChange={(text) => setText(text)}
+              className='w-full h-[500px] mb-4'
             />
           </li>
         </ul>
