@@ -61,6 +61,7 @@ export default function useMe() {
         })
         .then((res) => {
           console.log('useMe 에 사용된 토큰', token);
+          console.log('useMe 응답데이터', res.data);
           return res.data as MeType;
         })
         .catch((err: AxiosError) => {
