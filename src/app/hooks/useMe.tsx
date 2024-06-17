@@ -1,11 +1,9 @@
+import useLocalToken from '@/app/hooks/useLocalToken';
 import useLoginData from '@/app/hooks/useLoginData';
 import useLogout from '@/app/hooks/useLogout';
-import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
 
 type Props = {};
 type MeType = {
@@ -46,7 +44,7 @@ type MeType = {
   company: string;
 };
 export default function useMe() {
-  const token = useToken(); // 폐기 로그인데이터의 토큰 사용하기
+  const { token } = useLocalToken();
   const logout = useLogout();
   const loginData = useLoginData();
 

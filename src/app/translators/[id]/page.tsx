@@ -1,5 +1,5 @@
 'use client';
-import useToken from '@/app/hooks/useToken';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import InterviewSection from '@/components/translators/InterviewSection';
 import IntroItem from '@/components/translators/IntroItem';
@@ -42,7 +42,7 @@ export type TranslatorDetailDataType = {
 };
 
 export default function page({ params }: Props) {
-  const token = useToken();
+  const { token } = useLocalToken();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {

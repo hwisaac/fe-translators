@@ -8,13 +8,13 @@ import { NoticeType } from '@/components/my-page/MyNotices';
 import AdminNoticesPagination from '@/components/admin/notice/AdminNoticesPagination';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import useToken from '@/app/hooks/useToken';
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'next/navigation';
+import useLocalToken from '@/app/hooks/useLocalToken';
 type Props = {};
 
 export default function AdminNoticeTable({}) {
-  const token = useToken();
+  const { token } = useLocalToken();
   const searchParams = useSearchParams();
 
   const { data }: any = useQuery({

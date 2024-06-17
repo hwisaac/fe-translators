@@ -7,17 +7,12 @@ import useEditComment from '@/app/hooks/member/useEditComment';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import useLoginData from '@/app/hooks/useLoginData';
 import usePostComment from '@/app/hooks/usePostComment';
-import useToken from '@/app/hooks/useToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
 import Replies from '@/components/member/Replies';
 import BASE_URL from '@/utils/BASE_URL';
 import { COMMENT_LIMIT } from '@/utils/commons';
 import formatDateTime from '@/utils/formatDateTime';
-import formatDateTimeWithMilliseconds from '@/utils/formatDateTimeWithMilliseconds';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
-import { headers } from 'next/headers';
 import { useParams } from 'next/navigation';
 import { FormEvent, LegacyRef, useEffect, useRef, useState } from 'react';
 

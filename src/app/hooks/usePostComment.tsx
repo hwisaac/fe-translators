@@ -1,5 +1,5 @@
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useToken from '@/app/hooks/useToken';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 type Props = { task_id: string | string[] };
 
 export default function usePostComment({ task_id }: Props) {
-  const token = useToken();
+  const { token } = useLocalToken();
   const csrftoken = useCSRFToken();
 
   const queryClient = useQueryClient();

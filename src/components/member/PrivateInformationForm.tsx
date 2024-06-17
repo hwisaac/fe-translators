@@ -14,9 +14,9 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { loginAtom } from '@/atoms/loginAtom';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import DaumPostcodePopup from '@/components/member/DaumPostcodePopup';
-import useToken from '@/app/hooks/useToken';
 import useMe from '@/app/hooks/useMe';
 import ScreenLoading from '@/components/ScreenLoading';
+import useLocalToken from '@/app/hooks/useLocalToken';
 type Props = {};
 
 const years = Array.from({ length: 2023 - 1900 + 1 }, (_, i) => 2023 - i);
@@ -25,10 +25,10 @@ const months = Array.from({ length: 12 }, (_, i) => 1 + i);
 
 export default function PrivateInformationForm({}: Props) {
   const setLoginState = useSetRecoilState(loginAtom);
-  const [emailConfirmed, setEmailConfirmed] = useState(false);
+  const [emailConfirmed, setEmailConfirmed] = useState(true); // 메일 인증 활성화
   const csrftoken = useCSRFToken();
   //   const [address, setAddress] = useState<any>();
-  const token = useToken();
+  const { token } = useLocalToken();
   const router = useRouter();
   const { data: me } = useMe();
   const {
@@ -50,7 +50,6 @@ export default function PrivateInformationForm({}: Props) {
       setValue('zonecode', me.zonecode);
       setValue('gender', me.gender);
       if (me?.birth_date) {
-
         const birth_date = me?.birth_date.split('-');
         console.log('birth_date', birth_date);
         setValue('year', birth_date[0]);
@@ -358,9 +357,11 @@ export default function PrivateInformationForm({}: Props) {
       </div>
       <button
         className='btn btn-neutral btn-wide relative top-5'
-        disabled={!emailConfirmed}>
+        // disabled={!emailConfirmed}
+        disabled={false}>
         {puttingUser && <span className='loading loading-spinner loading-xs' />}
-        {!emailConfirmed ? '이메일 인증을 해야합니다' : `수정하기`}
+        {/* {!emailConfirmed ? '이메일 인증을 해야합니다' : `수정하기`} */}
+        수정하기
       </button>
     </form>
   );

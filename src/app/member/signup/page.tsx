@@ -23,7 +23,7 @@ const months = Array.from({ length: 12 }, (_, i) => 1 + i);
 
 export default function page({}: Props) {
   const setLoginState = useSetRecoilState(loginAtom);
-  const [emailConfirmed, setEmailConfirmed] = useState(false);
+  const [emailConfirmed, setEmailConfirmed] = useState(true);
   const csrftoken = useCSRFToken();
   const [address, setAddress] = useState<any>();
   const router = useRouter();
@@ -215,11 +215,12 @@ export default function page({}: Props) {
                 type='email'
                 placeholder='translator@barunmc.com'
                 className='input input-bordered w-full max-w-xs join-item'
-                disabled={emailConfirmed}
+                // disabled={emailConfirmed}
                 {...register('email', { required: true })}
               />
               <div
-                className={`btn join-item ${emailConfirmed && 'btn-disabled'}`}
+                // className={`btn join-item ${emailConfirmed && 'btn-disabled'}`}
+                className={`btn join-item `} // 버튼 강제활성화
                 onClick={handleConfirmEmail}>
                 {mailing ? (
                   <span className='loading loading-spinner loading-sm' />

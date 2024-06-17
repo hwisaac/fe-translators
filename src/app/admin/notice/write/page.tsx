@@ -1,6 +1,5 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useToken from '@/app/hooks/useToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -13,6 +12,7 @@ import { toast } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import useLocalToken from '@/app/hooks/useLocalToken';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -32,7 +32,7 @@ export default function page({}: Props) {
     setValue,
     formState: { errors },
   } = useForm<any>();
-  const token = useToken();
+  const { token } = useLocalToken();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const { mutateAsync: postNotice, isPending } = useMutation({

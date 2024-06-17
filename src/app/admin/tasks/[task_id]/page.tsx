@@ -1,5 +1,4 @@
 'use client';
-import useToken from '@/app/hooks/useToken';
 import StatusBadge from '@/components/StatusBadge';
 
 import LanguageBadge from '@/components/member/tasks/LanguageBadge';
@@ -19,6 +18,7 @@ import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import ScreenLoading from '@/components/ScreenLoading';
+import useLocalToken from '@/app/hooks/useLocalToken';
 
 type Props = {
   params: {
@@ -43,10 +43,9 @@ export type TaskDetail = {
   comment_start_time: string;
 };
 
-
 export default function page({}: Props) {
   const { task_id } = useParams();
-  const token = useToken();
+  const { token } = useLocalToken();
 
   const { data } = useQuery({
     queryKey: ['adminTaskDetail', task_id, token],
@@ -153,7 +152,7 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
   const [name, setName] = useState('');
   const queryClient = useQueryClient();
   const csrftoken = useCSRFToken();
-  const token = useToken();
+  const { token } = useLocalToken();
   const {
     register,
     watch,
@@ -215,7 +214,6 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
   };
 
   const handleConfirm = () => {
-
     assignTranslator({ task_id, user_id: watch('user_id') });
   };
   return (

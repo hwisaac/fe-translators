@@ -3,7 +3,6 @@
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import { TaskDetail } from '@/app/admin/tasks/[task_id]/page';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useToken from '@/app/hooks/useToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import getKoreanDate from '@/utils/getKoreanDate';
@@ -17,6 +16,7 @@ import { toast } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
+import useLocalToken from '@/app/hooks/useLocalToken';
 
 const hoursArr = Array.from({ length: 24 }, (_, i) => i);
 const minutesArr = Array.from({ length: 12 }, (_, i) => i * 5);
@@ -33,7 +33,7 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 export default function TaskEditForm({ data, task_id }: Props) {
   const [text, setText] = useState<string>(data.content);
   const queryClient = useQueryClient();
-  const token = useToken();
+  const { token } = useLocalToken();
   const csrftoken = useCSRFToken();
   const router = useRouter();
   const {

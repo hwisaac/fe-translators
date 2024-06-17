@@ -1,6 +1,6 @@
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useToken from '@/app/hooks/useToken';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function useAddReply({ task_id, comment_id }: Props) {
-  const token = useToken();
+  const { token } = useLocalToken();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
 

@@ -1,14 +1,12 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import useMe from '@/app/hooks/useMe';
-import useToken from '@/app/hooks/useToken';
 import { revalidateTranslatorsList } from '@/app/translators/actions';
 import ScreenLoading from '@/components/ScreenLoading';
-import PageLayout from '@/layouts/PageLayout';
 import BASE_URL, { BASE_URL_WO_API } from '@/utils/BASE_URL';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import RenderResult from 'next/dist/server/render-result';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -39,7 +37,7 @@ export default function AdditionalInformationForm({
 }: Props) {
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string>('');
-  const token = useToken();
+  const { token } = useLocalToken();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const { data: me } = useMe();

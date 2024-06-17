@@ -1,6 +1,6 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useToken from '@/app/hooks/useToken';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
@@ -34,10 +34,10 @@ type NoticeData = {
   };
 };
 
-
 export default function page({}) {
   const { notice_id } = useParams();
-  const token = useToken();
+  const { token } = useLocalToken();
+
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -46,9 +46,9 @@ export default function page({}) {
     queryFn: () =>
       axios
         .get(`${BASE_URL}/notices/${notice_id}/`, {
-          // headers: {
-          //   Authorization: token,
-          // },
+          headers: {
+            Authorization: token,
+          },
         })
         .then((res) => res.data)
         .catch((err) => toast.error(err.message)),
@@ -58,7 +58,7 @@ export default function page({}) {
     mutationFn: () =>
       axios.delete(`${BASE_URL}/notices/${notice_id}`, {
         headers: {
-          Authorization: token,
+          Authorization: token ?? '',
           'X-CSRFToken': csrftoken,
         },
       }),

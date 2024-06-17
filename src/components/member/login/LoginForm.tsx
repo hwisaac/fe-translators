@@ -1,5 +1,6 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
@@ -18,6 +19,7 @@ type Props = {};
 export default function LoginForm({}: Props) {
   const router = useRouter();
   const csrftoken = useCSRFToken();
+  const {setToken, removeToken} = useLocalToken()
   const [loginState, setLoginState] = useRecoilState(loginAtom);
 
   const { mutate: login, isPending } = useMutation({
@@ -34,6 +36,7 @@ export default function LoginForm({}: Props) {
         toast.error('데이터를 가져오는 데 실패했습니다.');
         return;
       }
+      setToken(data.token)
 
       setLoginState(data);
       if (data.is_staff) {

@@ -2,7 +2,6 @@
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useToken from '@/app/hooks/useToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import getKoreanDate from '@/utils/getKoreanDate';
@@ -15,6 +14,7 @@ import { toast } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import useLocalToken from '@/app/hooks/useLocalToken';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -41,7 +41,7 @@ export default function page({}: Props) {
       hour: `${new Date().getHours()}`,
     },
   });
-  const token = useToken();
+  const { token } = useLocalToken();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
 

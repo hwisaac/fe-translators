@@ -2,20 +2,17 @@
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useToken from '@/app/hooks/useToken';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import TranslatorBadgeBtn from '@/components/admin/tasks/TranslatorBadgeBtn';
 import { ReplyType } from '@/components/member/Replies';
 import BASE_URL from '@/utils/BASE_URL';
-import { COMMENT_LIMIT } from '@/utils/commons';
 import formatDateTime from '@/utils/formatDateTime';
 import formatDateTimeWithMilliseconds from '@/utils/formatDateTimeWithMilliseconds';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import { useParams } from 'next/navigation';
-import { FormEvent, LegacyRef, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { IoMdReturnRight } from 'react-icons/io';
 import { toast } from 'react-toastify';
 
@@ -57,7 +54,7 @@ type Props = {
 
 export default function AdminComments({ comments }: Props) {
   const { task_id } = useParams();
-  const token = useToken();
+  const { token } = useLocalToken();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const [inputComment, setInputComment] = useState('');
@@ -132,7 +129,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
   const [commentInput, setCommentInput] = useState(comment.content);
   const { task_id } = useParams();
   const queryClient = useQueryClient();
-  const token = useToken();
+  const { token } = useLocalToken();
   const [reply, setReply] = useState('');
   const { mutateAsync: addReply, isPending: addingReply } = useMutation({
     mutationKey: ['comments', task_id],

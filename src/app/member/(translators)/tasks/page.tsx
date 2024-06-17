@@ -7,11 +7,10 @@ import SearchForm from '@/components/member/tasks/SearchForm';
 import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import useToken from '@/app/hooks/useToken';
 import { useSearchParams } from 'next/navigation';
 import StatusBadge from '@/components/StatusBadge';
-import { evalStatus } from '@/utils/commons';
 import { FaExternalLinkAlt } from 'react-icons/fa';
+import useLocalToken from '@/app/hooks/useLocalToken';
 type Props = {};
 export type TaskType = {
   id: number;
@@ -23,7 +22,7 @@ export type TaskType = {
 };
 
 export default function TasksPage({}: Props) {
-  const token = useToken();
+  const { token } = useLocalToken();
   const searchParams = useSearchParams();
   const page = searchParams.get('page');
   const query = searchParams.get('query');

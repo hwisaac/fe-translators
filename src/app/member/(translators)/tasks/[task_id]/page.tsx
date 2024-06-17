@@ -1,6 +1,6 @@
 'use client';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import useLoginData from '@/app/hooks/useLoginData';
-import useToken from '@/app/hooks/useToken';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
 import MemberComments from '@/components/member/tasks/MemberComments';
 import BASE_URL from '@/utils/BASE_URL';
@@ -37,7 +37,7 @@ type TaskDetail = {
 
 export default function page({}) {
   const { task_id } = useParams();
-  // const token = useToken();
+  const { token } = useLocalToken();
   const loginState = useLoginData();
   const router = useRouter();
   const { data } = useQuery({
@@ -46,7 +46,7 @@ export default function page({}) {
       axios
         .get(`${BASE_URL}/tasks/${task_id}/`, {
           headers: {
-            Authorization: loginState?.token, // member 는 토큰이 필요한 detail 페이지를 가짐
+            Authorization: token,
           },
         })
         .then((res) => {

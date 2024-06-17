@@ -36,11 +36,11 @@ export default function CustomSlider2({}: Props) {
     setLeft((prev) => !prev);
   };
   return (
-    <section className='w-full h-[400px] lg:h-[669px] flex items-center justify-center overflow-hidden relative bg-red-500'>
+    <section className='w-full h-[400px] lg:h-[669px] flex items-center justify-center overflow-hidden relative'>
       <div
         ref={slideRef}
-        className='flex transition-transform duration-500 ease-in-out w-full h-[669px] bg-orange-500'>
-        <div className='w-full lg:h-[669px] shrink-0 flex items-center justify-center bg-blue-500 relative'>
+        className='flex transition-transform duration-500 ease-in-out w-full h-[669px] '>
+        <div className='w-full lg:h-[669px] shrink-0 flex items-center justify-center relative'>
           <Image
             alt='배너1'
             src={img.mainBanner1}

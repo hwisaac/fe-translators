@@ -1,6 +1,5 @@
 'use client';
 
-import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -16,6 +15,7 @@ import Paper from '@mui/material/Paper';
 import Link from 'next/link';
 import formatDate from '@/utils/formatDate';
 import { ClassNames } from '@emotion/react';
+import useLocalToken from '@/app/hooks/useLocalToken';
 
 function createData(
   name: string,
@@ -46,7 +46,7 @@ type Props = {};
 
 export default function MyNotices({}: Props) {
   const [isClient, setIsClient] = useState(false);
-  const token = useToken();
+  const { token } = useLocalToken();
 
   useEffect(() => {
     setIsClient(true);

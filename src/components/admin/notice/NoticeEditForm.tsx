@@ -1,7 +1,6 @@
 'use client';
 import { revalidateNoticeDetail } from '@/app/admin/notice/write/revalidateNoticeDetail';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useToken from '@/app/hooks/useToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -13,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
+import useLocalToken from '@/app/hooks/useLocalToken';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -42,7 +42,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
       title: data.notice.title,
     },
   });
-  const token = useToken();
+  const { token } = useLocalToken();
   const csrftoken = useCSRFToken();
   const { mutateAsync: postNotice, isPending } = useMutation({
     mutationFn: (payload: any) =>

@@ -1,5 +1,5 @@
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useToken from '@/app/hooks/useToken';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -12,7 +12,7 @@ type Props = {
 
 export default function useDeleteComment({ comment_id, task_id }: Props) {
   const queryClient = useQueryClient();
-  const token = useToken();
+  const { token } = useLocalToken();
   const csrftoken = useCSRFToken();
 
   return useMutation({

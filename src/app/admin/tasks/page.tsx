@@ -10,11 +10,11 @@ import StatusBadge from '@/components/StatusBadge';
 import { formatLink } from '@/utils/formatLink';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import useToken from '@/app/hooks/useToken';
 import AdminTasksTable from '@/components/admin/tasks/AdminTasksTable';
 import { toast } from 'react-toastify';
 import { useRouter, useSearchParams } from 'next/navigation';
 import useLogout from '@/app/hooks/useLogout';
+import useLocalToken from '@/app/hooks/useLocalToken';
 
 type Props = {
   searchParams: {
@@ -34,7 +34,7 @@ type TaskType = {
 };
 
 export default function AdminTasksPage() {
-  const token = useToken();
+  const { token } = useLocalToken();
   const searchParams = useSearchParams();
   const page = searchParams.get('page');
   const query = searchParams.get('query');

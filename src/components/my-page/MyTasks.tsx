@@ -1,6 +1,5 @@
 'use client';
 
-import useToken from '@/app/hooks/useToken';
 import BASE_URL from '@/utils/BASE_URL';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -10,6 +9,7 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 import { evalLanguage, evalStatus } from '@/utils/commons';
+import useLocalToken from '@/app/hooks/useLocalToken';
 
 function createData(
   name: string,
@@ -53,7 +53,7 @@ export type TaskType = {
 
 export default function MyTasks({}: Props) {
   const [isClient, setIsClient] = useState(false);
-  const token = useToken();
+  const { token } = useLocalToken();
 
   useEffect(() => {
     setIsClient(true);
