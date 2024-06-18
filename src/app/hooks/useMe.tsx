@@ -45,10 +45,12 @@ type MeType = {
 export default function useMe() {
   const { loginState } = useAuthStore();
   const logout = useLogout();
+  
   return useQuery({
-    queryKey: ['me', loginState],
-    queryFn: () =>
-      fetch(`${BASE_URL}/users/me`, {
+    queryKey: [loginState?.token, 'me'],
+    queryFn: () => {
+      console.log('useMe 호출! queryKey', [loginState?.token, 'me']);
+      return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {
           Authorization: loginState?.token ?? '',
@@ -58,7 +60,8 @@ export default function useMe() {
         .catch((err) => {
           console.error('(useMe Error catch)', err);
           logout();
-        }),
+        });
+    },
     staleTime: 0,
   });
 }

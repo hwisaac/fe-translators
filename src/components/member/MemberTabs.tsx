@@ -3,8 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import path from 'path';
-import useMe from '@/app/hooks/useMe';
+
 type Props = {};
 
 const valueFromPath = (pathname: string): number => {
