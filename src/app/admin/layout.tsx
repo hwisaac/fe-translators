@@ -1,8 +1,6 @@
 'use client';
 
-import useMe from '@/app/hooks/useMe';
 import AdminTabs from '@/components/admin/AdminTabs';
-import AdminProtectPageLayout from '@/layouts/AdminProtectPageLayout';
 import Container from '@/layouts/Container';
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useRouter } from 'next/navigation';

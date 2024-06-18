@@ -59,6 +59,7 @@ export default function useMe() {
           console.error(err);
           logout();
         }),
+    staleTime: 0,
   });
   return useQuery({
     queryKey: ['me', loginState?.token ?? ''],
