@@ -9,6 +9,7 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { useRouter } from 'next/navigation';
 import HamburgerModal from '@/components/HamburgerModal';
 import { useAuthStore } from '@/zustand/useAuthStore';
+import { isDev } from '@/utils/commons';
 type Props = {};
 
 const subMenus = {
@@ -110,9 +111,11 @@ export default function Header({}: Props) {
                   </button>
                 </Link>
               </div>
-              <div className='btn' onClick={onDev}>
-                DEV
-              </div>
+              {isDev && (
+                <div className='btn' onClick={onDev}>
+                  DEV
+                </div>
+              )}
             </div>
           </div>
         </section>

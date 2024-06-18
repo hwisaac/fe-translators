@@ -45,7 +45,21 @@ type MeType = {
 export default function useMe() {
   const { loginState } = useAuthStore();
   const logout = useLogout();
-
+  return useQuery({
+    queryKey: ['me', loginState?.token ?? ''],
+    queryFn: () =>
+      fetch(`${BASE_URL}/users/me`, {
+        method: 'GET',
+        headers: {
+          Authorization: loginState?.token ?? '',
+        },
+      })
+        .then((res) => res.json())
+        .catch((err) => {
+          console.error(err);
+          logout();
+        }),
+  });
   return useQuery({
     queryKey: ['me', loginState?.token ?? ''],
     queryFn: () =>
