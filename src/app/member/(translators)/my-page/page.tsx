@@ -13,7 +13,8 @@ export default function page({}: Props) {
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+    console.log('my-page, useMe 의 응답값(me): ', me);
+  }, [me]);
 
   if (!isClient) return null;
   return (
