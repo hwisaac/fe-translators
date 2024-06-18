@@ -2,6 +2,8 @@
 import useMe from '@/app/hooks/useMe';
 import MyNotices from '@/components/my-page/MyNotices';
 import MyTasks from '@/components/my-page/MyTasks';
+import BASE_URL from '@/utils/BASE_URL';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -9,12 +11,30 @@ type Props = {};
 
 export default function page({}: Props) {
   const [isClient, setIsClient] = useState(false);
-  const { me } = useMe();
+  const [me, setMe] = useState(null);
+  const { loginState } = useAuthStore();
 
   useEffect(() => {
-    setIsClient(true);
-    console.log('my-page, useMe 의 응답값(me): ', me);
-  }, [me]);
+    if (loginState) {
+      console.log(`my-page useEffect 의 token ${loginState.token}`);
+      fetch(`${BASE_URL}/users/me`, {
+        method: 'GET',
+        headers: {
+          Authorization: loginState.token,
+        },
+      }).then(async (res) => {
+        const json = await res.json();
+        console.log('useMe(X) my-page useEffect 의 response', json);
+        setMe(json);
+      });
+    }
+  }, [loginState]);
+  // const { me } = useMe();
+
+  // useEffect(() => {
+  //   setIsClient(true);
+  //   console.log('my-page, useMe 의 응답값(me): ', me);
+  // }, [me]);
 
   if (!isClient) return null;
   return (
