@@ -9,7 +9,7 @@ type Props = {};
 
 export default function page({}: Props) {
   const [isClient, setIsClient] = useState(false);
-  const { data: me } = useMe();
+  const { me } = useMe();
 
   useEffect(() => {
     setIsClient(true);

@@ -40,7 +40,7 @@ export default function AdditionalInformationForm({
   const { loginState } = useAuthStore();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
-  const { data: me } = useMe();
+  const { me } = useMe();
   const {
     register,
     handleSubmit,

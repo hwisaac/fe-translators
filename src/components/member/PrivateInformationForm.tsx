@@ -23,7 +23,7 @@ export default function PrivateInformationForm({}: Props) {
   //   const [address, setAddress] = useState<any>();
   const { loginState } = useAuthStore();
   const router = useRouter();
-  const { data: me } = useMe();
+  const { me } = useMe();
   const {
     register,
     handleSubmit,

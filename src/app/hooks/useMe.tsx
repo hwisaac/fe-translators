@@ -3,7 +3,7 @@ import BASE_URL from '@/utils/BASE_URL';
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 type Props = {};
 type MeType = {
@@ -44,31 +44,55 @@ type MeType = {
   company: string;
 };
 export default function useMe() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [me, setMe] = useState(null);
   const { loginState } = useAuthStore();
   const logout = useLogout();
 
-  const fetchMe = useCallback(async () => {
-    console.log('useMe 호출! queryKey', [loginState?.token, 'me']);
-    return fetch(`${BASE_URL}/users/me`, {
-      method: 'GET',
-      headers: {
-        Authorization: loginState?.token ?? '',
-      },
-    })
-      .then(async (res) => {
-        const json = await res.json();
-        console.log('useMe 의 response', json);
-        return json;
+  useEffect(() => {
+    if (loginState) {
+      setIsLoading(true);
+      fetch(`${BASE_URL}/users/me`, {
+        method: 'GET',
+        headers: {
+          Authorization: loginState.token,
+        },
       })
-      .catch((err) => {
-        console.error('(useMe Error catch)', err);
-        logout();
-      });
-  }, [loginState?.token, logout]);
+        .then(async (res) => {
+          const json = await res.json();
+          console.log('useMe FETCH 의 response', json);
+          setMe(json);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [loginState]);
 
-  return useQuery({
-    queryKey: [loginState?.token, 'me'],
-    queryFn: fetchMe as () => Promise<undefined | MeType>,
-    staleTime: 0,
-  });
+  return { me, isLoading };
+
+  // const fetchMe = useCallback(async () => {
+  //   console.log('useMe 호출! queryKey', [loginState?.token, 'me']);
+  //   return fetch(`${BASE_URL}/users/me`, {
+  //     method: 'GET',
+  //     headers: {
+  //       Authorization: loginState?.token ?? '',
+  //     },
+  //   })
+  //     .then(async (res) => {
+  //       const json = await res.json();
+  //       console.log('useMe 의 response', json);
+  //       return json;
+  //     })
+  //     .catch((err) => {
+  //       console.error('(useMe Error catch)', err);
+  //       logout();
+  //     });
+  // }, [loginState?.token, logout]);
+
+  // return useQuery({
+  //   queryKey: [loginState?.token, 'me'],
+  //   queryFn: fetchMe as () => Promise<undefined | MeType>,
+  //   staleTime: 0,
+  // });
 }
