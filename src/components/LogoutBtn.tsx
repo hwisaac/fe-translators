@@ -2,7 +2,6 @@
 import { IoLogOutSharp } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import useLocalToken from '@/app/hooks/useLocalToken';
 import useIsTranslator from '@/app/hooks/useIsTranslator';
 import { useAuthStore } from '@/zustand/useAuthStore';
 

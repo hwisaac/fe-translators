@@ -10,7 +10,7 @@ import useCSRFToken from '@/app/hooks/useCSRFToken';
 import DaumPostcodePopup from '@/components/member/DaumPostcodePopup';
 import useMe from '@/app/hooks/useMe';
 import ScreenLoading from '@/components/ScreenLoading';
-import useLocalToken from '@/app/hooks/useLocalToken';
+import { useAuthStore } from '@/zustand/useAuthStore';
 type Props = {};
 
 const years = Array.from({ length: 2023 - 1900 + 1 }, (_, i) => 2023 - i);
@@ -21,7 +21,7 @@ export default function PrivateInformationForm({}: Props) {
   const [emailConfirmed, setEmailConfirmed] = useState(true); // 메일 인증 활성화
   const csrftoken = useCSRFToken();
   //   const [address, setAddress] = useState<any>();
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const router = useRouter();
   const { data: me } = useMe();
   const {
@@ -58,7 +58,7 @@ export default function PrivateInformationForm({}: Props) {
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken,
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
           },
         })
         .then((res) => res.data),

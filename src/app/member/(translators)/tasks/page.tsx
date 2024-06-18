@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
 import StatusBadge from '@/components/StatusBadge';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import useLocalToken from '@/app/hooks/useLocalToken';
+import { useAuthStore } from '@/zustand/useAuthStore';
 type Props = {};
 export type TaskType = {
   id: number;
@@ -22,7 +22,7 @@ export type TaskType = {
 };
 
 export default function TasksPage({}: Props) {
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const searchParams = useSearchParams();
   const page = searchParams.get('page');
   const query = searchParams.get('query');
@@ -30,7 +30,7 @@ export default function TasksPage({}: Props) {
   const language = searchParams.get('language');
 
   const { data } = useQuery({
-    queryKey: ['tasks_list', page, query, language, status, token],
+    queryKey: ['tasks_list', page, query, language, status, loginState?.token],
     queryFn: () =>
       axios
         .get(
@@ -39,7 +39,7 @@ export default function TasksPage({}: Props) {
           }&query=${query ?? ''}&status=${status ?? ''}&/`,
           {
             headers: {
-              Authorization: token,
+              Authorization: loginState?.token ?? '',
             },
           }
         )

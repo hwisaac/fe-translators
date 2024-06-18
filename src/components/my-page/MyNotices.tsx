@@ -5,17 +5,10 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Link from 'next/link';
 import formatDate from '@/utils/formatDate';
-import { ClassNames } from '@emotion/react';
-import useLocalToken from '@/app/hooks/useLocalToken';
+import { useAuthStore } from '@/zustand/useAuthStore';
+
 
 function createData(
   name: string,
@@ -46,19 +39,19 @@ type Props = {};
 
 export default function MyNotices({}: Props) {
   const [isClient, setIsClient] = useState(false);
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   const { data: notices } = useQuery({
-    queryKey: ['my-notices', token],
+    queryKey: ['my-notices', loginState?.token ?? ''],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/notices?page=1&page_size=5&/`, {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
           },
         })
         .then((res) => res.data.notices as NoticeType[]),

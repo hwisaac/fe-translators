@@ -1,4 +1,3 @@
-import useLocalToken from '@/app/hooks/useLocalToken';
 import useLogout from '@/app/hooks/useLogout';
 import BASE_URL from '@/utils/BASE_URL';
 import { useAuthStore } from '@/zustand/useAuthStore';

@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import useLocalToken from '@/app/hooks/useLocalToken';
+import { useAuthStore } from '@/zustand/useAuthStore';
 
 const hoursArr = Array.from({ length: 24 }, (_, i) => i);
 const minutesArr = Array.from({ length: 12 }, (_, i) => i * 5);
@@ -33,7 +33,7 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 export default function TaskEditForm({ data, task_id }: Props) {
   const [text, setText] = useState<string>(data.content);
   const queryClient = useQueryClient();
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const csrftoken = useCSRFToken();
   const router = useRouter();
   const {
@@ -65,7 +65,7 @@ export default function TaskEditForm({ data, task_id }: Props) {
           { ...payload },
           {
             headers: {
-              Authorization: token,
+              Authorization: loginState?.token ?? '',
               'X-CSRFToken': csrftoken,
             },
           }

@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
 import dynamic from 'next/dynamic';
-import useLocalToken from '@/app/hooks/useLocalToken';
+import { useAuthStore } from '@/zustand/useAuthStore';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -42,7 +42,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
       title: data.notice.title,
     },
   });
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const csrftoken = useCSRFToken();
   const { mutateAsync: postNotice, isPending } = useMutation({
     mutationFn: (payload: any) =>
@@ -52,7 +52,7 @@ export default function NoticeEditForm({ data, notice_id }: Props) {
           { ...payload, content: text },
           {
             headers: {
-              Authorization: token,
+              Authorization: loginState?.token,
               'Content-Type': 'multipart/form-data',
               'X-CSRFToken': csrftoken,
             },

@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import useLocalToken from '@/app/hooks/useLocalToken';
+import { useAuthStore } from '@/zustand/useAuthStore';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
@@ -32,7 +32,7 @@ export default function page({}: Props) {
     setValue,
     formState: { errors },
   } = useForm<any>();
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const { mutateAsync: postNotice, isPending } = useMutation({
@@ -40,7 +40,7 @@ export default function page({}: Props) {
       axios
         .post(`${BASE_URL}/notices/admin/`, payload, {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
             'X-CSRFToken': csrftoken,
             'Content-Type': 'multipart/form-data',
           },

@@ -1,5 +1,4 @@
 'use client';
-import useLocalToken from '@/app/hooks/useLocalToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import InterviewSection from '@/components/translators/InterviewSection';
 import IntroItem from '@/components/translators/IntroItem';
@@ -7,6 +6,7 @@ import TranslatorDetailWithoutToken from '@/components/translators/TranslatorDet
 import PageLayout from '@/layouts/PageLayout';
 import BASE_URL from '@/utils/BASE_URL';
 import getImgUrl from '@/utils/getImgUrl';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Image from 'next/image';
@@ -42,7 +42,7 @@ export type TranslatorDetailDataType = {
 };
 
 export default function page({ params }: Props) {
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function page({ params }: Props) {
         .then((res) => res.data as TranslatorDetailDataType),
   });
   if (!isClient) return <ScreenLoading isLoading={isLoading} />;
-  if (isFetched && !token) return <TranslatorDetailWithoutToken />;
+  if (isFetched && !loginState?.token) return <TranslatorDetailWithoutToken />;
 
   return (
     <PageLayout title='번역가 소개'>

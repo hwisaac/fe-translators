@@ -1,10 +1,10 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useLocalToken from '@/app/hooks/useLocalToken';
 import useMe from '@/app/hooks/useMe';
 import { revalidateTranslatorsList } from '@/app/translators/actions';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL, { BASE_URL_WO_API } from '@/utils/BASE_URL';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -37,7 +37,7 @@ export default function AdditionalInformationForm({
 }: Props) {
   const router = useRouter();
   const [imagePreview, setImagePreview] = useState<string>('');
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const { data: me } = useMe();
@@ -72,7 +72,7 @@ export default function AdditionalInformationForm({
     mutationFn: (formData: any) =>
       axios.put(`${BASE_URL}/users/additional-information/`, formData, {
         headers: {
-          Authorization: token,
+          Authorization: loginState?.token ?? '',
           'Content-Type': 'multipart/form-data',
           'X-CSRFToken': csrftoken,
         },

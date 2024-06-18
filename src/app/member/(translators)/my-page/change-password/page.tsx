@@ -1,11 +1,10 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useLocalToken from '@/app/hooks/useLocalToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -15,7 +14,7 @@ type Props = {};
 
 export default function page({}: Props) {
   const router = useRouter();
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const csrftoken = useCSRFToken();
   const {
     register,
@@ -35,7 +34,7 @@ export default function page({}: Props) {
         },
         {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
             'X-CSRFToken': csrftoken,
           },
         }

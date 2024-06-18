@@ -1,6 +1,6 @@
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useLocalToken from '@/app/hooks/useLocalToken';
 import BASE_URL from '@/utils/BASE_URL';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -12,15 +12,15 @@ type Props = {
 
 export default function useDeleteComment({ comment_id, task_id }: Props) {
   const queryClient = useQueryClient();
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const csrftoken = useCSRFToken();
 
   return useMutation({
-    mutationKey: ['delete', comment_id, token, csrftoken],
+    mutationKey: ['delete', comment_id, loginState?.token, csrftoken],
     mutationFn: () =>
       axios.delete(`${BASE_URL}/comments/${comment_id}/`, {
         headers: {
-          Authorization: token,
+          Authorization: loginState?.token ?? '',
           'X-CSRFToken': csrftoken,
         },
       }),

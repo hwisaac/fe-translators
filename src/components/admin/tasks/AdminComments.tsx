@@ -2,13 +2,13 @@
 
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useLocalToken from '@/app/hooks/useLocalToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import TranslatorBadgeBtn from '@/components/admin/tasks/TranslatorBadgeBtn';
 import { ReplyType } from '@/components/member/Replies';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDateTime from '@/utils/formatDateTime';
 import formatDateTimeWithMilliseconds from '@/utils/formatDateTimeWithMilliseconds';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { useParams } from 'next/navigation';
@@ -54,7 +54,7 @@ type Props = {
 
 export default function AdminComments({ comments }: Props) {
   const { task_id } = useParams();
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
   const [inputComment, setInputComment] = useState('');
@@ -67,7 +67,7 @@ export default function AdminComments({ comments }: Props) {
         { ...payload },
         {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token,
             'X-CSRFToken': csrftoken,
           },
         }
@@ -129,7 +129,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
   const [commentInput, setCommentInput] = useState(comment.content);
   const { task_id } = useParams();
   const queryClient = useQueryClient();
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const [reply, setReply] = useState('');
   const { mutateAsync: addReply, isPending: addingReply } = useMutation({
     mutationKey: ['comments', task_id],
@@ -139,7 +139,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
         { ...payload },
         {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
             'X-CSRFToken': csrftoken,
           },
         }
@@ -163,7 +163,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
         { ...payload },
         {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
             'X-CSRFToken': csrftoken,
           },
         }
@@ -185,7 +185,7 @@ function CommentItem({ comment }: { comment: CommentType }) {
       mutationFn: () =>
         axios.delete(`${BASE_URL}/comments/${comment.id}/`, {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
             'X-CSRFToken': csrftoken,
           },
         }),

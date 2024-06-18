@@ -10,20 +10,21 @@ import { useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { useSearchParams } from 'next/navigation';
-import useLocalToken from '@/app/hooks/useLocalToken';
+import { useAuthStore } from '@/zustand/useAuthStore';
+
 type Props = {};
 
 export default function AdminNoticeTable({}) {
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const searchParams = useSearchParams();
 
   const { data }: any = useQuery({
-    queryKey: ['adminNoticesList', searchParams.toString(), token],
+    queryKey: ['adminNoticesList', searchParams.toString(), loginState?.token],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/notices/admin?${searchParams.toString()}&/`, {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
           },
         })
         .then((res) => res.data)

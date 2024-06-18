@@ -9,7 +9,7 @@ import { FaExternalLinkAlt } from 'react-icons/fa';
 import Link from 'next/link';
 import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 import { evalLanguage, evalStatus } from '@/utils/commons';
-import useLocalToken from '@/app/hooks/useLocalToken';
+import { useAuthStore } from '@/zustand/useAuthStore';
 
 function createData(
   name: string,
@@ -20,14 +20,6 @@ function createData(
 ) {
   return { name, calories, fat, carbs, protein };
 }
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 type Props = {};
 
@@ -53,19 +45,19 @@ export type TaskType = {
 
 export default function MyTasks({}: Props) {
   const [isClient, setIsClient] = useState(false);
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   const { data } = useQuery({
-    queryKey: ['my-tasks', token],
+    queryKey: ['my-tasks', loginState?.token ?? ''],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/users/me/my-tasks/`, {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
           },
         })
         .then((res) => res.data as TaskType[]),

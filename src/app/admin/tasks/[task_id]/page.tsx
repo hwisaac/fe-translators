@@ -3,7 +3,6 @@ import StatusBadge from '@/components/StatusBadge';
 
 import LanguageBadge from '@/components/member/tasks/LanguageBadge';
 import BASE_URL from '@/utils/BASE_URL';
-import formatDate from '@/utils/formatDate';
 import formatDateTime from '@/utils/formatDateTime';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
@@ -18,7 +17,7 @@ import { FormEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import ScreenLoading from '@/components/ScreenLoading';
-import useLocalToken from '@/app/hooks/useLocalToken';
+import { useAuthStore } from '@/zustand/useAuthStore';
 
 type Props = {
   params: {
@@ -45,18 +44,18 @@ export type TaskDetail = {
 
 export default function page({}: Props) {
   const { task_id } = useParams();
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
 
   const { data } = useQuery({
-    queryKey: ['adminTaskDetail', task_id, token],
+    queryKey: ['adminTaskDetail', task_id, loginState?.token],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/tasks/admin/${task_id}/`, {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token,
           },
         })
-        .then((res) => res.data as TaskDetail)
+        .then((res) => res.data)
         .catch((error: AxiosError) => {
           if (error.response?.status === 401) {
             toast.error('권한이 없습니다.');
@@ -152,7 +151,7 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
   const [name, setName] = useState('');
   const queryClient = useQueryClient();
   const csrftoken = useCSRFToken();
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const {
     register,
     watch,
@@ -168,7 +167,7 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
       axios
         .get(`${BASE_URL}/users/search?name=${name}&/`, {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
           },
         })
         .then((res) => res.data),
@@ -181,7 +180,7 @@ function ChooseDirectlyModal({ modal_id, task_id }: ChooseDirectlyModalProps) {
           {},
           {
             headers: {
-              Authorization: token,
+              Authorization: loginState?.token ?? '',
               'X-CSRFToken': csrftoken,
             },
           }

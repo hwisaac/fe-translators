@@ -1,10 +1,10 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useLocalToken from '@/app/hooks/useLocalToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import formatDate from '@/utils/formatDate';
 import { fileUrl } from '@/utils/getImgUrl';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
@@ -36,7 +36,7 @@ type NoticeData = {
 
 export default function page({}) {
   const { notice_id } = useParams();
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
 
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
@@ -47,7 +47,7 @@ export default function page({}) {
       axios
         .get(`${BASE_URL}/notices/${notice_id}/`, {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
           },
         })
         .then((res) => res.data)
@@ -58,7 +58,7 @@ export default function page({}) {
     mutationFn: () =>
       axios.delete(`${BASE_URL}/notices/${notice_id}`, {
         headers: {
-          Authorization: token ?? '',
+          Authorization: loginState?.token ?? '' ?? '',
           'X-CSRFToken': csrftoken,
         },
       }),

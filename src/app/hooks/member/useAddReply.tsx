@@ -1,7 +1,7 @@
 import { revalidateTaskDetail } from '@/app/admin/tasks/[task_id]/edit/actions';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useLocalToken from '@/app/hooks/useLocalToken';
 import BASE_URL from '@/utils/BASE_URL';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -12,19 +12,19 @@ type Props = {
 };
 
 export default function useAddReply({ task_id, comment_id }: Props) {
-  const { token } = useLocalToken();
+  const { loginState } = useAuthStore();
   const csrftoken = useCSRFToken();
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['addReply', comment_id, token, csrftoken],
+    mutationKey: ['addReply', comment_id, loginState?.token, csrftoken],
     mutationFn: (payload: any) =>
       axios.post(
         `${BASE_URL}/comments/${comment_id}/reply/`,
         { ...payload },
         {
           headers: {
-            Authorization: token,
+            Authorization: loginState?.token ?? '',
             'X-CSRFToken': csrftoken,
           },
         }

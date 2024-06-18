@@ -1,6 +1,5 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useLocalToken from '@/app/hooks/useLocalToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import { useAuthStore } from '@/zustand/useAuthStore';
@@ -49,7 +48,7 @@ export default function LoginForm({}: Props) {
   const { updateLoginState } = useAuthStore();
   const router = useRouter();
   const csrftoken = useCSRFToken();
-  const { setToken, removeToken } = useLocalToken();
+
   const loginRequest = async (data: any) => {
     const response = await fetch(`${BASE_URL}/users/login/`, {
       method: 'POST',
