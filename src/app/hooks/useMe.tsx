@@ -52,7 +52,7 @@ export default function useMe() {
   useEffect(() => {
     if (loginState) {
       setIsLoading(true);
-      fetch(`${BASE_URL}/users/me`, {
+      fetch(`${BASE_URL}/users/me/`, {
         method: 'GET',
         headers: {
           Authorization: loginState.token,

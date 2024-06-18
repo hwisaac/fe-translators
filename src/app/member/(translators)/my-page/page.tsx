@@ -15,6 +15,7 @@ export default function page({}: Props) {
   const { loginState } = useAuthStore();
 
   useEffect(() => {
+    setIsClient(true);
     if (loginState) {
       console.log(`my-page useEffect 의 token ${loginState.token}`);
       fetch(`${BASE_URL}/users/me`, {

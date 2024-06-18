@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import HamburgerModal from '@/components/HamburgerModal';
 import { useAuthStore } from '@/zustand/useAuthStore';
 import { isDev } from '@/utils/commons';
+import BASE_URL from '@/utils/BASE_URL';
 type Props = {};
 
 const subMenus = {
@@ -43,8 +44,8 @@ const subMenus = {
   ],
 };
 export default function Header({}: Props) {
-  const devLoginState = useAuthStore((state) => state.loginState);
   const [subMenu, setSubMenu] = useState<any[]>(subMenus.intro);
+  const { loginState } = useAuthStore();
   const [openHamburger, setOpenHamburger] = useState(false);
   const router = useRouter();
   const handleOpenMenu = (submenu: any[]) => {
@@ -57,7 +58,20 @@ export default function Header({}: Props) {
     setOpenHamburger(false);
   };
   const onDev = () => {
-    console.log('onDev(devLoginState)', devLoginState);
+    if (loginState?.token) {
+      fetch(`${BASE_URL}/users/me/`, {
+        method: 'GET',
+        headers: {
+          Authorization: loginState?.token ?? '',
+        },
+      }).then(async (res) => {
+        const json = await res.json();
+        console.log('onDev json:', json);
+        console.log(json);
+      });
+    } else {
+      console.log('토큰 없음');
+    }
   };
 
   return (
