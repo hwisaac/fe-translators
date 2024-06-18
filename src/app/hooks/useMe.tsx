@@ -56,7 +56,11 @@ export default function useMe() {
           Authorization: loginState?.token ?? '',
         },
       })
-        .then((res) => res.json())
+        .then(async (res) => {
+          const json = await res.json();
+          console.log('useMe 의 response', json);
+          return json;
+        })
         .catch((err) => {
           console.error('(useMe Error catch)', err);
           logout();
