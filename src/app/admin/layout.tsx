@@ -1,9 +1,10 @@
 'use client';
-import useIsStaff from '@/app/hooks/useIsStaff';
+
 import useMe from '@/app/hooks/useMe';
 import AdminTabs from '@/components/admin/AdminTabs';
 import AdminProtectPageLayout from '@/layouts/AdminProtectPageLayout';
 import Container from '@/layouts/Container';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -13,7 +14,7 @@ type Props = {
 
 export default function AdminLayout({ children }: Props) {
   const [isClient, setIsClient] = useState(false);
-  const { isStaff } = useIsStaff();
+  const { loginState } = useAuthStore();
 
   const router = useRouter();
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function AdminLayout({ children }: Props) {
     );
   }
 
-  if (isStaff) {
+  if (loginState?.user?.is_staff) {
     return (
       <section className='w-full flex flex-col items-center justify-center pb-20'>
         <AdminTabs />

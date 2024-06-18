@@ -8,6 +8,7 @@ import LogoutBtn from '@/components/LogoutBtn';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useRouter } from 'next/navigation';
 import HamburgerModal from '@/components/HamburgerModal';
+import { useAuthStore } from '@/zustand/useAuthStore';
 type Props = {};
 
 const subMenus = {
@@ -41,6 +42,7 @@ const subMenus = {
   ],
 };
 export default function Header({}: Props) {
+  const devLoginState = useAuthStore((state) => state.loginState);
   const [subMenu, setSubMenu] = useState<any[]>(subMenus.intro);
   const [openHamburger, setOpenHamburger] = useState(false);
   const router = useRouter();
@@ -52,6 +54,9 @@ export default function Header({}: Props) {
   };
   const closeModal = () => {
     setOpenHamburger(false);
+  };
+  const onDev = () => {
+    console.log('onDev(devLoginState)', devLoginState);
   };
 
   return (
@@ -104,6 +109,9 @@ export default function Header({}: Props) {
                     번역가방
                   </button>
                 </Link>
+              </div>
+              <div className='btn' onClick={onDev}>
+                DEV
               </div>
             </div>
           </div>

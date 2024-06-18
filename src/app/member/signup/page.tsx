@@ -10,8 +10,8 @@ import axios, { AxiosError } from 'axios';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import DaumPostcodePopup from '@/components/member/DaumPostcodePopup';
 import ScreenLoading from '@/components/ScreenLoading';
-import useLocalToken from '@/app/hooks/useLocalToken';
-import useIsStaff from '@/app/hooks/useIsStaff';
+import { useAuthStore } from '@/zustand/useAuthStore';
+
 type Props = {};
 
 const years = Array.from({ length: 2023 - 1900 + 1 }, (_, i) => 2023 - i);
@@ -20,8 +20,7 @@ const months = Array.from({ length: 12 }, (_, i) => 1 + i);
 
 export default function page({}: Props) {
   const [emailConfirmed, setEmailConfirmed] = useState(true);
-  const { setToken } = useLocalToken();
-  const { saveIsStaff } = useIsStaff();
+  const { updateLoginState } = useAuthStore();
   const csrftoken = useCSRFToken();
   const [address, setAddress] = useState<any>();
   const router = useRouter();
@@ -56,8 +55,7 @@ export default function page({}: Props) {
       }
     },
     onSuccess: async (data) => {
-      saveIsStaff(false);
-      setToken(data.token);
+      updateLoginState(data);
       toast.success('가입에 성공했습니다.');
       router.push('/member/additional-information');
     },

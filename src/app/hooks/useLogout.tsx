@@ -1,14 +1,12 @@
-import useIsStaff from '@/app/hooks/useIsStaff';
-import useLocalToken from '@/app/hooks/useLocalToken';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import { useRouter } from 'next/navigation';
 
 export default function useLogout() {
-  const { removeIsStaff } = useIsStaff();
-  const { removeToken } = useLocalToken();
+  const { removeLoginState } = useAuthStore();
+
   const router = useRouter();
   const logout = () => {
-    removeIsStaff();
-    removeToken;
+    removeLoginState();
     router.push('/member/login');
   };
   return logout;

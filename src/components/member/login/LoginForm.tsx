@@ -1,9 +1,9 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useIsStaff from '@/app/hooks/useIsStaff';
 import useLocalToken from '@/app/hooks/useLocalToken';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
+import { useAuthStore } from '@/zustand/useAuthStore';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
@@ -14,21 +14,42 @@ import { FaLock } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 type Props = {};
 export type LoginDataType = {
-  email: string;
-  id: number;
-  photo: null | string;
+  user: {
+    id: number;
+    username: string;
+    email: string;
+    name: string;
+    pen_name: string;
+    birth_date: null | string;
+    gender: null | string;
+    subscribed: string;
+    kakao_id: string;
+    languages: any[];
+    styles: any[];
+    phone: string;
+    tags: any[];
+    specializations: any[];
+    major_works: string;
+    biography: string;
+    works: string;
+    is_public: boolean;
+    is_subscribed: boolean;
+    zonecode: string;
+    address1: string;
+    address2: string;
+    is_domestic: boolean;
+    is_staff: boolean;
+    is_translator: boolean;
+    photo: null | string;
+  };
   token: string;
-  username: string;
-  is_staff: boolean;
-  is_translator: boolean;
 };
 
 export default function LoginForm({}: Props) {
+  const { updateLoginState } = useAuthStore();
   const router = useRouter();
   const csrftoken = useCSRFToken();
   const { setToken, removeToken } = useLocalToken();
-  const { saveIsStaff } = useIsStaff();
-  const [isLoading, setIsLoading] = useState(false);
   const loginRequest = async (data: any) => {
     const response = await fetch(`${BASE_URL}/users/login/`, {
       method: 'POST',
@@ -61,8 +82,7 @@ export default function LoginForm({}: Props) {
         toast.error('데이터를 가져오는 데 실패했습니다.');
         return;
       }
-      setToken(data.token);
-      saveIsStaff(data.is_staff);
+      updateLoginState(data);
 
       if (data.is_staff) {
         router.push('/admin/tasks/');

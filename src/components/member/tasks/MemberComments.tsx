@@ -116,7 +116,6 @@ function CommentItem({
   status: 'open' | 'testing' | 'closed' | 'completed' | undefined;
 }) {
   const { data: me } = useMe();
-  // const myUsername = loginState?.username ?? '';
   const authorUsername = comment.author.username;
   // console.log(loginState, 'loginState');
   console.log(comment.author.username);

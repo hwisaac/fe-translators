@@ -8,15 +8,15 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useLocalToken from '@/app/hooks/useLocalToken';
-import useIsStaff from '@/app/hooks/useIsStaff';
+import { useAuthStore } from '@/zustand/useAuthStore';
+
 type Props = {};
 
 export default function page({}: Props) {
   const [emailConfirmed, setEmailConfirmed] = useState(false);
+  const { updateLoginState } = useAuthStore();
+
   const [address, setAddress] = useState<any>();
-  const { setToken } = useLocalToken();
-  const { saveIsStaff } = useIsStaff();
   const csrftoken = useCSRFToken();
   const router = useRouter();
   const {
@@ -52,9 +52,7 @@ export default function page({}: Props) {
     },
     onSuccess: async (data) => {
       const user = data.user;
-
-      setToken(data.token);
-      saveIsStaff(false);
+      updateLoginState(data);
       toast.success('가입에 성공했습니다.');
       router.push('/translators');
     },
