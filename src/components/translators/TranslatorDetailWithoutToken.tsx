@@ -38,7 +38,7 @@ export default function TranslatorDetailWithoutToken({}: Props) {
       // }
 
       // setLoginState(data);
-      if (data.is_staff) {
+      if (data?.user?.is_staff) {
         router.push('/admin/tasks/');
       } else {
         // router.push('/member/my-page/');
