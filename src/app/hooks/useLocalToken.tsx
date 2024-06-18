@@ -24,10 +24,12 @@ export default function useLocalToken() {
     localStorage.removeItem('accessToken');
     setToken(null);
   };
+  const getToken = () => localStorage.getItem('accessToken');
 
   return {
     setToken: saveToken,
     removeToken,
     token,
+    getToken,
   };
 }

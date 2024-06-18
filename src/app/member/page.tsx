@@ -1,29 +1,29 @@
 'use client';
-import { loginAtom } from '@/atoms/loginAtom';
+import useIsStaff from '@/app/hooks/useIsStaff';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import ScreenLoading from '@/components/ScreenLoading';
-import PageLayout from '@/layouts/PageLayout';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 export default function page({}) {
   const [isClient, setIsClient] = useState(false);
-  const loginState = useRecoilValue(loginAtom);
+  const { token } = useLocalToken();
+  const { isStaff } = useIsStaff();
   const router = useRouter();
   useEffect(() => {
     setIsClient(true);
   }, []);
   useEffect(() => {
     if (isClient) {
-      if (!loginState) {
+      if (token === null) {
         router.push('/member/login');
-      } else if (loginState.is_staff) {
+      } else if (isStaff) {
         router.push('/admin/tasks');
       } else {
         router.push('/member/my-page');
       }
     }
-  }, [isClient, loginState, router]);
+  }, [isClient, isStaff, router]);
 
   return <ScreenLoading isLoading={true} />;
 }

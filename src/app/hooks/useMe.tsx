@@ -1,5 +1,4 @@
 import useLocalToken from '@/app/hooks/useLocalToken';
-import useLoginData from '@/app/hooks/useLoginData';
 import useLogout from '@/app/hooks/useLogout';
 import BASE_URL from '@/utils/BASE_URL';
 import { useQuery } from '@tanstack/react-query';
@@ -44,21 +43,20 @@ type MeType = {
   company: string;
 };
 export default function useMe() {
-  const { token } = useLocalToken();
+  const { token, getToken } = useLocalToken();
   const logout = useLogout();
-  const loginData = useLoginData();
 
   return useQuery({
-    queryKey: ['me', loginData?.token ?? ''],
+    queryKey: ['me', token ?? ''],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/users/me`, {
           headers: {
-            Authorization: loginData?.token,
+            Authorization: token,
           },
         })
         .then((res) => {
-          console.log('useMe 에 사용된 토큰', token);
+          console.log('useMe 에 사용된 토큰', getToken());
           console.log('useMe 응답데이터', res.data);
           return res.data as MeType;
         })

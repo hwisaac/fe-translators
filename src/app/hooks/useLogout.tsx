@@ -1,12 +1,14 @@
-import { loginAtom } from '@/atoms/loginAtom';
+import useIsStaff from '@/app/hooks/useIsStaff';
+import useLocalToken from '@/app/hooks/useLocalToken';
 import { useRouter } from 'next/navigation';
-import { useRecoilState, useSetRecoilState } from 'recoil';
 
 export default function useLogout() {
-  const setLoginState = useSetRecoilState(loginAtom);
+  const { removeIsStaff } = useIsStaff();
+  const { removeToken } = useLocalToken();
   const router = useRouter();
   const logout = () => {
-    setLoginState(null);
+    removeIsStaff();
+    removeToken;
     router.push('/member/login');
   };
   return logout;

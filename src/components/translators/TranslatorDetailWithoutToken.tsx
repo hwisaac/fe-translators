@@ -1,5 +1,5 @@
 'use client';
-import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
+
 import PageLayout from '@/layouts/PageLayout';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
@@ -8,18 +8,18 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useRecoilState } from 'recoil';
 import { FaUser } from 'react-icons/fa';
 import { FaLock } from 'react-icons/fa6';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import ScreenLoading from '@/components/ScreenLoading';
+import { LoginDataType } from '@/components/member/login/LoginForm';
 
 type Props = {};
 
 export default function TranslatorDetailWithoutToken({}: Props) {
   const router = useRouter();
   const csrftoken = useCSRFToken();
-  const [loginState, setLoginState] = useRecoilState(loginAtom);
+
   const { mutate: login, isPending } = useMutation({
     mutationFn: ({ data }: any) =>
       axios
@@ -30,13 +30,14 @@ export default function TranslatorDetailWithoutToken({}: Props) {
         })
         .then((res) => res.data as LoginDataType),
     onSuccess: (data) => {
-      setLoginState(null);
-      if (!data) {
-        toast.error('데이터를 가져오는 데 실패했습니다.');
-        return;
-      }
+      // 로그인 정보 업데이트
+      // setLoginState(null);
+      // if (!data) {
+      //   toast.error('데이터를 가져오는 데 실패했습니다.');
+      //   return;
+      // }
 
-      setLoginState(data);
+      // setLoginState(data);
       if (data.is_staff) {
         router.push('/admin/tasks/');
       } else {
@@ -47,7 +48,7 @@ export default function TranslatorDetailWithoutToken({}: Props) {
       toast.error(error.message);
       // @ts-ignore
       toast.error(String(error.response?.data?.error));
-      setLoginState(null);
+      // setLoginState(null);
     },
   });
   const {

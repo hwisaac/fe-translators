@@ -1,17 +1,11 @@
 'use client';
-import { postSignUp } from '@/app/member/signup/actions';
-import { SignupType } from '@/app/member/signup/schema';
-import PageLayout from '@/layouts/PageLayout';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { loginAtom } from '@/atoms/loginAtom';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
 import DaumPostcodePopup from '@/components/member/DaumPostcodePopup';
 import useMe from '@/app/hooks/useMe';
@@ -24,7 +18,6 @@ const days = Array.from({ length: 31 }, (_, i) => 1 + i);
 const months = Array.from({ length: 12 }, (_, i) => 1 + i);
 
 export default function PrivateInformationForm({}: Props) {
-  const setLoginState = useSetRecoilState(loginAtom);
   const [emailConfirmed, setEmailConfirmed] = useState(true); // 메일 인증 활성화
   const csrftoken = useCSRFToken();
   //   const [address, setAddress] = useState<any>();

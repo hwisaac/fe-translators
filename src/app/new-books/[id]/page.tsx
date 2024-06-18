@@ -25,6 +25,7 @@ export default async function page({ params: { id } }: Props) {
   const data: NewBookDetailType = await fetch(
     `${BASE_URL}/new-books/${id}`
   ).then((res) => res.json());
+
   return (
     <PageLayout title='신간 안내'>
       <div className='mt-[80px] lg:hidden'></div>

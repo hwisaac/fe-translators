@@ -1,19 +1,18 @@
 'use client';
-import { loginAtom } from '@/atoms/loginAtom';
+import useIsStaff from '@/app/hooks/useIsStaff';
 import Container from '@/layouts/Container';
 import img from '@/utils/img';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { useRecoilValue } from 'recoil';
 type Props = { children?: any; title: string };
 
 export default function AuthProtectPageLayout({ children, title }: Props) {
-  const loginState = useRecoilValue(loginAtom);
+  const { isStaff } = useIsStaff();
   const router = useRouter();
-  if (loginState && loginState.is_staff) {
+  if (isStaff) {
     router.push('/admin/tasks');
-  } else if (loginState && !loginState.is_staff) {
+  } else if (isStaff) {
     router.push('/member/my-page');
   }
 

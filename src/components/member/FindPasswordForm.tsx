@@ -1,17 +1,12 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { on } from 'events';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaUser } from 'react-icons/fa';
-import { FaLock } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
-import { useRecoilState } from 'recoil';
 type Props = {};
 
 export default function FindPasswordForm({}: Props) {

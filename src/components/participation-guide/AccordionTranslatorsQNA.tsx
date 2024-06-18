@@ -1,10 +1,8 @@
 'use client';
-import { testAtom } from '@/atoms/testAtom';
-import AccordionItem from '@/components/AccordionItem';
 import OldAccordionItem from '@/components/OldAccordionItem';
 import BASE_URL from '@/utils/BASE_URL';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type Props = {};
 

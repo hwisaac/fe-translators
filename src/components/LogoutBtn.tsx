@@ -1,9 +1,10 @@
 'use client';
 import { IoLogOutSharp } from 'react-icons/io5';
-import { loginAtom } from '@/atoms/loginAtom';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
 import { useRouter } from 'next/navigation';
+import useLocalToken from '@/app/hooks/useLocalToken';
+import useIsStaff from '@/app/hooks/useIsStaff';
+import useIsTranslator from '@/app/hooks/useIsTranslator';
 
 type Props = {
   closeModal: () => void;
@@ -11,15 +12,20 @@ type Props = {
 
 export default function LogoutBtn({ closeModal }: Props) {
   const [show, setShow] = useState(false);
-  const [loginState, setLoginState] = useRecoilState(loginAtom);
+  const { removeToken, token } = useLocalToken();
+  const { isStaff, removeIsStaff } = useIsStaff();
+  const { removeIsTranslator } = useIsTranslator();
   const router = useRouter();
   useEffect(() => {
     // 로그인 상태가 null이 아닌 경우에만 버튼을 보여주도록 설정
-    setShow(loginState !== null);
-  }, [loginState]); // loginState가 변경될 때마다 useEffect를 실행
+    console.log('LogoutBtn 에서 토큰이 갱신됨', token);
+    setShow(!!token);
+  }, [token]); // loginState가 변경될 때마다 useEffect를 실행
 
   const handleClick = () => {
-    setLoginState(null); // 로그아웃 처리
+    removeToken(); // 로그아웃 처리
+    removeIsStaff();
+    removeIsTranslator();
     closeModal();
     router.push('/');
   };
@@ -28,7 +34,7 @@ export default function LogoutBtn({ closeModal }: Props) {
   return (
     <button
       className={`text-white rounded-full flex items-center gap-3 px-4 lg:px-6 py-2 lg:py-3 xs:text-red-500 box-border text-xs lg:text-md ${
-        loginState?.is_staff ? 'bg-red-500 ' : 'bg-blue-500 '
+        isStaff ? 'bg-red-500 ' : 'bg-blue-500 '
       }`}
       onClick={handleClick}>
       <IoLogOutSharp className='lg:text-[18px]' />

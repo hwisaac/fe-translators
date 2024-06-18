@@ -1,24 +1,22 @@
 'use client';
-import { postSignUp } from '@/app/member/signup/actions';
-import { SignupType } from '@/app/member/signup/schema';
 import PageLayout from '@/layouts/PageLayout';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import axios, { AxiosError } from 'axios';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { loginAtom } from '@/atoms/loginAtom';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
+import useLocalToken from '@/app/hooks/useLocalToken';
+import useIsStaff from '@/app/hooks/useIsStaff';
 type Props = {};
 
 export default function page({}: Props) {
-  const setLoginState = useSetRecoilState(loginAtom);
   const [emailConfirmed, setEmailConfirmed] = useState(false);
   const [address, setAddress] = useState<any>();
+  const { setToken } = useLocalToken();
+  const { saveIsStaff } = useIsStaff();
   const csrftoken = useCSRFToken();
   const router = useRouter();
   const {
@@ -28,7 +26,7 @@ export default function page({}: Props) {
     setValue,
     formState: { errors },
   } = useForm<any>();
-  
+
   const { mutateAsync: createAccount, isPending } = useMutation({
     mutationFn: ({ postUser }: any) =>
       axios
@@ -54,17 +52,9 @@ export default function page({}: Props) {
     },
     onSuccess: async (data) => {
       const user = data.user;
-      if (user) {
-        setLoginState({
-          email: user.email,
-          id: user.id,
-          photo: null,
-          token: data.token,
-          username: user.username,
-          is_staff: false,
-          is_translator: true,
-        });
-      }
+
+      setToken(data.token);
+      saveIsStaff(false);
       toast.success('가입에 성공했습니다.');
       router.push('/translators');
     },

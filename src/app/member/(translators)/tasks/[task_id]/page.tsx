@@ -1,6 +1,5 @@
 'use client';
 import useLocalToken from '@/app/hooks/useLocalToken';
-import useLoginData from '@/app/hooks/useLoginData';
 import { CommentType } from '@/components/admin/tasks/AdminComments';
 import MemberComments from '@/components/member/tasks/MemberComments';
 import BASE_URL from '@/utils/BASE_URL';
@@ -38,10 +37,9 @@ type TaskDetail = {
 export default function page({}) {
   const { task_id } = useParams();
   const { token } = useLocalToken();
-  const loginState = useLoginData();
   const router = useRouter();
   const { data } = useQuery({
-    queryKey: ['taskDetail', task_id, loginState?.token ?? ''],
+    queryKey: ['taskDetail', task_id, token ?? ''],
     queryFn: () =>
       axios
         .get(`${BASE_URL}/tasks/${task_id}/`, {

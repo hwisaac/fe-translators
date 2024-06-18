@@ -1,22 +1,14 @@
 'use client';
 import useMe from '@/app/hooks/useMe';
-import { loginAtom } from '@/atoms/loginAtom';
 import MyNotices from '@/components/my-page/MyNotices';
 import MyTasks from '@/components/my-page/MyTasks';
-import BASE_URL from '@/utils/BASE_URL';
-import { useQuery } from '@tanstack/react-query';
-import axios, { AxiosError } from 'axios';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { useRecoilValue } from 'recoil';
 
 type Props = {};
 
 export default function page({}: Props) {
   const [isClient, setIsClient] = useState(false);
-  const loginState = useRecoilValue(loginAtom);
   const { data: me } = useMe();
 
   useEffect(() => {
@@ -29,9 +21,6 @@ export default function page({}: Props) {
       <section className='sm:border-0 border-slate-200 px-2 sm:px-10 py-2  sm:py-5 flex flex-col gap-2 lg:flex-row justify-center lg:justify-between items-center w-full shadow-md rounded bg-gray-50'>
         <h2 className=''>
           <span className='font-semibold'>{me?.username}</span>
-          <span onClick={() => console.log(loginState?.token)}>
-            ({loginState?.username})
-          </span>
           님, 번역가방에 오신 것을 환영합니다.
         </h2>
 

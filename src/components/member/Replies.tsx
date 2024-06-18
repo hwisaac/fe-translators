@@ -1,6 +1,5 @@
 import { IoMdReturnRight } from 'react-icons/io';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import useLoginData from '@/app/hooks/useLoginData';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -32,7 +31,6 @@ export default function Replies({ replies }: Props) {
 }
 
 const ReplyItem = ({ reply }: { reply: ReplyType }) => {
-  const loginState = useLoginData();
   const queryClient = useQueryClient();
   const csrftoken = useCSRFToken();
   const { mutateAsync: deleteReply } = useMutation({
@@ -72,7 +70,7 @@ const ReplyItem = ({ reply }: { reply: ReplyType }) => {
       </div>
       <div className='w-full rounded-md shadow-md px-4 py-4 my-3 bg-slate-50 flex justify-between'>
         <div>{reply.content}</div>
-        {reply.author === loginState?.username && (
+        {
           <div
             className='btn btn-ghost btn-sm'
             onClick={() =>
@@ -83,7 +81,7 @@ const ReplyItem = ({ reply }: { reply: ReplyType }) => {
             }>
             삭제
           </div>
-        )}
+        }
         <dialog
           id={`reply_delete_modal_${reply.reply_id}`}
           className='modal modal-bottom sm:modal-middle'>

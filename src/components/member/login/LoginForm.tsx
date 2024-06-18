@@ -1,44 +1,69 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
+import useIsStaff from '@/app/hooks/useIsStaff';
 import useLocalToken from '@/app/hooks/useLocalToken';
-import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { on } from 'events';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FaUser } from 'react-icons/fa';
 import { FaLock } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
-import { useRecoilState } from 'recoil';
 type Props = {};
+export type LoginDataType = {
+  email: string;
+  id: number;
+  photo: null | string;
+  token: string;
+  username: string;
+  is_staff: boolean;
+  is_translator: boolean;
+};
 
 export default function LoginForm({}: Props) {
   const router = useRouter();
   const csrftoken = useCSRFToken();
-  const {setToken, removeToken} = useLocalToken()
-  const [loginState, setLoginState] = useRecoilState(loginAtom);
+  const { setToken, removeToken } = useLocalToken();
+  const { saveIsStaff } = useIsStaff();
+  const [isLoading, setIsLoading] = useState(false);
+  const loginRequest = async (data: any) => {
+    const response = await fetch(`${BASE_URL}/users/login/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'X-CSRFToken': csrftoken ?? '',
+      },
+      body: JSON.stringify(data),
+      credentials: 'include',
+    }).then((res) => res.json());
+
+    console.log(data);
+  };
 
   const { mutate: login, isPending } = useMutation({
     mutationFn: ({ data }: any) =>
-      axios
-        .post(`${BASE_URL}/users/login/`, data, {
-          headers: {
-            'X-CSRFToken': csrftoken,
-          },
-        })
-        .then((res) => res.data as LoginDataType),
+      fetch(`${BASE_URL}/users/login/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'X-CSRFToken': csrftoken ?? '',
+        },
+        body: JSON.stringify(data),
+        // credentials: 'include',
+      }).then((res) => res.json()),
     onSuccess: (data) => {
       if (!data) {
         toast.error('데이터를 가져오는 데 실패했습니다.');
         return;
       }
-      setToken(data.token)
+      setToken(data.token);
+      saveIsStaff(data.is_staff);
 
-      setLoginState(data);
       if (data.is_staff) {
         router.push('/admin/tasks/');
       } else {
@@ -49,7 +74,6 @@ export default function LoginForm({}: Props) {
       toast.error(error.message);
       // @ts-ignore
       toast.error(String(error.response?.data?.error));
-      setLoginState(null);
     },
   });
   const {
@@ -62,6 +86,8 @@ export default function LoginForm({}: Props) {
 
   const onValid: SubmitHandler<any> = async (data) => {
     login({ data });
+    console.log(data);
+    // loginRequest(data);
   };
 
   return (

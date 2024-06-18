@@ -6,10 +6,10 @@ import Footer from '@/components/Footer';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import DummyHeader from '@/components/DummyHeader';
 import Providers from '@/app/providers';
-import RecoilContextProvider from '@/app/recoilContextProvider';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google';
+
 
 const inter = Inter({ subsets: ['latin'] });
 const roboto = Roboto({
@@ -41,13 +41,11 @@ export default async function RootLayout({
       </head>
       <body className={roboto.className}>
         <AppRouterCacheProvider>
-          <RecoilContextProvider>
-            <Header />
-            <DummyHeader />
-            <Providers>{children}</Providers>
-            <ToastContainer />
-            <Footer />
-          </RecoilContextProvider>
+          <Header />
+          <DummyHeader />
+          <Providers>{children}</Providers>
+          <ToastContainer />
+          <Footer />
         </AppRouterCacheProvider>
       </body>
     </html>

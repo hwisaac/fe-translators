@@ -1,6 +1,5 @@
 'use client';
 import useCSRFToken from '@/app/hooks/useCSRFToken';
-import { LoginDataType, loginAtom } from '@/atoms/loginAtom';
 import ScreenLoading from '@/components/ScreenLoading';
 import BASE_URL from '@/utils/BASE_URL';
 import { useMutation } from '@tanstack/react-query';

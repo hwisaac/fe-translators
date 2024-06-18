@@ -40,28 +40,57 @@ export default function AdminTasksPage() {
   const query = searchParams.get('query');
   const status = searchParams.get('status');
   const language = searchParams.get('language');
-  const logout = useLogout();
+  // const [data, setData] = React.useState();
+  const url = `${BASE_URL}/tasks/admin?page=${page ?? ''}&language=${
+    language ?? ''
+  }&query=${query ?? ''}&status=${status ?? ''}&/`;
+
+  const getAdminTasksList = async () => {
+    const json = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: token ?? '',
+      },
+    }).then((res) => res.json());
+    console.log('json', json);
+    // setData(json);
+  };
+  React.useEffect(() => {
+    getAdminTasksList();
+  }, ['adminTasksList', page, query, status, language, token]);
 
   const { data } = useQuery({
     queryKey: ['adminTasksList', page, query, status, language, token],
     queryFn: () =>
-      axios
-        .get(
-          `${BASE_URL}/tasks/admin?page=${page ?? ''}&language=${
-            language ?? ''
-          }&query=${query ?? ''}&status=${status ?? ''}&/`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        )
-        .then((res) => res.data)
-        .catch((error) => {
-          toast.error('권한이 없습니다');
-          logout();
-        }),
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: token ?? '',
+        },
+      })
+        .then((res) => res.json())
+        .catch((error) => console.error('error 뭐라하냥', error)),
   });
+  // console.log('admin tasks page token :', token);
+  // const { data } = useQuery({
+  //   queryKey: ['adminTasksList', page, query, status, language, token],
+  //   queryFn: () =>
+  //     axios
+  //       .get(
+  //         url,
+  //         {
+  //           headers: {
+  //             Authorization: token,
+  //           },
+  //         }
+  //       )
+  //       .then((res) => res.data)
+  //       .catch((error) => {
+  //         console.error('error 뭐라하냐', error);
+  //         toast.error('권한이 없습니다');
+  //         // logout();
+  //       }),
+  // });
   return (
     <div className='flex flex-col items-center py-10'>
       <AdminSearchForm />
