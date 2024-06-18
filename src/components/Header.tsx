@@ -125,7 +125,7 @@ export default function Header({}: Props) {
                   </button>
                 </Link>
               </div>
-              {isDev && (
+              {true && (
                 <div className='btn' onClick={onDev}>
                   DEV
                 </div>
