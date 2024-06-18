@@ -17,7 +17,8 @@ export default function AdminLayout({ children }: Props) {
   const router = useRouter();
   useEffect(() => {
     setIsClient(true);
-  }, []);
+    console.log('admin layout(useEffect) : loginState ', loginState);
+  }, [loginState]);
   if (isClient === false) {
     return (
       <div className='w-full h-[500px] flex items-center justify-center'>
@@ -25,22 +26,28 @@ export default function AdminLayout({ children }: Props) {
       </div>
     );
   }
-
-  if (loginState?.user?.is_staff) {
-    return (
-      <section className='w-full flex flex-col items-center justify-center pb-20'>
-        <AdminTabs />
-        <Container>{children}</Container>
-      </section>
-    );
-  } else {
-    return (
-      <div className='h-[500px] w-full flex justify-center items-center flex-col gap-3'>
-        권한이 없습니다
-        <button className='btn ' onClick={() => router.push('/')}>
-          홈으로
-        </button>
-      </div>
-    );
+  if (loginState === null) {
+    return <div> loginState : null </div>;
   }
+
+  return (
+    <>
+      {loginState.user.is_staff ? (
+        <section className='w-full flex flex-col items-center justify-center pb-20'>
+          <AdminTabs />
+          <Container>{children}</Container>
+        </section>
+      ) : (
+        <div className='h-[500px] w-full flex justify-center items-center flex-col gap-3'>
+          권한이 없습니다
+          <button className='btn ' onClick={() => router.push('/')}>
+            홈으로
+          </button>
+        </div>
+      )}
+    </>
+  );
+  
+
+  
 }

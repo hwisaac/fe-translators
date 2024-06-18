@@ -1,5 +1,4 @@
 import { LoginDataType } from '@/components/member/login/LoginForm';
-import BASE_URL from '@/utils/BASE_URL';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 

@@ -46,7 +46,7 @@ export default function useMe() {
   const { loginState } = useAuthStore();
   const logout = useLogout();
   return useQuery({
-    queryKey: ['me', loginState?.token ?? ''],
+    queryKey: ['me', loginState],
     queryFn: () =>
       fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
@@ -56,31 +56,8 @@ export default function useMe() {
       })
         .then((res) => res.json())
         .catch((err) => {
-          console.error(err);
+          console.error('(useMe Error catch)', err);
           logout();
-        }),
-    staleTime: 0,
-  });
-  return useQuery({
-    queryKey: ['me', loginState?.token ?? ''],
-    queryFn: () =>
-      axios
-        .get(`${BASE_URL}/users/me`, {
-          headers: {
-            Authorization: loginState?.token ?? '',
-          },
-        })
-        .then((res) => {
-          console.log('useMe 에 사용된 토큰', loginState?.token);
-          console.log('useMe 응답데이터', res.data);
-          return res.data as MeType;
-        })
-        .catch((err: AxiosError) => {
-          console.error(err);
-          logout();
-          // if (err.response?.status === 403) {
-          //   toast.error('Forbidden');
-          // }
         }),
     staleTime: 0,
   });
